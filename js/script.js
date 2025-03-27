@@ -15,6 +15,13 @@ if (navigator.geolocation) {
             maxZoom: 18,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
+
+        L.Routing.control({
+            waypoints: [
+                L.latLng(latitude, longitude),
+                L.latLng(47.74696420259903, 7.333642888445753)
+            ]
+        }).addTo(map);
     }, function (erreur) {
         console.log(erreur)
 
@@ -25,7 +32,6 @@ if (navigator.geolocation) {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
     })
-
 
     if (latitude != 0 && longitude != 0) {
         console.log(latitude)
