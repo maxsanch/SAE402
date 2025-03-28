@@ -19,7 +19,6 @@ function afficher() {
 
     ctx.fillStyle = "black";
     ctx.fillRect(xBille, yBille, 20, 20)
-    console.log(yBille)
 }
 
 function calcul() {
@@ -29,12 +28,33 @@ function calcul() {
     // vX += accelerationX;
     yBille += vY;
     // xBille += vX;
+    if (yBille >= H)
+    {
+        vY = 0
+        yBille = H - 50
+    }
 }
 
 function boucle() {
     calcul();
     afficher();
     window.requestAnimationFrame(boucle);
+}
+
+window.addEventListener("deviceorientation", Inclinaison_Du_Telephone, true);
+
+function Inclinaison_Du_Telephone(event) {
+    const gamma = event.gamma;
+    document.querySelector(".gamma").innerText = "gamma : " + gamma;
+    if (gamma >= 25) {
+        xBille = W / 1.5;
+    }
+    if (gamma <= -25) {
+        xBille = W / 4;
+    }
+    if (gamma <= 25 && gamma >= -25) {
+        xBille = W / 2;
+    }
 }
 
 boucle();
