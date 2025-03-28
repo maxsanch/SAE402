@@ -40,7 +40,9 @@ body{
 
 #plaine{
     background-image: url(../img/plaine.png);
-    background-size: cover;
+    background-size: 100%;
+    background-position: 1100%;
+    background-repeat: no-repeat;
     z-index: 4;
     position: absolute;
     top: 0;
