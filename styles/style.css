@@ -1,3 +1,86 @@
+body{
+    overflow: hidden;
+}
+
 #map {
     height: 900px;
+    z-index: -1;
+}
+
+.sratpart{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.black-bg{
+    background: black;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    right: 0;
+}
+
+#sky{
+    background-image: url(../img/sky.jpg);
+    background-size: cover;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    animation: forwards ease-in-out 0.2s entrance;
+}
+
+#plaine{
+    background-image: url(../img/plaine.png);
+    background-size: cover;
+    z-index: 4;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(100%);
+    animation-delay: 0.2s;
+    animation: forwards ease-in-out 0.4s entrance-bottom;
+}
+
+@keyframes entrance{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+@keyframes entrance-bottom{
+    from{
+        transform: translateY(100%);
+    }
+    to{
+        transform: translateY(0);
+    }
+}
+
+
+
+.lueure-orange{
+    background: linear-gradient(370deg, #ed9f216d, transparent);
+    position: absolute;
+    top: 0;
+    animation: forwards ease-in-out 0.4s entrance-bottom;
+    animation-delay: 0.3s;
+    bottom: 0;
+    left: 0;
+    transform: translateY(100%);
+    z-index: 3;
+    right: 0;
 }
