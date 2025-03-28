@@ -19,7 +19,6 @@ function afficher() {
 
     ctx.fillStyle = "black";
     ctx.fillRect(xBille, yBille, 20, 20)
-    console.log(yBille)
 }
 
 function calcul() {
@@ -35,6 +34,19 @@ function boucle() {
     calcul();
     afficher();
     window.requestAnimationFrame(boucle);
+}
+
+window.addEventListener("deviceorientation", Inclinaison_Du_Telephone, true);
+
+function Inclinaison_Du_Telephone(event) {
+    const absolute = event.absolute;
+    const alpha = event.alpha;
+    const beta = event.beta;
+    const gamma = event.gamma;
+    document.querySelector(".absolute").innerText = "absolute : " + absolute;
+    document.querySelector(".alpha").innerText = "alpha : " + alpha;
+    document.querySelector(".beta").innerText = "beta : " + beta;
+    document.querySelector(".gamma").innerText = "gamma : " + gamma;
 }
 
 boucle();
