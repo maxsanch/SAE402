@@ -31,7 +31,6 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 //             ]
 //         }).addTo(map);
 //     }, function (erreur) {
-//         console.log(erreur)
 
 //         var map = L.map('map').setView([latitude, longitude], 18);
 
@@ -40,13 +39,8 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 //             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 //         }).addTo(map);
 //     })
-
-//     if (latitude != 0 && longitude != 0) {
-//         console.log(latitude)
-//     }
 // }
 // else {
-//     console.log("Géolocalisation non supportée");
 //     var map = L.map('map').setView([latitude, longitude], 13);
 
 //     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -250,7 +244,6 @@ document.querySelector('.cache-black').addEventListener('click', ouvrirbarres)
 function ouvrirbarres(){
     let barres = localStorage.getItem('menu') || 'categories';
     document.querySelector('.'+barres).classList.toggle('ouvert');
-    console.log('fait')
     document.querySelector('.cache-black').classList.toggle('ouvert')
 }
 
@@ -265,14 +258,13 @@ function opencategorie(){
         document.querySelector('.categories').classList.remove('ouvert')
     }
     if(this.className == "map"){
-        console.log('oui')
         localStorage.setItem('menu', 'mapo');
         document.querySelector('.mapo').classList.add('ouvert')
         document.querySelector('.categories').classList.remove('ouvert')
     }
     if(this.className == "story"){
-        localStorage.setItem('menu', 'story');
-        document.querySelector('.story').classList.add('ouvert')
+        localStorage.setItem('menu', 'story-resume');
+        document.querySelector('.story-resume').classList.add('ouvert')
         document.querySelector('.categories').classList.remove('ouvert')
     }
 }
@@ -286,7 +278,7 @@ document.querySelectorAll('.retour').forEach(e => {
 function retour(){
     localStorage.setItem('menu', 'categories');
     document.querySelector('.categories').classList.add('ouvert')
-    document.querySelector('.story').classList.remove('ouvert')
-    document.querySelector('.map').classList.remove('ouvert')
+    document.querySelector('.story-resume').classList.remove('ouvert')
+    document.querySelector('.mapo').classList.remove('ouvert')
     document.querySelector('.jeux').classList.remove('ouvert')
 }
