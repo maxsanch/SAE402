@@ -184,9 +184,12 @@ function boucle() {
     tab.forEach(e => {
         e.x += e.vx
         e.y += e.vy
-        if(e.x <= 0){
-        
+
+        if(e.x <= - 20){
+            e.y = window.innerHeight + 50
+            e.x = 200
         }
+
         // Création d'un gradient radial centré sur la particule
 
         let gradient = ctx.createRadialGradient(
