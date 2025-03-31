@@ -18,25 +18,73 @@
 </head>
 
 <body>
-    <header>
-        <div class="groupePC">
-            <a href="#" class="buttonclick">Main page</a>
-            <a href="#" class="buttonclick">Story</a>
-            <a href="jeu/jeu1.html" class="buttonclick">Games</a>
-            <a href="#" class="buttonclick">Map</a>
-        </div>
-        <div class="groupMobile">
-            <a href="#" class="buttonclick">Main page</a>
-            <a href="#" class="buttonclick">Story</a>
-            <a href="#" class="buttonclick">Games</a>
-            <a href="#" class="buttonclick">Map</a>
+    <header class="menu-hamburger">
+        <div class="barres">
+            <div class="barre">
+
+            </div>
+            <div class="barre">
+
+            </div>
+            <div class="barre">
+
+            </div>
+            <div class="categories">
+                <div class="story">
+                    Story
+                </div>
+                <div class="games">
+                    Games
+                </div>
+                <div class="map">
+                    Map
+                </div>
+            </div>
+            <div class="full-map">
+                <div id="map">
+
+                </div>
+            </div>
+
+            <div class="jeux">
+                <div class="game-single">
+                    <a href="jeu/jeu1.html">Game n°1</a>
+                </div>
+                <div class="game-single">
+                    Game n°2
+                </div>
+                <div class="game-single">
+                    Game n°3
+                </div>
+            </div>
+            <div class="story-resume">
+                <p>During aproximatively the years 1800 (1798), there are tensions between two camps forming in the city
+                    of
+                    Mulhouse. One side wants to claim independence for the city while the other wants to unite with
+                    France
+                    for
+                    economic reasons.</p>
+                <p>To avoid a civil war, the two chief of the both sides take a descision, create a competition between
+                    fields
+                    of activity. You are a member of the group to help the tanner.</p>
+                <p>At the end, the best team will be able to take the final descision of the mulhouse’s city.</p>
+            </div>
         </div>
     </header>
 
+    <canvas id="transition">
+
+    </canvas>
     <div class="startpart">
         <div class="informations">
             <div class="title-main-page">
-                <span style="--delais: 0.5s">T</span><span style="--delais: 0.55s">h</span><span style="--delais: 0.6s">e</span> <span style="--delais: 0.6s">g</span><span style="--delais: 0.65s">o</span><span style="--delais: 0.7s">l</span><span style="--delais: 0.75s">d</span><span style="--delais: 0.8s">e</span style="--delais: 0.85s"><span style="--delais: 0.9s">n</span><p><span style="--delais: 0.95s">r</span><span style="--delais: 1s">o</span><span style="--delais: 1.05s">a</span><span style="--delais: 1.1s">d</span></p>
+                <span style="--delais: 0.5s">T</span><span style="--delais: 0.55s">h</span><span
+                    style="--delais: 0.6s">e</span> <span style="--delais: 0.6s">g</span><span
+                    style="--delais: 0.65s">o</span><span style="--delais: 0.7s">l</span><span
+                    style="--delais: 0.75s">d</span><span style="--delais: 0.8s">e</span style="--delais: 0.85s"><span
+                    style="--delais: 0.9s">n</span>
+                <p><span style="--delais: 0.95s">r</span><span style="--delais: 1s">o</span><span
+                        style="--delais: 1.05s">a</span><span style="--delais: 1.1s">d</span></p>
             </div>
             <div class="bouton-main-page">
                 Start
@@ -83,7 +131,10 @@
         </div>
     </div>
 
-    <div id="map"></div>
+    <div class="bgFixed">
+        <img src="img/fond.jpg" alt="fond de l'intro du jeu.">
+    </div>
+
 
     <script src="js/script.js"></script>
 

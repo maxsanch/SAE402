@@ -5,49 +5,56 @@ let longitude = 0;
 
 let started = localStorage.getItem('started') || "non";
 
+var map = L.map('map').setView([51.505, -0.09], 13);
 
-if (navigator.geolocation) {
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
 
-    navigator.geolocation.getCurrentPosition(function (position) {
-        latitude = position.coords.latitude;
-        longitude = position.coords.longitude;
-        var map = L.map('map').setView([latitude, longitude], 18);
+// if (navigator.geolocation) {
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
+//     navigator.geolocation.getCurrentPosition(function (position) {
+//         latitude = position.coords.latitude;
+//         longitude = position.coords.longitude;
+//         var map = L.map('map').setView([latitude, longitude], 18);
 
-        L.Routing.control({
-            waypoints: [
-                L.latLng(latitude, longitude),
-                L.latLng(47.74696420259903, 7.333642888445753)
-            ]
-        }).addTo(map);
-    }, function (erreur) {
-        console.log(erreur)
+//         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//             maxZoom: 18,
+//             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+//         }).addTo(map);
 
-        var map = L.map('map').setView([latitude, longitude], 18);
+//         L.Routing.control({
+//             waypoints: [
+//                 L.latLng(latitude, longitude),
+//                 L.latLng(47.74696420259903, 7.333642888445753)
+//             ]
+//         }).addTo(map);
+//     }, function (erreur) {
+//         console.log(erreur)
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-    })
+//         var map = L.map('map').setView([latitude, longitude], 18);
 
-    if (latitude != 0 && longitude != 0) {
-        console.log(latitude)
-    }
-}
-else {
-    console.log("Géolocalisation non supportée");
-    var map = L.map('map').setView([latitude, longitude], 13);
+//         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//             maxZoom: 18,
+//             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+//         }).addTo(map);
+//     })
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 13,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
-}
+//     if (latitude != 0 && longitude != 0) {
+//         console.log(latitude)
+//     }
+// }
+// else {
+//     console.log("Géolocalisation non supportée");
+//     var map = L.map('map').setView([latitude, longitude], 13);
+
+//     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//         maxZoom: 13,
+//         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+//     }).addTo(map);
+// }
+
 
 // les canvas
 
@@ -173,6 +180,89 @@ let tab = [
     },
 ]
 
+let tab2 = [
+    {
+        x: 20,	// Position en X.
+        vy: -0.14,	// Vitesse sur l’axe Y.
+        taille: 30
+    },
+    {
+        x: 30,	// Position en X.
+        vy: -0.5,	// Vitesse sur l’axe Y.
+        taille: 50
+    },
+    {
+        x: 60,	// Position en X.
+        vy: -0.4,	// Vitesse sur l’axe Y.
+        taille: 25
+    },
+    {
+        x: 10,	// Position en X.
+        vy: -0.3,	// Vitesse sur l’axe Y.
+        taille: 35
+    },
+    {
+        x: 150,	// Position en X.
+        vy: -0.4,	// Vitesse sur l’axe Y.
+        taille: 20
+    },
+    {
+        x: 80,	// Position en X.
+        vy: -0.6,	// Vitesse sur l’axe Y.
+        taille: 65
+    },
+    {
+        x: 160,	// Position en X.
+        vy: -0.4,	// Vitesse sur l’axe Y.
+        taille: 54
+    },
+    {
+        x: 140,	// Position en X.
+        vy: -0.2,	// Vitesse sur l’axe Y.
+        taille: 40
+    },
+    {
+        x: 250,	// Position en X.
+        vy: -0.4,	// Vitesse sur l’axe Y.
+        taille: 30
+    },
+    {
+        x: 45,	// Position en X.
+        vy: -0.4,	// Vitesse sur l’axe Y.
+        taille: 51
+    },
+    {
+        x: 150,	// Position en X.
+        vy: -0.5,	// Vitesse sur l’axe Y.
+        taille: 21
+    },
+    {
+        x: 65,	// Position en X.
+        vy: -0.2,	// Vitesse sur l’axe Y.
+        taille: 30
+    },
+    {
+        x: 20,	// Position en X.
+        vy: -0.3,	// Vitesse sur l’axe Y.
+        taille: 40
+    },
+    {
+        x: 56,	// Position en X.
+        vy: -0.2,	// Vitesse sur l’axe Y.
+        taille: 32
+    },
+    {
+        x: 69,	// Position en X.
+        vy: -0.3,	// Vitesse sur l’axe Y.
+        taille: 20
+    },
+    {
+        x: 0,	// Position en X.
+        vy: -0.2,	// Vitesse sur l’axe Y.
+        taille: 1500
+    }
+]
+
 function initialisation() {
     H = window.innerHeight
     W = window.innerWidth
@@ -211,17 +301,27 @@ function boucle() {
     window.requestAnimationFrame(boucle)
 }
 
+function transition(){
+    
+}
+
 initialisation();
 boucle();
+
+
 
 document.querySelector('.bouton-main-page').addEventListener('click', commencer)
 
 function commencer() {
     localStorage.setItem("started", "oui")
     setTimeout(enlever, 2000)
-
 }
 
 function enlever() {
     document.querySelector('.startpart').style = "display: none;"
+}
+
+if(started == 'oui'){
+    commencer()
+    enlever()
 }

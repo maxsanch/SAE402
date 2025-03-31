@@ -1,18 +1,19 @@
-body{
+body {
     margin: 0;
     overflow: hidden;
 }
 
+
 #map {
-    height: 900px;
-    z-index: -1;
+    height: 700px;
+
 }
 
-img{
+img {
     width: 100%;
 }
 
-.startpart{
+.startpart {
     position: fixed;
     display: flex;
 
@@ -22,7 +23,7 @@ img{
     right: 0;
 }
 
-.black-bg{
+.black-bg {
     background: black;
     position: absolute;
     top: 0;
@@ -32,7 +33,7 @@ img{
     right: 0;
 }
 
-#sky{
+#sky {
     background-image: url(../img/sky.jpg);
     background-size: cover;
     z-index: 2;
@@ -45,7 +46,7 @@ img{
     animation: forwards ease-in-out 0.2s entrance;
 }
 
-#plaine{
+#plaine {
     background-image: url(../img/plaine.png);
     background-size: 100%;
     background-position: 50% 100%;
@@ -61,27 +62,29 @@ img{
     animation: forwards ease-in-out 0.4s entrance-bottom;
 }
 
-@keyframes entrance{
-    from{
+@keyframes entrance {
+    from {
         opacity: 0;
     }
-    to{
+
+    to {
         opacity: 1;
     }
 }
 
-@keyframes entrance-bottom{
-    from{
+@keyframes entrance-bottom {
+    from {
         transform: translateY(100%);
     }
-    to{
+
+    to {
         transform: translateY(0);
     }
 }
 
 
 
-.lueure-orange{
+.lueure-orange {
     background: linear-gradient(370deg, #ed9f216d, transparent);
     position: absolute;
     top: 0;
@@ -95,7 +98,7 @@ img{
 }
 
 
-.rectangle-shadow{
+.rectangle-shadow {
     position: absolute;
     top: 0;
     left: 0;
@@ -107,7 +110,7 @@ img{
 
 
 
-.rectangle-nuit{
+.rectangle-nuit {
     position: absolute;
     top: 0;
     left: 0;
@@ -122,7 +125,7 @@ img{
     src: url(../font/Daydream.ttf);
 }
 
-.informations{
+.informations {
     z-index: 10;
     display: flex;
     flex-direction: column;
@@ -137,40 +140,41 @@ img{
     width: 100%;
 }
 
-.title-main-page{
+.title-main-page {
     text-align: center;
 }
 
-.title-main-page>span{
+.title-main-page>span {
     display: inline-block;
     opacity: 0;
     animation: 0.2s entreehaute ease-in-out forwards;
     animation-delay: var(--delais);
 }
 
-.title-main-page>p>span{
+.title-main-page>p>span {
     display: inline-block;
     opacity: 0;
     animation: 0.2s entreehaute ease-in-out forwards;
     animation-delay: var(--delais);
 }
 
-@keyframes entreehaute{
-    from{
+@keyframes entreehaute {
+    from {
         opacity: 0;
         transform: translateY(-200%);
     }
-    to{
+
+    to {
         opacity: 1;
         transform: translate(0);
     }
 }
 
 
-.bouton-main-page{
+.bouton-main-page {
     background: linear-gradient(45deg, #FFB515, #8E4E16);
     padding: 8px;
-    box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 0.25); 
+    box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 0.25);
     padding-inline: 20px;
     color: #000004;
     -webkit-text-stroke: 2px #FFF1B8;
@@ -180,11 +184,12 @@ img{
     z-index: 50;
 }
 
-@keyframes popbutton{
-    from{
+@keyframes popbutton {
+    from {
         transform: scale(0);
     }
-    to{
+
+    to {
         transform: scale(1);
     }
 }
@@ -217,7 +222,7 @@ img{
 
 } */
 
-.lueure{
+.lueure {
     position: absolute;
     z-index: 8;
     top: 0;
@@ -230,7 +235,7 @@ img{
     background: linear-gradient(45deg, #FB7D24 -50%, transparent 40%);
 }
 
-#particules{
+#particules {
     position: absolute;
     z-index: 9;
     top: 0;
@@ -240,4 +245,78 @@ img{
     transform: translateY(100%);
     animation: forwards ease-in-out 0.4s entrance-bottom;
     animation-delay: 0.5s;
+}
+
+#transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+}
+
+.jeux {
+    display: none;
+}
+
+.story-resume {
+    display: none;
+}
+
+.menu-hamburger {
+    position: relative;
+    width: 80%;
+    margin: auto;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+}
+
+.barres {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 30px;
+    background: #F1AE43;
+    padding: 10px;
+}
+
+.barre {
+    width: 50px;
+    height: 5px;
+    background: #5C2B00;
+}
+
+
+.categories {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    background: #F1AE43;
+}
+
+.categories>div {
+    margin-top: 20px;
+    padding: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.categories>div:hover {
+    background: #5C2B00;
+    color: #FFF1B8;
+}
+
+.bgFixed {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: -1;
 }
