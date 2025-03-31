@@ -2,3 +2,19 @@ body{
     margin: 0;
     overflow: hidden;
 }
+
+canvas{
+    position: absolute;
+}
+
+#canvas_notes{
+    z-index: 5449;
+}
+
+div{
+    color: red;
+    position: absolute;
+    z-index: 988679;
+    font-size: 32px;
+    display: none;
+}
