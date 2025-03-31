@@ -23,7 +23,10 @@ function afficher() {
     ctx.fillRect(W * 0.75, 0, 20, H)
 
     ctx.fillStyle = "yellow";
-    ctx.fillRect(xBille, yBille, 20, 20)
+    ctx.fillRect(0, yBille, 20, 20)
+
+    ctx.fillStyle = "black";
+    ctx.fillRect(xBille, H - 50, 20, 20)
 }
 
 function calcul() {
@@ -47,7 +50,7 @@ window.addEventListener("deviceorientation", Inclinaison_Du_Telephone, true);
 
 function Inclinaison_Du_Telephone(event) {
     const gamma = event.gamma;
-    document.querySelector(".gamma").innerText = "gamma : " + gamma;
+    // document.querySelector(".gamma").innerText = "gamma : " + gamma;
     if (gamma >= 25) {
         xBille = W * 0.75;
     }
