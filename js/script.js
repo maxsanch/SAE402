@@ -3,6 +3,8 @@
 let latitude = 0;
 let longitude = 0;
 
+let started = localStorage.getItem('started') || "non";
+
 
 if (navigator.geolocation) {
 
@@ -185,7 +187,7 @@ function boucle() {
         e.x += e.vx
         e.y += e.vy
 
-        if(e.x <= - 20){
+        if (e.x <= - 20) {
             e.y = window.innerHeight + 50
             e.x = 200
         }
@@ -211,3 +213,15 @@ function boucle() {
 
 initialisation();
 boucle();
+
+document.querySelector('.bouton-main-page').addEventListener('click', commencer)
+
+function commencer() {
+    localStorage.setItem("started", "oui")
+    setTimeout(enlever, 2000)
+
+}
+
+function enlever() {
+    document.querySelector('.startpart').style = "display: none;"
+}
