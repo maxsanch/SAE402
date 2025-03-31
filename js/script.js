@@ -31,7 +31,6 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 //             ]
 //         }).addTo(map);
 //     }, function (erreur) {
-//         console.log(erreur)
 
 //         var map = L.map('map').setView([latitude, longitude], 18);
 
@@ -40,13 +39,8 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 //             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 //         }).addTo(map);
 //     })
-
-//     if (latitude != 0 && longitude != 0) {
-//         console.log(latitude)
-//     }
 // }
 // else {
-//     console.log("Géolocalisation non supportée");
 //     var map = L.map('map').setView([latitude, longitude], 13);
 
 //     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -180,89 +174,6 @@ let tab = [
     },
 ]
 
-let tab2 = [
-    {
-        x: 20,	// Position en X.
-        vy: -0.14,	// Vitesse sur l’axe Y.
-        taille: 30
-    },
-    {
-        x: 30,	// Position en X.
-        vy: -0.5,	// Vitesse sur l’axe Y.
-        taille: 50
-    },
-    {
-        x: 60,	// Position en X.
-        vy: -0.4,	// Vitesse sur l’axe Y.
-        taille: 25
-    },
-    {
-        x: 10,	// Position en X.
-        vy: -0.3,	// Vitesse sur l’axe Y.
-        taille: 35
-    },
-    {
-        x: 150,	// Position en X.
-        vy: -0.4,	// Vitesse sur l’axe Y.
-        taille: 20
-    },
-    {
-        x: 80,	// Position en X.
-        vy: -0.6,	// Vitesse sur l’axe Y.
-        taille: 65
-    },
-    {
-        x: 160,	// Position en X.
-        vy: -0.4,	// Vitesse sur l’axe Y.
-        taille: 54
-    },
-    {
-        x: 140,	// Position en X.
-        vy: -0.2,	// Vitesse sur l’axe Y.
-        taille: 40
-    },
-    {
-        x: 250,	// Position en X.
-        vy: -0.4,	// Vitesse sur l’axe Y.
-        taille: 30
-    },
-    {
-        x: 45,	// Position en X.
-        vy: -0.4,	// Vitesse sur l’axe Y.
-        taille: 51
-    },
-    {
-        x: 150,	// Position en X.
-        vy: -0.5,	// Vitesse sur l’axe Y.
-        taille: 21
-    },
-    {
-        x: 65,	// Position en X.
-        vy: -0.2,	// Vitesse sur l’axe Y.
-        taille: 30
-    },
-    {
-        x: 20,	// Position en X.
-        vy: -0.3,	// Vitesse sur l’axe Y.
-        taille: 40
-    },
-    {
-        x: 56,	// Position en X.
-        vy: -0.2,	// Vitesse sur l’axe Y.
-        taille: 32
-    },
-    {
-        x: 69,	// Position en X.
-        vy: -0.3,	// Vitesse sur l’axe Y.
-        taille: 20
-    },
-    {
-        x: 0,	// Position en X.
-        vy: -0.2,	// Vitesse sur l’axe Y.
-        taille: 1500
-    }
-]
-
 function initialisation() {
     H = window.innerHeight
     W = window.innerWidth
@@ -324,4 +235,50 @@ function enlever() {
 if(started == 'oui'){
     commencer()
     enlever()
+}
+
+
+document.querySelector('.barres').addEventListener('click', ouvrirbarres)
+document.querySelector('.cache-black').addEventListener('click', ouvrirbarres)
+
+function ouvrirbarres(){
+    let barres = localStorage.getItem('menu') || 'categories';
+    document.querySelector('.'+barres).classList.toggle('ouvert');
+    document.querySelector('.cache-black').classList.toggle('ouvert')
+}
+
+document.querySelector('.games').addEventListener('click', opencategorie)
+document.querySelector('.story').addEventListener('click', opencategorie)
+document.querySelector('.map').addEventListener('click', opencategorie)
+
+function opencategorie(){
+    if(this.className == "games"){
+        localStorage.setItem('menu', 'jeux');
+        document.querySelector('.jeux').classList.add('ouvert')
+        document.querySelector('.categories').classList.remove('ouvert')
+    }
+    if(this.className == "map"){
+        localStorage.setItem('menu', 'mapo');
+        document.querySelector('.mapo').classList.add('ouvert')
+        document.querySelector('.categories').classList.remove('ouvert')
+    }
+    if(this.className == "story"){
+        localStorage.setItem('menu', 'story-resume');
+        document.querySelector('.story-resume').classList.add('ouvert')
+        document.querySelector('.categories').classList.remove('ouvert')
+    }
+}
+
+document.querySelectorAll('.retour').forEach(e => {
+    e.addEventListener('click', retour)
+})
+
+
+
+function retour(){
+    localStorage.setItem('menu', 'categories');
+    document.querySelector('.categories').classList.add('ouvert')
+    document.querySelector('.story-resume').classList.remove('ouvert')
+    document.querySelector('.mapo').classList.remove('ouvert')
+    document.querySelector('.jeux').classList.remove('ouvert')
 }

@@ -3,10 +3,30 @@ body {
     overflow: hidden;
 }
 
+a {
+    color: black;
+    text-decoration: none;
+}
 
 #map {
-    height: 700px;
 
+    height: 750px;
+    padding: 10px;
+}
+
+#mapreturn{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    bottom: 0;
+    left: 0;
+    background: #F1AE43;
+}
+
+.mapo {
+    display: none;
+    box-sizing: border-box;
+    border: solid 10px #F1AE43;
 }
 
 img {
@@ -16,7 +36,7 @@ img {
 .startpart {
     position: fixed;
     display: flex;
-
+    z-index: 99;
     top: 0;
     bottom: 0;
     left: 0;
@@ -29,14 +49,14 @@ img {
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 1;
+    z-index: 100;
     right: 0;
 }
 
 #sky {
     background-image: url(../img/sky.jpg);
     background-size: cover;
-    z-index: 2;
+    z-index: 101;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -51,7 +71,7 @@ img {
     background-size: 100%;
     background-position: 50% 100%;
     background-repeat: no-repeat;
-    z-index: 4;
+    z-index: 103;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -93,7 +113,7 @@ img {
     bottom: 0;
     left: 0;
     transform: translateY(100%);
-    z-index: 3;
+    z-index: 102;
     right: 0;
 }
 
@@ -103,7 +123,7 @@ img {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 6;
+    z-index: 105;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.308);
 }
@@ -115,7 +135,7 @@ img {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 5;
+    z-index: 104;
     bottom: 0;
     background: linear-gradient(200deg, #00012770, transparent);
 }
@@ -126,7 +146,7 @@ img {
 }
 
 .informations {
-    z-index: 10;
+    z-index: 200;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -181,7 +201,7 @@ img {
     transform: scale(0);
     animation: popbutton 0.3s ease-in-out forwards;
     animation-delay: 1.20s;
-    z-index: 50;
+    z-index: 1000;
 }
 
 @keyframes popbutton {
@@ -224,7 +244,7 @@ img {
 
 .lueure {
     position: absolute;
-    z-index: 8;
+    z-index: 107;
     top: 0;
     bottom: 0;
     left: 0;
@@ -237,7 +257,7 @@ img {
 
 #particules {
     position: absolute;
-    z-index: 9;
+    z-index: 108;
     top: 0;
     bottom: 0;
     left: 0;
@@ -256,10 +276,6 @@ img {
     display: none;
 }
 
-.jeux {
-    display: none;
-}
-
 .story-resume {
     display: none;
 }
@@ -267,6 +283,7 @@ img {
 .menu-hamburger {
     position: relative;
     width: 80%;
+    z-index: 10;
     margin: auto;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
@@ -290,14 +307,28 @@ img {
 
 .categories {
     display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
     padding-top: 10px;
     padding-bottom: 10px;
     width: 100%;
     box-sizing: border-box;
     background: #F1AE43;
+}
+
+.jeux {
+    display: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    background: #F1AE43;
+}
+
+.jeux>a>p {
+    margin-top: 20px;
+    padding: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 
 .categories>div {
@@ -313,10 +344,35 @@ img {
     color: #FFF1B8;
 }
 
+.jeux>a:hover>p {
+    background: #5C2B00;
+    color: #FFF1B8;
+}
+
 .bgFixed {
     position: fixed;
     top: 0;
     bottom: 0;
     width: 100%;
     z-index: -1;
+}
+
+.cache-black {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #00000053;
+    z-index: 9;
+    display: none;
+}
+
+.ouvert {
+    display: block;
+}
+
+.story-resume{
+    background: #F1AE43;
+    padding: 10px;
 }
