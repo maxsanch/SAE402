@@ -17,17 +17,19 @@ function afficher() {
     ctx.fillStyle = "pink";
     ctx.fillRect(0, 0, W, H);
 
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "purple";
+    ctx.fillRect((W * 0.25) - 20, 0, 20, H)
+    ctx.fillRect((W * 0.5) - 10, 0, 20, H)
+    ctx.fillRect(W * 0.75, 0, 20, H)
+
+    ctx.fillStyle = "yellow";
     ctx.fillRect(xBille, yBille, 20, 20)
 }
 
 function calcul() {
     accelerationY = gravite;
-    // accelerationX = gravite;
     vY += accelerationY;
-    // vX += accelerationX;
     yBille += vY;
-    // xBille += vX;
     if (yBille >= H)
     {
         vY = 0
@@ -47,13 +49,13 @@ function Inclinaison_Du_Telephone(event) {
     const gamma = event.gamma;
     document.querySelector(".gamma").innerText = "gamma : " + gamma;
     if (gamma >= 25) {
-        xBille = W / 1.5;
+        xBille = W * 0.75;
     }
     if (gamma <= -25) {
-        xBille = W / 4;
+        xBille = (W * 0.25) - 20;
     }
     if (gamma <= 25 && gamma >= -25) {
-        xBille = W / 2;
+        xBille = (W * 0.5) - 10;
     }
 }
 
