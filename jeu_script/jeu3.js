@@ -43,21 +43,24 @@ function afficher() {
     // Store the current context state (i.e. rotation, translation etc..)
     ctx.save()
 
-    ctx.translate(W / 2, H / 2);
+    ctx.translate(W / 2, yBarile + 325);
     //Rotate the canvas around the origin
-    ctx.rotate(90 * Math.PI / 180);
+    ctx.rotate(45 * Math.PI / 180);
 
     ctx.fillStyle = "#5b3c11";
-    ctx.fillRect(xBarile, yBarile, 350, 650)
+    ctx.fillRect(-350 / 2, -650 / 2, 350, 650)
+    // Restore canvas state as saved from above
+
 
     ctx.fillStyle = "#FFFFF0"
-    ctx.fillRect(xBarile, yflotte, 350, 610)
+    ctx.fillRect(-350 / 2, -610 / 2, 350, 610)
 
     ctx.fillStyle = "#6b4c21"
-    ctx.fillRect(xBarile, yBarileFront, 350, 600)
-
-    // Restore canvas state as saved from above
+    ctx.fillRect(-350 / 2, -600 / 2, 350, 600)
+    
     ctx.restore();
+
+
 }
 
 function boucle() {
