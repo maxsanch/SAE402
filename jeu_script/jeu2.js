@@ -1,4 +1,5 @@
-var canvas_decor = document.getElementById("décor");
+var canvas_decor = document.getElementById("maisons");
+var canvas_decor = document.getElementById("route");
 var canvas_obstacles = document.getElementById("obstacles");
 var canvas_perso = document.getElementById("perso");
         var ctx = canvas.getContext("2d");
