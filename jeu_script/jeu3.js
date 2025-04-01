@@ -16,7 +16,7 @@ let yBarileFront = 170
 let xCentre = W / 2
 let yCentre = 480
 
-let aBarile = 0.001
+let aBarile = 0.0001
 let vBarile = 0;
 
 let rotaleft = false;
@@ -36,9 +36,11 @@ function initialisation() {
 window.addEventListener('deviceorientation', inclinaison_tel, true)
 
 function inclinaison_tel(event){
-    let alpha = event.alpha
-    console.log(alpha)
-    aRedressement = 0.001 * alpha;
+    let beta = event.beta
+    console.log(beta)
+    if(event.alpha == 90 && event.gamma == -90){
+        aRedressement = 0.0001 * (beta - 90);
+    }
 }
 
 function calculer() {
@@ -58,12 +60,12 @@ function calculer() {
         }
     }
 
-    // if(rotaleft){
-    //     vBarile -= aBarile;
-    // }
-    // if(rotaright){
-    //     vBarile += aBarile;
-    // }
+    if(rotaleft){
+        vBarile -= aBarile;
+    }
+    if(rotaright){
+        vBarile += aBarile;
+    }
 
     vBarile += aRedressement
     angle += vBarile
