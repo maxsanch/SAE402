@@ -49,7 +49,7 @@ function inclinaison_tel(event){
 
     aRedressement = 0.0001 * (inclinaison - 90);
 
-    document.querySelector('body').innerHTML = "Gamma = "+ parseInt(event.gamma) + " beta = "+parseInt(event.beta) + " alpha = " + parseInt(event.alpha)
+    // document.querySelector('body').innerHTML = "Gamma = "+ parseInt(event.gamma) + " beta = "+parseInt(event.beta) + " alpha = " + parseInt(event.alpha)
 }
 
 function calculer() {
