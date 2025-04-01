@@ -33,6 +33,61 @@ let VitesseUtilisateur = 10 * 100;
 let contenu = 100;
 let facteurVide = 0;
 
+let vitesse = 0;
+
+let derniereLat = null;
+let derniereLong = null;
+let derniertemps = null;
+
+if (navigator.geolocation) {
+    console.log('geo on')
+    navigator.geolocation.watchPosition(position =>{
+        console.log('geo on on')
+        
+        let latitude = position.coords.latitude;
+        let longitude = position.coords.longitude;
+        let tempsActuel = Date.now();
+
+        if(derniereLat && derniereLong){
+            console.log('ici')
+            let distance = calculeDistance(derniereLat, derniereLong, latitude, longitude)
+
+            let temps = (tempsActuel - derniertemps) / 1000;
+
+            if (temps > 0) {
+                let vitesse = (distance / temps) * 3600; // km/h
+                document.querySelector('body').innerHTML = `Vitesse estimée : ${vitesse.toFixed(2)} km/h`;
+            }
+        }
+
+
+        derniereLat = latitude
+        derniereLong = longitude
+        derniertemps = tempsActuel
+    }, console.error, {enableHighAccuracy: true});
+
+
+}
+else{
+    console.log('le navigateur ne supporte pas la geolocalisation')
+}
+
+function calculeDistance(lastlat, lastlong, lat, long){
+    // transition des coordonnée données par la position de l'utulisateur en KM, aide de l'IA pour cela
+
+    // rayon de la terre de la terre, car les coordonnées sont basées sur des degrés decimaux, pour calculer une distance, on peut utiliser la formule Haversine trouvée sur internet 
+    const RayonTerre = 6371;
+
+    const radiants = Math.PI / 180;
+
+    let a = (Math.sin(((lat - lastlat) * radiants )/2)*Math.sin(((lat - lastlat) * radiants )/2))+Math.cos(lastlat * radiants)*Math.cos(lat * radiants) * (Math.sin(((long - lastlong) * radiants)/2)*Math.sin(((long - lastlong) * radiants)/2))
+
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1- a))
+
+    console.log(RayonTerre * c)
+    return RayonTerre * c;
+    // distance en km 
+}
 
 function initialisation() {
     draw.width = window.innerWidth
@@ -46,20 +101,20 @@ function inclinaison_tel(event) {
     let gamma = event.gamma || 0; // Inclinaison gauche-droite (-90 à 90)
     let alpha = event.alpha || 0; // Orientation absolue (0 à 360)
 
-    // 🔹 Corriger l'inclinaison en fonction de l'orientation
+    // Corriger l'inclinaison en fonction de l'orientation
     let inclinaison = 0;
     if (alpha >= 45 && alpha <= 135) {
-        // 📱 Paysage gauche
+        // Paysage gauche
         inclinaison = beta;
     } else if (alpha >= 225 && alpha <= 315) {
-        // 📱 Paysage droit
+        // Paysage droit
         inclinaison = -beta;
     } else {
-        // 📱 Mode portrait standard ou inversé
+        // Mode portrait standard ou inversé
         inclinaison = gamma;
     }
 
-    aRedressement += 0.000001 * inclinaison
+    aRedressement += 0.000001 * inclinaison;
 
     // document.querySelector('body').innerHTML = "Gamma = "+ parseInt(event.gamma) + " beta = "+parseInt(event.beta) + " alpha = " + parseInt(event.alpha)
 }
