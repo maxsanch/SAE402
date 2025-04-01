@@ -11,10 +11,18 @@ canvas{
     z-index: 5449;
 }
 
-div{
-    color: red;
-    position: absolute;
+#canvas_obstacles{
+    z-index: 5449;
+}
+
+.ecran_rouge{
+    background-color: red;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
     z-index: 988679;
-    font-size: 32px;
+    opacity: 40%;
     display: none;
 }
