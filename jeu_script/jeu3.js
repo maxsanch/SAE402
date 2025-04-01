@@ -61,12 +61,12 @@ function calculer() {
         }
     }
 
-    if(rotaleft){
-        vBarile -= aBarile;
-    }
-    if(rotaright){
-        vBarile += aBarile;
-    }
+    // if(rotaleft){
+    //     vBarile -= aBarile;
+    // }
+    // if(rotaright){
+    //     vBarile += aBarile;
+    // }
 
     vBarile += aRedressement
     angle += vBarile
