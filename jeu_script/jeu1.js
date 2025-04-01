@@ -51,39 +51,44 @@ function calcul() {
     accelerationY = gravite;
     vY += accelerationY;
     yNotes += vY;
+    yObstacles += vY;
+
     if (yNotes >= H + 50) {
         vY = 0
-        yNotes = H - 50
+        yNotes = 0 - 50
     }
-
-    if (yNotes >= H - 60 && yNotes <= H - 40 && xBille == xNotes) {
-        document.querySelector("div").style = "display: block;";
-    }
-    if (yNotes <= H - 60 || yNotes >= H - 40 || xBille != xNotes) {
-        document.querySelector("div").style = "display: none;";
-    }
-
-    yObstacles += vY;
     if (yObstacles >= H + 50) {
         vY = 0
-        yObstacles = H - 50
+        yObstacles = 0 - 50
     }
 
-    // if (yObstacles >= H - 60 && yObstacles <= H - 40 && xBille == xNotes) {
-    //     document.querySelector("div").style = "display: block;";
-    // }
 
-    // if (yObstacles <= H - 60 || yObstacles >= H - 40 || xBille != xNotes) {
-    //     document.querySelector("div").style = "display: none;";
-    // }
+
+    if (yNotes >= H - 60 && yNotes <= H - 40 && xBille == xNotes) {
+        document.querySelector(".ecran_rouge").classList.add("vert");
+    }
+    if (yNotes <= H - 60 || yNotes >= H - 40 || xBille != xNotes) {
+        document.querySelector(".ecran_rouge").classList.remove("vert");
+    }
+
+    if (yObstacles >= H - 60 && yObstacles <= H - 40 && xBille == xObstacles) {
+        document.querySelector(".ecran_rouge").classList.add("rouge");
+    }
+
+    if (yObstacles <= H - 60 || yObstacles >= H - 40 || xBille != xObstacles) {
+        document.querySelector(".ecran_rouge").classList.remove("rouge");
+    }
+
+
 
     if (yNotes <= 0 || yNotes >= H) {
         position_note = (Math.random() * 3);
     }
-
     if (yObstacles <= 0 || yObstacles >= H) {
         position_obstacle = (Math.random() * 3);
     }
+
+
 
     if (position_note < 1) {
         xNotes = (W * 0.25) - 20;
@@ -95,13 +100,13 @@ function calcul() {
         xNotes = W * 0.75;
     }
 
-    if (position_obstacle < 1 && xNotes != xObstacles) {
+    if (position_obstacle < 1) {
         xObstacles = (W * 0.25) - 20;
     }
-    if (position_obstacle < 2 && position_obstacle >= 1  && xNotes != xObstacles) {
+    if (position_obstacle < 2 && position_obstacle >= 1) {
         xObstacles = (W * 0.5) - 10;
     }
-    if (position_obstacle < 3 && position_obstacle >= 2  && xNotes != xObstacles) {
+    if (position_obstacle < 3 && position_obstacle >= 2) {
         xObstacles = W * 0.75;
     }
 }
