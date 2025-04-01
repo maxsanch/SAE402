@@ -22,11 +22,17 @@ let vBarile = 0;
 let rotaleft = false;
 let rotaright = false;
 
+// le alpha on s'en fou
+
 let angle = 0;
 
 let aRedressement = 0;
 
 let VitesseUtilisateur = 10 * 100;
+
+let contenu = 100;
+let facteurVide = 0;
+
 
 function initialisation() {
     draw.width = window.innerWidth
@@ -35,38 +41,52 @@ function initialisation() {
 
 window.addEventListener('deviceorientation', inclinaison_tel, true)
 
-function inclinaison_tel(event){
-    let beta = event.alpha
-    console.log(beta)
-    
-    aRedressement = 0.0001 * (beta - 90);
+function inclinaison_tel(event) {
+    let beta = event.beta || 0;   // Inclinaison avant-arrière (-180 à 180)
+    let gamma = event.gamma || 0; // Inclinaison gauche-droite (-90 à 90)
+    let alpha = event.alpha || 0; // Orientation absolue (0 à 360)
 
-//  document.querySelector('body').innerHTML = "Gamma = "+ parseInt(event.gamma) + " beta = "+parseInt(event.beta) + " alpha = " + parseInt(event.alpha)
+    // 🔹 Corriger l'inclinaison en fonction de l'orientation
+    let inclinaison = 0;
+    if (alpha >= 45 && alpha <= 135) {
+        // 📱 Paysage gauche
+        inclinaison = beta;
+    } else if (alpha >= 225 && alpha <= 315) {
+        // 📱 Paysage droit
+        inclinaison = -beta;
+    } else {
+        // 📱 Mode portrait standard ou inversé
+        inclinaison = gamma;
+    }
+
+    angle = 0.0001 * inclinaison
+
+    // document.querySelector('body').innerHTML = "Gamma = "+ parseInt(event.gamma) + " beta = "+parseInt(event.beta) + " alpha = " + parseInt(event.alpha)
 }
 
 function calculer() {
-    let Random = parseInt(Math.random()*VitesseUtilisateur)
+    let Random = parseInt(Math.random() * VitesseUtilisateur)
 
-    if(Random == 1){
-        let R2 = parseInt(Math.random()*10)
+    if (Random == 1) {
+        let R2 = parseInt(Math.random() * 10)
 
-        if(R2 <= 4){
+        if (R2 <= 4) {
             rotaleft = true;
             rotaright = false;
         }
 
-        if(R2 >= 5){
+        if (R2 >= 5) {
             rotaright = true;
             rotaleft = false;
         }
     }
 
-    if(rotaleft){
-        vBarile -= aBarile;
-    }
-    if(rotaright){
-        vBarile += aBarile;
-    }
+    // if(rotaleft){
+    //     vBarile -= aBarile;
+    // }
+    // if(rotaright){
+    //     vBarile += aBarile;
+    // }
 
     vBarile += aRedressement
     angle += vBarile
@@ -84,7 +104,7 @@ function afficher() {
         //Rotate the canvas around the origin
         ctx.rotate(angle * Math.PI / 180);
         ctx.fillStyle = color;
-        ctx.fillRect(-350 / 2, yDéplacement - taille /2 , 350, taille)
+        ctx.fillRect(-350 / 2, yDéplacement - taille / 2, 350, taille)
         // Restore canvas state as saved from above
         ctx.restore();
     }
