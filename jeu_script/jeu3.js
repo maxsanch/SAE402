@@ -36,9 +36,9 @@ function initialisation() {
 window.addEventListener('deviceorientation', inclinaison_tel, true)
 
 function inclinaison_tel(event){
-    const alpha = event.alpha
-
-
+    let alpha = event.alpha
+    console.log(alpha)
+    aRedressement = 0.001 * alpha;
 }
 
 function calculer() {
@@ -58,12 +58,12 @@ function calculer() {
         }
     }
 
-    if(rotaleft){
-        vBarile -= aBarile;
-    }
-    if(rotaright){
-        vBarile += aBarile;
-    }
+    // if(rotaleft){
+    //     vBarile -= aBarile;
+    // }
+    // if(rotaright){
+    //     vBarile += aBarile;
+    // }
 
     vBarile += aRedressement
     angle += vBarile
