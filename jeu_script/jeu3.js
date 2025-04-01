@@ -2,37 +2,74 @@ const draw = document.querySelector('#barile')
 
 const ctx = draw.getContext('2d')
 
-let H = 0
-let W = 0
+let H = window.innerHeight
+let W = window.innerWidth
 
 
-// le barile 
+// le barile
 
 let xBarile = (window.innerWidth / 2) - 175
 let yBarile = 120
 let yflotte = 160
 let yBarileFront = 170
 
-let xCentreBarile = (xBarile + 350) / 2
-let yCentreBarile = (yBarile + 650) / 2
+let xCentre = W / 2
+let yCentre = 480
 
-let vBarile = 0.5;
+let aBarile = 0.0001
+let vBarile = 0;
+
+let rotaleft = false;
+let rotaright = false;
 
 let angle = 0;
 
+let aRedressement = 0;
 
+let VitesseUtilisateur = 10 * 100;
 
 function initialisation() {
-    H = window.innerHeight
-    W = window.innerWidth
-
     draw.width = window.innerWidth
     draw.height = window.innerHeight
 }
 
+window.addEventListener('deviceorientation', inclinaison_tel, true)
+
+function inclinaison_tel(event){
+    let beta = event.alpha
+    console.log(beta)
+    
+    aRedressement = 0.0001 * (beta - 90);
+
+//  document.querySelector('body').innerHTML = "Gamma = "+ parseInt(event.gamma) + " beta = "+parseInt(event.beta) + " alpha = " + parseInt(event.alpha)
+}
 
 function calculer() {
+    let Random = parseInt(Math.random()*VitesseUtilisateur)
 
+    if(Random == 1){
+        let R2 = parseInt(Math.random()*10)
+
+        if(R2 <= 4){
+            rotaleft = true;
+            rotaright = false;
+        }
+
+        if(R2 >= 5){
+            rotaright = true;
+            rotaleft = false;
+        }
+    }
+
+    if(rotaleft){
+        vBarile -= aBarile;
+    }
+    if(rotaright){
+        vBarile += aBarile;
+    }
+
+    vBarile += aRedressement
+    angle += vBarile
 }
 
 function afficher() {
@@ -40,27 +77,21 @@ function afficher() {
     ctx.fillStyle = "#09C";
     ctx.fillRect(0, 0, W, H);
 
-    // Store the current context state (i.e. rotation, translation etc..)
-    ctx.save()
+    function dessinerRectangle(yDéplacement, color, taille) {
+        // Store the current context state (i.e. rotation, translation etc..)
+        ctx.save()
+        ctx.translate(xCentre, yCentre);
+        //Rotate the canvas around the origin
+        ctx.rotate(angle * Math.PI / 180);
+        ctx.fillStyle = color;
+        ctx.fillRect(-350 / 2, yDéplacement - taille /2 , 350, taille)
+        // Restore canvas state as saved from above
+        ctx.restore();
+    }
 
-    ctx.translate(W / 2, yBarile + 325);
-    //Rotate the canvas around the origin
-    ctx.rotate(45 * Math.PI / 180);
-
-    ctx.fillStyle = "#5b3c11";
-    ctx.fillRect(-350 / 2, -650 / 2, 350, 650)
-    // Restore canvas state as saved from above
-
-
-    ctx.fillStyle = "#FFFFF0"
-    ctx.fillRect(-350 / 2, -610 / 2, 350, 610)
-
-    ctx.fillStyle = "#6b4c21"
-    ctx.fillRect(-350 / 2, -600 / 2, 350, 600)
-    
-    ctx.restore();
-
-
+    dessinerRectangle(0, "#5b3c11", 650);  // Baril
+    dessinerRectangle(20, "#FFFFF0", 610); // Ombre du baril
+    dessinerRectangle(25, "#6b4c21", 600); // Avant du baril
 }
 
 function boucle() {
