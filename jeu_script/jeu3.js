@@ -41,14 +41,14 @@ let derniertemps = null;
 
 if (navigator.geolocation) {
     console.log('geo on')
-    navigator.geolocation.watchPosition(position =>{
+    navigator.geolocation.watchPosition(position => {
         console.log('geo on on')
-        
+
         let latitude = position.coords.latitude;
         let longitude = position.coords.longitude;
         let tempsActuel = Date.now();
 
-        if(derniereLat && derniereLong){
+        if (derniereLat && derniereLong) {
             console.log('ici')
             let distance = calculeDistance(derniereLat, derniereLong, latitude, longitude)
 
@@ -56,7 +56,7 @@ if (navigator.geolocation) {
 
             if (temps > 0) {
                 let vitesse = (distance / temps) * 3600; // km/h
-                document.querySelector('body').innerHTML = `Vitesse estimée : ${vitesse.toFixed(2)} km/h`;
+                document.querySelector('body').innerHTML = `Vitesse estimée : ${vitesse.toFixed(2)} km/h pour ${distance} KM en ${temps}`;
             }
         }
 
@@ -64,28 +64,29 @@ if (navigator.geolocation) {
         derniereLat = latitude
         derniereLong = longitude
         derniertemps = tempsActuel
-    }, console.error, {enableHighAccuracy: true});
+    }, console.error, { enableHighAccuracy: true });
 
 
 }
-else{
+else {
     console.log('le navigateur ne supporte pas la geolocalisation')
 }
 
-function calculeDistance(lastlat, lastlong, lat, long){
+function calculeDistance(lastlat, lastlong, lat, long) {
     // transition des coordonnée données par la position de l'utulisateur en KM, aide de l'IA pour cela
 
     // rayon de la terre de la terre, car les coordonnées sont basées sur des degrés decimaux, pour calculer une distance, on peut utiliser la formule Haversine trouvée sur internet 
+    // fonction trouvée sur internet et convertie en code, un enfer
     const RayonTerre = 6371;
 
     const radiants = Math.PI / 180;
 
-    let a = (Math.sin(((lat - lastlat) * radiants )/2)*Math.sin(((lat - lastlat) * radiants )/2))+Math.cos(lastlat * radiants)*Math.cos(lat * radiants) * (Math.sin(((long - lastlong) * radiants)/2)*Math.sin(((long - lastlong) * radiants)/2))
+    let a = (Math.sin(((lat - lastlat) * radiants) / 2) * Math.sin(((lat - lastlat) * radiants) / 2)) + Math.cos(lastlat * radiants) * Math.cos(lat * radiants) * (Math.sin(((long - lastlong) * radiants) / 2) * Math.sin(((long - lastlong) * radiants) / 2))
 
-    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1- a))
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 
-    console.log(RayonTerre * c)
     return RayonTerre * c;
+
     // distance en km 
 }
 
