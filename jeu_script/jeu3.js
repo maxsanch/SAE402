@@ -41,29 +41,41 @@ function initialisation() {
 
 window.addEventListener('deviceorientation', inclinaison_tel, true)
 
-function inclinaison_tel(event){
-    let beta = event.beta
-    let gamma = event.gamma
+function inclinaison_tel(event) {
+    let beta = event.beta || 0;   // Inclinaison avant-arrière (-180 à 180)
+    let gamma = event.gamma || 0; // Inclinaison gauche-droite (-90 à 90)
+    let alpha = event.alpha || 0; // Orientation absolue (0 à 360)
 
-    let inclinaison = Math.sin(beta) * gamma
+    // 🔹 Corriger l'inclinaison en fonction de l'orientation
+    let inclinaison = 0;
+    if (alpha >= 45 && alpha <= 135) {
+        // 📱 Paysage gauche
+        inclinaison = beta;
+    } else if (alpha >= 225 && alpha <= 315) {
+        // 📱 Paysage droit
+        inclinaison = -beta;
+    } else {
+        // 📱 Mode portrait standard ou inversé
+        inclinaison = gamma;
+    }
 
-    aRedressement = 0.0001 * (inclinaison - 90);
+    angle = 0.0001 * inclinaison
 
     // document.querySelector('body').innerHTML = "Gamma = "+ parseInt(event.gamma) + " beta = "+parseInt(event.beta) + " alpha = " + parseInt(event.alpha)
 }
 
 function calculer() {
-    let Random = parseInt(Math.random()*VitesseUtilisateur)
+    let Random = parseInt(Math.random() * VitesseUtilisateur)
 
-    if(Random == 1){
-        let R2 = parseInt(Math.random()*10)
+    if (Random == 1) {
+        let R2 = parseInt(Math.random() * 10)
 
-        if(R2 <= 4){
+        if (R2 <= 4) {
             rotaleft = true;
             rotaright = false;
         }
 
-        if(R2 >= 5){
+        if (R2 >= 5) {
             rotaright = true;
             rotaleft = false;
         }
@@ -92,7 +104,7 @@ function afficher() {
         //Rotate the canvas around the origin
         ctx.rotate(angle * Math.PI / 180);
         ctx.fillStyle = color;
-        ctx.fillRect(-350 / 2, yDéplacement - taille /2 , 350, taille)
+        ctx.fillRect(-350 / 2, yDéplacement - taille / 2, 350, taille)
         // Restore canvas state as saved from above
         ctx.restore();
     }
