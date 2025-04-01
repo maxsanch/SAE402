@@ -82,31 +82,30 @@ function calcul() {
 
 
     if (yNotes <= 0 || yNotes >= H) {
-        position_note = (Math.random() * 3);
+        position_note = Math.floor(Math.random() * 3);
     }
     if (yObstacles <= 0 || yObstacles >= H) {
-        position_obstacle = (Math.random() * 3);
+        position_obstacle = Math.floor(Math.random() * 3);
     }
 
 
-
-    if (position_note < 1) {
+    if (position_note == 0) {
         xNotes = (W * 0.25) - 20;
     }
-    if (position_note < 2 && position_note >= 1) {
+    if (position_note == 1) {
         xNotes = (W * 0.5) - 10;
     }
-    if (position_note < 3 && position_note >= 2) {
+    if (position_note == 2) {
         xNotes = W * 0.75;
     }
 
-    if (position_obstacle < 1) {
+    if (position_obstacle == 0) {
         xObstacles = (W * 0.25) - 20;
     }
-    if (position_obstacle < 2 && position_obstacle >= 1) {
+    if (position_obstacle == 1) {
         xObstacles = (W * 0.5) - 10;
     }
-    if (position_obstacle < 3 && position_obstacle >= 2) {
+    if (position_obstacle == 2) {
         xObstacles = W * 0.75;
     }
 }
