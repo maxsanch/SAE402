@@ -36,12 +36,12 @@ function initialisation() {
 window.addEventListener('deviceorientation', inclinaison_tel, true)
 
 function inclinaison_tel(event){
-    let beta = event.alpha
-    console.log(beta)
-    
-    aRedressement = 0.0001 * (beta - 90);
+    let alpha = event.alpha
+    console.log(alpha)
 
-//  document.querySelector('body').innerHTML = "Gamma = "+ parseInt(event.gamma) + " beta = "+parseInt(event.beta) + " alpha = " + parseInt(event.alpha)
+    aRedressement = 0.0001 * (alpha - 90);
+
+    //  document.querySelector('body').innerHTML = "Gamma = "+ parseInt(event.gamma) + " beta = "+parseInt(event.beta) + " alpha = " + parseInt(event.alpha)
 }
 
 function calculer() {
