@@ -22,11 +22,17 @@ let vBarile = 0;
 let rotaleft = false;
 let rotaright = false;
 
+// le alpha on s'en fou
+
 let angle = 0;
 
 let aRedressement = 0;
 
 let VitesseUtilisateur = 10 * 100;
+
+let contenu = 100;
+let facteurVide = 0;
+
 
 function initialisation() {
     draw.width = window.innerWidth
@@ -36,10 +42,12 @@ function initialisation() {
 window.addEventListener('deviceorientation', inclinaison_tel, true)
 
 function inclinaison_tel(event){
-    let alpha = event.alpha
-    console.log(alpha)
+    let beta = event.beta
+    let gamma = event.gamma
 
-    aRedressement = 0.0001 * (alpha - 90);
+    let inclinaison = Math.sin(beta) * gamma
+
+    aRedressement = 0.0001 * (inclinaison - 90);
 
     document.querySelector('body').innerHTML = "Gamma = "+ parseInt(event.gamma) + " beta = "+parseInt(event.beta) + " alpha = " + parseInt(event.alpha)
 }
