@@ -59,7 +59,7 @@ function inclinaison_tel(event) {
         inclinaison = gamma;
     }
 
-    angle = 0.0001 * inclinaison
+    aRedressement += 0.000001 * inclinaison
 
     // document.querySelector('body').innerHTML = "Gamma = "+ parseInt(event.gamma) + " beta = "+parseInt(event.beta) + " alpha = " + parseInt(event.alpha)
 }
