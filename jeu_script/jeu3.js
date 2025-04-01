@@ -38,7 +38,8 @@ window.addEventListener('deviceorientation', inclinaison_tel, true)
 function inclinaison_tel(event){
     let beta = event.beta
     console.log(beta)
-    if(event.alpha == 90 && event.gamma == -90){
+    if(event.alpha >= 70 && event.alpha <= 120 && event.gamma >= 70 && event.gamma <= 120){
+        
         aRedressement = 0.0001 * (beta - 90);
     }
 }
