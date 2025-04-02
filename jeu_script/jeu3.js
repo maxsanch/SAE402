@@ -92,14 +92,14 @@ if (navigator.geolocation) {
             }
 
             document.querySelector('.coo').innerHTML = distance * 1000 + " | "+ derniereLat +  " | " + latitude
-            
+
             derniereLat = latitude
             derniereLong = longitude
             derniertemps = tempsActuel
         }
     }, (error) => {
         console.error("Erreur de géolocalisation :", error);
-    }, { enableHighAccuracy: true });
+    }, { enableHighAccuracy: true, timeout: 1000 });
 }
 else {
     console.log('le navigateur ne supporte pas la geolocalisation')
@@ -185,7 +185,7 @@ function calculer() {
     vBarile += aRedressement;
     angle += vBarile;
 
-    document.querySelector('.info1').innerHTML = `Vitesse estimée : ${Math.floor(vitesse)} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
+    document.querySelector('.info1').innerHTML = `Vitesse estimée : ${vitesse} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
     document.querySelector('.contenu').innerHTML = `Contenu du barile : ${Math.round(contenu*100)/100} %, facteur de baisse lié au tremblements : ${Math.round(tremblements * 1000)/1000}`
 }
 
