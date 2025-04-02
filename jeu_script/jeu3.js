@@ -56,7 +56,7 @@ if (navigator.geolocation) {
 
         if (coordonnées.length <= 10) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
-            document.querySelector('body').innerHTML = coordonnées.length;
+            // document.querySelector('body').innerHTML = coordonnées.length;
         }
         else {
             coordonnées.pop();
@@ -79,6 +79,7 @@ if (navigator.geolocation) {
 
             // faire une moyenen des points et afficher la distance après
 
+            console.log(derniereLat)
             if (derniereLat && derniereLong) {
                 distance = calculeDistance(derniereLat, derniereLong, latitude, longitude)
 
@@ -97,7 +98,10 @@ if (navigator.geolocation) {
             derniereLong = longitude
             derniertemps = tempsActuel
         }
-    }, console.error, { enableHighAccuracy: true });
+    }, (error) => {
+        console.error("Erreur de géolocalisation :", error);
+        document.querySelector('body').innerHTML = `Erreur de géolocalisation : ${error.message}`;
+    }, { enableHighAccuracy: true });
 }
 else {
     console.log('le navigateur ne supporte pas la geolocalisation')
@@ -136,7 +140,7 @@ function inclinaison_tel(event) {
     let alpha = event.alpha || 0; // Orientation absolue (0 à 360)
 
     // Corriger l'inclinaison en fonction de l'orientation
-    let inclinaison = Math.sin(beta)*alpha + Math.sin(beta)*gamma
+    let inclinaison = Math.sin(beta) * alpha + Math.sin(beta) * gamma
 
     aRedressement += 0.000001 * inclinaison;
 
