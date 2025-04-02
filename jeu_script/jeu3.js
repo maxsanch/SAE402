@@ -50,7 +50,7 @@ let tremblements = 0;
 if (navigator.geolocation) {
     navigator.geolocation.watchPosition(position => {
 
-        if (coordonnées.length <= 10) {
+        if (coordonnées.length <= 20) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
         }
         else {
@@ -58,7 +58,7 @@ if (navigator.geolocation) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
         }
 
-        if (coordonnées.length == 11) {
+        if (coordonnées.length == 21) {
             document.querySelector('.tableau').innerHTML = "";
             let latitude = 0;
             let longitude = 0;
