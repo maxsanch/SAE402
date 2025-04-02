@@ -23,7 +23,7 @@ let W = window.innerWidth;
 let H = window.innerHeight;
 
 var yNotes = -50;
-var yObstacles = -50;
+var yObstacles = -150;
 var xBille = W / 2;
 
 function afficher() {
@@ -66,46 +66,42 @@ function calcul() {
 
     if (yNotes >= H - 60 && yNotes <= H - 40 && xBille == xNotes) {
         document.querySelector(".ecran_rouge").classList.add("vert");
-    }
-    if (yNotes <= H - 60 || yNotes >= H - 40 || xBille != xNotes) {
-        document.querySelector(".ecran_rouge").classList.remove("vert");
+        setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("vert") }, 150);
     }
 
     if (yObstacles >= H - 60 && yObstacles <= H - 40 && xBille == xObstacles) {
         document.querySelector(".ecran_rouge").classList.add("rouge");
+        setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
     }
 
-    if (yObstacles <= H - 60 || yObstacles >= H - 40 || xBille != xObstacles) {
-        document.querySelector(".ecran_rouge").classList.remove("rouge");
-    }
-
-
+    let position = [1, 2, 3];
+    shuffle(position);
 
     if (yNotes <= 0 || yNotes >= H) {
-        position_note = Math.floor(Math.random() * 3);
+        position_note = position.pop();
     }
     if (yObstacles <= 0 || yObstacles >= H) {
-        position_obstacle = Math.floor(Math.random() * 3);
+        position_obstacle = position.pop();
     }
 
 
-    if (position_note == 0) {
+    if (position_note == 1) {
         xNotes = (W * 0.25) - 20;
     }
-    if (position_note == 1) {
+    if (position_note == 2) {
         xNotes = (W * 0.5) - 10;
     }
-    if (position_note == 2) {
+    if (position_note == 3) {
         xNotes = W * 0.75;
     }
 
-    if (position_obstacle == 0) {
+    if (position_obstacle == 1) {
         xObstacles = (W * 0.25) - 20;
     }
-    if (position_obstacle == 1) {
+    if (position_obstacle == 2) {
         xObstacles = (W * 0.5) - 10;
     }
-    if (position_obstacle == 2) {
+    if (position_obstacle == 3) {
         xObstacles = W * 0.75;
     }
 }
@@ -128,6 +124,22 @@ function Inclinaison_Du_Telephone(event) {
     }
     if (gamma <= 25 && gamma >= -25) {
         xBille = (W * 0.5) - 10;
+    }
+}
+
+function shuffle(array) {
+    let currentIndex = array.length;
+
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
+
+        // Pick a remaining element...
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
     }
 }
 
