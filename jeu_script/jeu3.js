@@ -54,7 +54,7 @@ if (navigator.geolocation) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
         }
         else {
-            coordonnées.pop();
+            coordonnées.splice(0, 1);
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
         }
 
