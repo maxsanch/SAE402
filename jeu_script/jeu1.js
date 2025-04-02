@@ -11,24 +11,32 @@ var xObstacles = 0;
 let position_note = 0;
 let position_obstacle = 0;
 let chrono = 0
+let partition_ecriture = {};
 
+let partition_ecran = [];
 let partition = [
     {
         timeur: 25,
         etat: "note",
-        numero: 1
+        numero: 1,
+        vY: 0,
+        Y: -150
     },
     {
-        timeur: 147,
+        timeur: 1470,
         etat: "note",
-        numero: 2
+        numero: 2,
+        vY: 0,
+        Y: -150
     },
     {
-        timeur: 35,
+        timeur: 3500000000000000,
         etat: "obstacle",
-        numero: 3
+        numero: 3,
+        vY: 0,
+        Y: -150
     },
-]
+];
 
 var gravite = 0.01;
 
@@ -72,6 +80,15 @@ function calcul() {
     yNotes += vY;
     yObstacles += vY;
 
+
+    Object.entries(partition_ecran).forEach(([numero_entité, charactéristique]) => {
+        charactéristique.vY += accelerationY;
+        charactéristique.Y += vY;
+
+        if (charactéristique.Y >= H + 50) {
+            // delet charactéristique
+        }
+    })
 
     if (yNotes >= H + 50) {
         vY = 0
@@ -174,8 +191,12 @@ function chrono_incrementage() {
 
 
     Object.entries(partition).forEach(([numero_entité, charactéristique]) => {
-        if (chrono == charactéristique.timeur){
-            console.log("détection de " +numero_entité+ " au timeur "+ chrono)
+        if (chrono == charactéristique.timeur) {
+            partition_ecran.push(charactéristique);
+            console.log("détection de " + numero_entité + " au timeur " + chrono);
         }
     })
+
+    console.log(partition_ecran)
+
 }
