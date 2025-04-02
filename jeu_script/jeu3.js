@@ -8,6 +8,9 @@ let W = window.innerWidth
 
 // le barile
 
+
+document.querySelector('body').innerHTML = "Actualisé";
+
 let xBarile = (window.innerWidth / 2) - 175
 let yBarile = 120
 let yflotte = 160
