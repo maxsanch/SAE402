@@ -122,7 +122,7 @@ function calculeDistance(lastlat, lastlong, lat, long) {
 
     return RayonTerre * c;
 
-    // distance en km 
+    // distance en km
 }
 
 function initialisation() {
@@ -141,8 +141,6 @@ function inclinaison_tel(event) {
     let inclinaison = Math.sin(beta) * alpha + Math.sin(beta) * gamma
 
     aRedressement += 0.000001 * inclinaison;
-
-    // document.querySelector('body').innerHTML = "Gamma = "+ parseInt(event.gamma) + " beta = "+parseInt(event.beta) + " alpha = " + parseInt(event.alpha)
 }
 
 function calculer() {
@@ -150,7 +148,7 @@ function calculer() {
 
     if(vitesse > 1){
         if(contenu >= 1){
-            tremblements = (vitesse * 0.0005) / (contenu/50);
+            tremblements = (vitesse * 0.005) / (contenu/50);
         }
         else{
             tremblements = 0;
