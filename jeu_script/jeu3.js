@@ -48,35 +48,31 @@ let tremblements = 0;
 
 if (navigator.geolocation) {
     console.log('geo on')
-    navigator.geolocation.watchPosition(position => {
+    navigator.geolocation.getCurrentPosition(position => {
+        console.log('test')
 
         let latitude = position.coords.latitude;
         let longitude = position.coords.longitude;
         let tempsActuel = Date.now();
 
-        if((tempsActuel - derniertemps) >= 1000){
-            if (derniereLat && derniereLong) {
-                console.log('ici')
-                distance = calculeDistance(derniereLat, derniereLong, latitude, longitude)
-    
-                temps = (tempsActuel - derniertemps) / 1000;
-    
-                if (temps > 0) {
-                    let vitesse = (distance / temps) * 3600; // km/h
-                    if(vitesse == 0){
-                        vitesse = 1;
-                    }
+        if (derniereLat && derniereLong) {
+            console.log('ici')
+            distance = calculeDistance(derniereLat, derniereLong, latitude, longitude)
+
+            temps = (tempsActuel - derniertemps) / 1000;
+
+            if (temps > 0) {
+                let vitesse = (distance / temps) * 3600; // km/h
+                if (vitesse == 0) {
+                    vitesse = 1;
                 }
             }
-
         }
 
         derniereLat = latitude
         derniereLong = longitude
         derniertemps = tempsActuel
-    }, console.error, { enableHighAccuracy: true });
-
-
+    }, console.error, { enableHighAccuracy: true, timeout: 1000 });
 }
 else {
     console.log('le navigateur ne supporte pas la geolocalisation')
@@ -131,8 +127,8 @@ function inclinaison_tel(event) {
 }
 
 function calculer() {
-    VitesseUtilisateur = 1/vitesse * 10000;
-    tremblement = (vitesse * 0.1) * (contenu/20);
+    VitesseUtilisateur = 1 / vitesse * 10000;
+    tremblement = (vitesse * 0.1) * (contenu / 20);
 
     contenu -= tremblements;
 
@@ -152,11 +148,11 @@ function calculer() {
         }
     }
 
-    if(rotaleft){
+    if (rotaleft) {
         vBarile -= aBarile;
     }
-    if(rotaright){
-         vBarile += aBarile;
+    if (rotaright) {
+        vBarile += aBarile;
     }
 
     vBarile += aRedressement
