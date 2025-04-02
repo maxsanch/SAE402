@@ -185,7 +185,7 @@ function calculer() {
     vBarile += aRedressement;
     angle += vBarile;
 
-    document.querySelector('.info1').innerHTML = `Vitesse estimée : ${vitesse} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
+    document.querySelector('.info1').innerHTML = `Vitesse estimée : ${vitesse} km/h pour ${Math.round(distance*1000)/1000} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
     document.querySelector('.contenu').innerHTML = `Contenu du barile : ${Math.round(contenu*100)/100} %, facteur de baisse lié au tremblements : ${Math.round(tremblements * 1000)/1000}`
 }
 
@@ -209,6 +209,16 @@ function afficher() {
     dessinerRectangle(0, "#5b3c11", 650);  // Baril
     dessinerRectangle(20, "#FFFFF0", 610); // Ombre du baril
     dessinerRectangle(25, "#6b4c21", 600); // Avant du baril
+
+    if(contenu == 0){
+        stopGame();
+    }
+}
+
+function stopGame(){
+    console.log('Perdu.')
+
+    
 }
 
 function boucle() {
