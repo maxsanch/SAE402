@@ -48,20 +48,18 @@ let coordonnées = []
 let tremblements = 0;
 
 if (navigator.geolocation) {
-    console.log('geo on')
     navigator.geolocation.watchPosition(position => {
 
         if (coordonnées.length <= 10) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
-            console.log(coordonnées.length);
         }
         else {
             coordonnées.pop();
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
-            console.log(coordonnées)
         }
 
         if (coordonnées.length == 11) {
+            document.querySelector('.tableau').innerHTML = "";
             let latitude = 0;
             let longitude = 0;
             coordonnées.forEach(element => {
@@ -84,12 +82,17 @@ if (navigator.geolocation) {
                     vitesse = (distance / temps) * 3600; // km/h
                     console.log(vitesse)
                     if (vitesse == 0) {
-                        console.log('nan la')
                         vitesse = 1;
                     }
                 }
+
+                coordonnées.forEach(e=>{
+                    document.querySelector('.tableau').innerHTML += e + " <br> "
+                })
             }
 
+            document.querySelector('.coo').innerHTML = distance * 1000 + " | "+ derniereLat +  " | " + latitude
+            
             derniereLat = latitude
             derniereLong = longitude
             derniertemps = tempsActuel
@@ -145,7 +148,6 @@ function inclinaison_tel(event) {
 function calculer() {
     VitesseUtilisateur = 1 / vitesse * 10000;
 
-    console.log(vitesse)
     if(vitesse > 1){
         if(contenu >= 1){
             tremblements = (vitesse * 0.0005) / (contenu/50);
@@ -180,8 +182,8 @@ function calculer() {
         vBarile += aBarile;
     }
 
-    vBarile += aRedressement
-    angle += vBarile
+    vBarile += aRedressement;
+    angle += vBarile;
 
     document.querySelector('.info1').innerHTML = `Vitesse estimée : ${Math.floor(vitesse)} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
     document.querySelector('.contenu').innerHTML = `Contenu du barile : ${Math.round(contenu*100)/100} %, facteur de baisse lié au tremblements : ${Math.round(tremblements * 1000)/1000}`
