@@ -158,13 +158,16 @@ function inclinaison_tel(event) {
 function calculer() {
     VitesseUtilisateur = 1 / vitesse * 10000;
 
-    if(vitesse > 1){
+    if(vitesse >= 3){
         if(contenu >= 1){
             tremblements = (vitesse * 0.005) / (contenu/50);
         }
         else{
             tremblements = 0;
         }
+    }
+    else{
+        tremblements = 0;
     }
 
     contenu -= tremblements;
