@@ -10,6 +10,25 @@ var xNotes = 0;
 var xObstacles = 0;
 let position_note = 0;
 let position_obstacle = 0;
+let chrono = 0
+
+let partition = [
+    {
+        timeur: 25,
+        etat: "note",
+        numero: 1
+    },
+    {
+        timeur: 147,
+        etat: "note",
+        numero: 2
+    },
+    {
+        timeur: 35,
+        etat: "obstacle",
+        numero: 3
+    },
+]
 
 var gravite = 0.01;
 
@@ -52,6 +71,7 @@ function calcul() {
     vY += accelerationY;
     yNotes += vY;
     yObstacles += vY;
+
 
     if (yNotes >= H + 50) {
         vY = 0
@@ -144,3 +164,18 @@ function shuffle(array) {
 }
 
 boucle();
+chrono_incrementage();
+
+function chrono_incrementage() {
+    chrono++;
+    // console.log(chrono);
+    window.setTimeout("chrono_incrementage();", 1);
+
+
+
+    Object.entries(partition).forEach(([numero_entité, charactéristique]) => {
+        if (chrono == charactéristique.timeur){
+            console.log("détection de " +numero_entité+ " au timeur "+ chrono)
+        }
+    })
+}
