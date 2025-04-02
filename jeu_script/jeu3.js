@@ -51,53 +51,59 @@ if (navigator.geolocation) {
     console.log('geo on')
     navigator.geolocation.watchPosition(position => {
 
-        if(coordonnées.length <= 10){
+        if (coordonnées.length <= 10) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
             console.log(coordonnées);
         }
-        else{
+        else {
             coordonnées.pop();
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
             console.log(coordonnées)
         }
 
+        if (coordonnées.length == 11) {
+            let latitude = 0;
+            let longitude = 0;
+            coordonnées.forEach(element => {
+                latitude += element[0]
+                longitude += element[1]
+            });
 
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-        let tempsActuel = Date.now();
+            latitude = latitude / element.length
+            longitude = longitude / element.length
 
-        // faire une moyenen des points et afficher la distance après
+            let tempsActuel = Date.now();
 
-        if (derniereLat && derniereLong) {
-            console.log('ici')
-            distance = calculeDistance(derniereLat, derniereLong, latitude, longitude)
+            // faire une moyenen des points et afficher la distance après
 
-            temps = (tempsActuel - derniertemps) / 1000; 
-            if (temps > 0) {
-                let vitesse = (distance / temps) * 3600; // km/h
-                if (vitesse == 0) {
-                    vitesse = 1;
+            if (derniereLat && derniereLong) {
+                distance = calculeDistance(derniereLat, derniereLong, latitude, longitude)
+
+                temps = (tempsActuel - derniertemps) / 1000;
+                if (temps > 0) {
+                    let vitesse = (distance / temps) * 3600; // km/h
+                    if (vitesse == 0) {
+                        vitesse = 1;
+                    }
                 }
+
+
+                // sin(beta)*alpha + sin(beta)*gamma
+
+                document.querySelector('body').innerHTML = `Vitesse estimée : ${Math.floor(vitesse)} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
             }
 
-
-            // sin(beta)*alpha + sin(beta)*gamma
- 
-            document.querySelector('body').innerHTML = `Vitesse estimée : ${Math.floor(vitesse)} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
-    }
-
-        derniereLat = latitude
-        derniereLong = longitude
-        derniertemps = tempsActuel
+            derniereLat = latitude
+            derniereLong = longitude
+            derniertemps = tempsActuel
+        }
     }, console.error, { enableHighAccuracy: true });
 }
 else {
     console.log('le navigateur ne supporte pas la geolocalisation')
 }
 
-if(coordonnées.length == 10){
 
-}
 
 function calculeDistance(lastlat, lastlong, lat, long) {
     // transition des coordonnée données par la position de l'utulisateur en KM, aide de l'IA pour cela
