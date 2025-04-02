@@ -48,20 +48,18 @@ let coordonnées = []
 let tremblements = 0;
 
 if (navigator.geolocation) {
-    console.log('geo on')
     navigator.geolocation.watchPosition(position => {
 
-        if (coordonnées.length <= 10) {
+        if (coordonnées.length <= 20) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
-            console.log(coordonnées.length);
         }
         else {
-            coordonnées.pop();
+            coordonnées.splice(0, 1);
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
-            console.log(coordonnées)
         }
 
-        if (coordonnées.length == 11) {
+        if (coordonnées.length == 21) {
+            document.querySelector('.tableau').innerHTML = "";
             let latitude = 0;
             let longitude = 0;
             coordonnées.forEach(element => {
@@ -84,11 +82,16 @@ if (navigator.geolocation) {
                     vitesse = (distance / temps) * 3600; // km/h
                     console.log(vitesse)
                     if (vitesse == 0) {
-                        console.log('nan la')
                         vitesse = 1;
                     }
                 }
+
+                coordonnées.forEach(e=>{
+                    document.querySelector('.tableau').innerHTML += e + " <br> "
+                })
             }
+
+            document.querySelector('.coo').innerHTML = distance * 1000 + " | "+ derniereLat +  " | " + latitude
 
             derniereLat = latitude
             derniereLong = longitude
@@ -96,7 +99,7 @@ if (navigator.geolocation) {
         }
     }, (error) => {
         console.error("Erreur de géolocalisation :", error);
-    }, { enableHighAccuracy: true });
+    }, { enableHighAccuracy: true, timeout: 1000 });
 }
 else {
     console.log('le navigateur ne supporte pas la geolocalisation')
@@ -119,7 +122,7 @@ function calculeDistance(lastlat, lastlong, lat, long) {
 
     return RayonTerre * c;
 
-    // distance en km 
+    // distance en km
 }
 
 function initialisation() {
@@ -130,25 +133,34 @@ function initialisation() {
 window.addEventListener('deviceorientation', inclinaison_tel, true)
 
 function inclinaison_tel(event) {
+    // let beta = event.beta || 0;   // Inclinaison avant-arrière (-180 à 180)
+    // let gamma = event.gamma || 0; // Inclinaison gauche-droite (-90 à 90)
+    // let alpha = event.alpha || 0; // Orientation absolue (0 à 360)
+
+    // // Corriger l'inclinaison en fonction de l'orientation
+    // let inclinaison = Math.sin(beta) * alpha + Math.sin(beta) * gamma
+
+    // aRedressement = 0.0001 * inclinaison;
+
     let beta = event.beta || 0;   // Inclinaison avant-arrière (-180 à 180)
     let gamma = event.gamma || 0; // Inclinaison gauche-droite (-90 à 90)
-    let alpha = event.alpha || 0; // Orientation absolue (0 à 360)
 
-    // Corriger l'inclinaison en fonction de l'orientation
-    let inclinaison = Math.sin(beta) * alpha + Math.sin(beta) * gamma
+    // Seuil pour éviter que de légères inclinaisons ne déclenchent un mouvement
+    let seuilInclinaison = 5; 
 
-    aRedressement += 0.000001 * inclinaison;
-
-    // document.querySelector('body').innerHTML = "Gamma = "+ parseInt(event.gamma) + " beta = "+parseInt(event.beta) + " alpha = " + parseInt(event.alpha)
+    if (Math.abs(gamma) > seuilInclinaison) {
+        aRedressement = gamma * 0.0005; // Ajuste la sensibilité ici
+    } else {
+        aRedressement = 0;
+    }
 }
 
 function calculer() {
     VitesseUtilisateur = 1 / vitesse * 10000;
 
-    console.log(vitesse)
     if(vitesse > 1){
         if(contenu >= 1){
-            tremblements = (vitesse * 0.0005) / (contenu/50);
+            tremblements = (vitesse * 0.005) / (contenu/50);
         }
         else{
             tremblements = 0;
@@ -174,16 +186,16 @@ function calculer() {
     }
 
     if (rotaleft) {
-        vBarile -= aBarile;
+        vBarile = aBarile;
     }
     if (rotaright) {
-        vBarile += aBarile;
+        vBarile = aBarile;
     }
 
-    vBarile += aRedressement
-    angle += vBarile
+    vBarile += aRedressement;
+    angle += vBarile;
 
-    document.querySelector('.info1').innerHTML = `Vitesse estimée : ${Math.floor(vitesse)} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
+    document.querySelector('.info1').innerHTML = `Vitesse estimée : ${vitesse} km/h pour ${Math.round(distance*1000)/1000} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
     document.querySelector('.contenu').innerHTML = `Contenu du barile : ${Math.round(contenu*100)/100} %, facteur de baisse lié au tremblements : ${Math.round(tremblements * 1000)/1000}`
 }
 
@@ -207,6 +219,16 @@ function afficher() {
     dessinerRectangle(0, "#5b3c11", 650);  // Baril
     dessinerRectangle(20, "#FFFFF0", 610); // Ombre du baril
     dessinerRectangle(25, "#6b4c21", 600); // Avant du baril
+
+    if(contenu == 0){
+        stopGame();
+    }
+}
+
+function stopGame(){
+    console.log('Perdu.')
+
+    
 }
 
 function boucle() {
