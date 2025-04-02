@@ -22,7 +22,7 @@ canvas_obstacles.width = window.innerWidth;
 let W = window.innerWidth;
 let H = window.innerHeight;
 
-var yNotes = -50;
+var yNotes = -150;
 var yObstacles = -150;
 var xBille = W / 2;
 
@@ -77,10 +77,10 @@ function calcul() {
     let position = [1, 2, 3];
     shuffle(position);
 
-    if (yNotes <= 0 || yNotes >= H) {
+    if (yNotes <= -50 || yNotes >= H) {
         position_note = position.pop();
     }
-    if (yObstacles <= 0 || yObstacles >= H) {
+    if (yObstacles <= -50 || yObstacles >= H) {
         position_obstacle = position.pop();
     }
 
@@ -116,13 +116,13 @@ window.addEventListener("deviceorientation", Inclinaison_Du_Telephone, true);
 
 function Inclinaison_Du_Telephone(event) {
     const gamma = event.gamma;
-    if (gamma >= 25) {
+    if (gamma >= 20) {
         xBille = W * 0.75;
     }
-    if (gamma <= -25) {
+    if (gamma <= -20) {
         xBille = (W * 0.25) - 20;
     }
-    if (gamma <= 25 && gamma >= -25) {
+    if (gamma <= 20 && gamma >= -20) {
         xBille = (W * 0.5) - 10;
     }
 }
