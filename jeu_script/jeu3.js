@@ -48,7 +48,7 @@ let tremblements = 0;
 
 if (navigator.geolocation) {
     console.log('geo on')
-    navigator.geolocation.getCurrentPosition(position => {
+    navigator.geolocation.watchPosition(position => {
         console.log('test')
 
         let latitude = position.coords.latitude;
@@ -72,7 +72,7 @@ if (navigator.geolocation) {
         derniereLat = latitude
         derniereLong = longitude
         derniertemps = tempsActuel
-    }, console.error, { enableHighAccuracy: true, timeout: 1000 });
+    }, console.error, { enableHighAccuracy: true, timeout: 3000 });
 }
 else {
     console.log('le navigateur ne supporte pas la geolocalisation')
