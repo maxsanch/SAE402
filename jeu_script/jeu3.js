@@ -8,9 +8,6 @@ let W = window.innerWidth
 
 // le barile
 
-
-document.querySelector('body').innerHTML = "Actualisé";
-
 let xBarile = (window.innerWidth / 2) - 175
 let yBarile = 120
 let yflotte = 160
@@ -99,7 +96,6 @@ if (navigator.geolocation) {
         }
     }, (error) => {
         console.error("Erreur de géolocalisation :", error);
-        document.querySelector('body').innerHTML = `Erreur de géolocalisation : ${error.message}`;
     }, { enableHighAccuracy: true });
 }
 else {
@@ -148,7 +144,16 @@ function inclinaison_tel(event) {
 
 function calculer() {
     VitesseUtilisateur = 1 / vitesse * 10000;
-    tremblement = (vitesse * 0.1) * (contenu / 20);
+
+    console.log(vitesse)
+    if(vitesse > 1){
+        if(contenu >= 1){
+            tremblements = (vitesse * 0.0005) / (contenu/50);
+        }
+        else{
+            tremblements = 0;
+        }
+    }
 
     contenu -= tremblements;
 
@@ -178,7 +183,8 @@ function calculer() {
     vBarile += aRedressement
     angle += vBarile
 
-    document.querySelector('body').innerHTML = `Vitesse estimée : ${Math.floor(vitesse)} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
+    document.querySelector('.info1').innerHTML = `Vitesse estimée : ${Math.floor(vitesse)} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
+    document.querySelector('.contenu').innerHTML = `Contenu du barile : ${Math.round(contenu*100)/100} %, facteur de baisse lié au tremblements : ${Math.round(tremblements * 1000)/1000}`
 }
 
 function afficher() {
