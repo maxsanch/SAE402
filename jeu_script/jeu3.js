@@ -56,7 +56,7 @@ if (navigator.geolocation) {
 
         if (coordonnées.length <= 10) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
-            // document.querySelector('body').innerHTML = coordonnées.length;
+            console.log(coordonnées.length);
         }
         else {
             coordonnées.pop();
@@ -72,26 +72,25 @@ if (navigator.geolocation) {
                 longitude += element[1]
             });
 
-            latitude = latitude / element.length
-            longitude = longitude / element.length
+            latitude = latitude / coordonnées.length
+            longitude = longitude / coordonnées.length
 
             let tempsActuel = Date.now();
 
-            // faire une moyenen des points et afficher la distance après
-
-            console.log(derniereLat)
+            // faire une moyenne des points et afficher la distance après
             if (derniereLat && derniereLong) {
                 distance = calculeDistance(derniereLat, derniereLong, latitude, longitude)
 
+                
                 temps = (tempsActuel - derniertemps) / 1000;
                 if (temps > 0) {
-                    let vitesse = (distance / temps) * 3600; // km/h
+                    vitesse = (distance / temps) * 3600; // km/h
+                    console.log(vitesse)
                     if (vitesse == 0) {
+                        console.log('nan la')
                         vitesse = 1;
                     }
                 }
-
-                document.querySelector('body').innerHTML = `Vitesse estimée : ${Math.floor(vitesse)} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
             }
 
             derniereLat = latitude
@@ -178,6 +177,8 @@ function calculer() {
 
     vBarile += aRedressement
     angle += vBarile
+
+    document.querySelector('body').innerHTML = `Vitesse estimée : ${Math.floor(vitesse)} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
 }
 
 function afficher() {
