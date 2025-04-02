@@ -133,14 +133,26 @@ function initialisation() {
 window.addEventListener('deviceorientation', inclinaison_tel, true)
 
 function inclinaison_tel(event) {
+    // let beta = event.beta || 0;   // Inclinaison avant-arrière (-180 à 180)
+    // let gamma = event.gamma || 0; // Inclinaison gauche-droite (-90 à 90)
+    // let alpha = event.alpha || 0; // Orientation absolue (0 à 360)
+
+    // // Corriger l'inclinaison en fonction de l'orientation
+    // let inclinaison = Math.sin(beta) * alpha + Math.sin(beta) * gamma
+
+    // aRedressement = 0.0001 * inclinaison;
+
     let beta = event.beta || 0;   // Inclinaison avant-arrière (-180 à 180)
     let gamma = event.gamma || 0; // Inclinaison gauche-droite (-90 à 90)
-    let alpha = event.alpha || 0; // Orientation absolue (0 à 360)
 
-    // Corriger l'inclinaison en fonction de l'orientation
-    let inclinaison = Math.sin(beta) * alpha + Math.sin(beta) * gamma
+    // Seuil pour éviter que de légères inclinaisons ne déclenchent un mouvement
+    let seuilInclinaison = 5; 
 
-    aRedressement += 0.000001 * inclinaison;
+    if (Math.abs(gamma) > seuilInclinaison) {
+        aRedressement = gamma * 0.0005; // Ajuste la sensibilité ici
+    } else {
+        aRedressement = 0;
+    }
 }
 
 function calculer() {
@@ -174,10 +186,10 @@ function calculer() {
     }
 
     if (rotaleft) {
-        vBarile -= aBarile;
+        vBarile = aBarile;
     }
     if (rotaright) {
-        vBarile += aBarile;
+        vBarile = aBarile;
     }
 
     vBarile += aRedressement;
