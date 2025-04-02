@@ -51,53 +51,58 @@ if (navigator.geolocation) {
     console.log('geo on')
     navigator.geolocation.watchPosition(position => {
 
-        if(coordonnées.length <= 10){
+        if (coordonnées.length <= 10) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
-            console.log(coordonnées);
+            console.log(coordonnées.length);
         }
-        else{
+        else {
             coordonnées.pop();
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
             console.log(coordonnées)
         }
 
+        if (coordonnées.length == 11) {
+            let latitude = 0;
+            let longitude = 0;
+            coordonnées.forEach(element => {
+                latitude += element[0]
+                longitude += element[1]
+            });
 
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-        let tempsActuel = Date.now();
+            latitude = latitude / coordonnées.length
+            longitude = longitude / coordonnées.length
 
-        // faire une moyenen des points et afficher la distance après
+            let tempsActuel = Date.now();
 
-        if (derniereLat && derniereLong) {
-            console.log('ici')
-            distance = calculeDistance(derniereLat, derniereLong, latitude, longitude)
+            // faire une moyenne des points et afficher la distance après
+            if (derniereLat && derniereLong) {
+                distance = calculeDistance(derniereLat, derniereLong, latitude, longitude)
 
-            temps = (tempsActuel - derniertemps) / 1000; 
-            if (temps > 0) {
-                let vitesse = (distance / temps) * 3600; // km/h
-                if (vitesse == 0) {
-                    vitesse = 1;
+                
+                temps = (tempsActuel - derniertemps) / 1000;
+                if (temps > 0) {
+                    vitesse = (distance / temps) * 3600; // km/h
+                    console.log(vitesse)
+                    if (vitesse == 0) {
+                        console.log('nan la')
+                        vitesse = 1;
+                    }
                 }
             }
 
-
-            // sin(beta)*alpha + sin(beta)*gamma
- 
-            document.querySelector('body').innerHTML = `Vitesse estimée : ${Math.floor(vitesse)} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
-    }
-
-        derniereLat = latitude
-        derniereLong = longitude
-        derniertemps = tempsActuel
-    }, console.error, { enableHighAccuracy: true });
+            derniereLat = latitude
+            derniereLong = longitude
+            derniertemps = tempsActuel
+        }
+    }, (error) => {
+        console.error("Erreur de géolocalisation :", error);
+    }, { enableHighAccuracy: true });
 }
 else {
     console.log('le navigateur ne supporte pas la geolocalisation')
 }
 
-if(coordonnées.length == 10){
 
-}
 
 function calculeDistance(lastlat, lastlong, lat, long) {
     // transition des coordonnée données par la position de l'utulisateur en KM, aide de l'IA pour cela
@@ -130,17 +135,7 @@ function inclinaison_tel(event) {
     let alpha = event.alpha || 0; // Orientation absolue (0 à 360)
 
     // Corriger l'inclinaison en fonction de l'orientation
-    let inclinaison = 0;
-    if (alpha >= 45 && alpha <= 135) {
-        // Paysage gauche
-        inclinaison = beta;
-    } else if (alpha >= 225 && alpha <= 315) {
-        // Paysage droit
-        inclinaison = -beta;
-    } else {
-        // Mode portrait standard ou inversé
-        inclinaison = gamma;
-    }
+    let inclinaison = Math.sin(beta) * alpha + Math.sin(beta) * gamma
 
     aRedressement += 0.000001 * inclinaison;
 
@@ -149,7 +144,16 @@ function inclinaison_tel(event) {
 
 function calculer() {
     VitesseUtilisateur = 1 / vitesse * 10000;
-    tremblement = (vitesse * 0.1) * (contenu / 20);
+
+    console.log(vitesse)
+    if(vitesse > 1){
+        if(contenu >= 1){
+            tremblements = (vitesse * 0.0005) / (contenu/50);
+        }
+        else{
+            tremblements = 0;
+        }
+    }
 
     contenu -= tremblements;
 
@@ -178,6 +182,9 @@ function calculer() {
 
     vBarile += aRedressement
     angle += vBarile
+
+    document.querySelector('.info1').innerHTML = `Vitesse estimée : ${Math.floor(vitesse)} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
+    document.querySelector('.contenu').innerHTML = `Contenu du barile : ${Math.round(contenu*100)/100} %, facteur de baisse lié au tremblements : ${Math.round(tremblements * 1000)/1000}`
 }
 
 function afficher() {
