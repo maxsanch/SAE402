@@ -56,7 +56,7 @@ if (navigator.geolocation) {
 
         if (coordonnées.length <= 10) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
-            document.querySelector('body').innerHTML = coordonnées;
+            document.querySelector('body').innerHTML = coordonnées.length;
         }
         else {
             coordonnées.pop();
@@ -89,9 +89,6 @@ if (navigator.geolocation) {
                         vitesse = 1;
                     }
                 }
-
-
-                
 
                 document.querySelector('body').innerHTML = `Vitesse estimée : ${Math.floor(vitesse)} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
             }
