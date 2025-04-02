@@ -56,7 +56,7 @@ if (navigator.geolocation) {
 
         if (coordonnées.length <= 10) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
-            console.log(coordonnées);
+            document.querySelector('body').innerHTML = coordonnées;
         }
         else {
             coordonnées.pop();
@@ -91,7 +91,7 @@ if (navigator.geolocation) {
                 }
 
 
-                // sin(beta)*alpha + sin(beta)*gamma
+                
 
                 document.querySelector('body').innerHTML = `Vitesse estimée : ${Math.floor(vitesse)} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
             }
@@ -139,17 +139,7 @@ function inclinaison_tel(event) {
     let alpha = event.alpha || 0; // Orientation absolue (0 à 360)
 
     // Corriger l'inclinaison en fonction de l'orientation
-    let inclinaison = 0;
-    if (alpha >= 45 && alpha <= 135) {
-        // Paysage gauche
-        inclinaison = beta;
-    } else if (alpha >= 225 && alpha <= 315) {
-        // Paysage droit
-        inclinaison = -beta;
-    } else {
-        // Mode portrait standard ou inversé
-        inclinaison = gamma;
-    }
+    let inclinaison = Math.sin(beta)*alpha + Math.sin(beta)*gamma
 
     aRedressement += 0.000001 * inclinaison;
 
