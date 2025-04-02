@@ -41,6 +41,7 @@ let derniertemps = null;
 let distance = 0;
 let temps = 0
 
+let coordonnées = []
 
 // plus la vitesse est grande, plus le tonneau tremble (impacte surtout au début)
 
@@ -49,33 +50,53 @@ let tremblements = 0;
 if (navigator.geolocation) {
     console.log('geo on')
     navigator.geolocation.watchPosition(position => {
-        console.log('test')
+
+        if(coordonnées.length <= 10){
+            coordonnées.push([position.coords.latitude, position.coords.longitude]);
+            console.log(coordonnées);
+        }
+        else{
+            coordonnées.pop();
+            coordonnées.push([position.coords.latitude, position.coords.longitude]);
+            console.log(coordonnées)
+        }
+
 
         let latitude = position.coords.latitude;
         let longitude = position.coords.longitude;
         let tempsActuel = Date.now();
 
+        // faire une moyenen des points et afficher la distance après
+
         if (derniereLat && derniereLong) {
             console.log('ici')
             distance = calculeDistance(derniereLat, derniereLong, latitude, longitude)
 
-            temps = (tempsActuel - derniertemps) / 1000;
-
+            temps = (tempsActuel - derniertemps) / 1000; 
             if (temps > 0) {
                 let vitesse = (distance / temps) * 3600; // km/h
                 if (vitesse == 0) {
                     vitesse = 1;
                 }
             }
-        }
+
+
+            // sin(beta)*alpha + sin(beta)*gamma
+ 
+            document.querySelector('body').innerHTML = `Vitesse estimée : ${Math.floor(vitesse)} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
+    }
 
         derniereLat = latitude
         derniereLong = longitude
         derniertemps = tempsActuel
-    }, console.error, { enableHighAccuracy: true, timeout: 3000 });
+    }, console.error, { enableHighAccuracy: true });
 }
 else {
     console.log('le navigateur ne supporte pas la geolocalisation')
+}
+
+if(coordonnées.length == 10){
+
 }
 
 function calculeDistance(lastlat, lastlong, lat, long) {
@@ -157,8 +178,6 @@ function calculer() {
 
     vBarile += aRedressement
     angle += vBarile
-
-    document.querySelector('body').innerHTML = `Vitesse estimée : ${Math.floor(vitesse)} km/h pour ${Math.floor(distance)} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
 }
 
 function afficher() {
