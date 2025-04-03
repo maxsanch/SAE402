@@ -16,25 +16,28 @@ let partition_ecriture = {};
 let partition_ecran = [];
 let partition = [
     {
-        timeur: 25,
+        timeur: 465,
         etat: "note",
         numero: 1,
         vY: 0,
-        Y: -150
+        Y: -150,
+        X: 0
     },
     {
-        timeur: 1470,
-        etat: "note",
+        timeur: 465,
+        etat: "obstacle",
         numero: 2,
         vY: 0,
-        Y: -150
+        Y: -150,
+        X: 0
     },
     {
         timeur: 3500000000000000,
         etat: "obstacle",
         numero: 3,
         vY: 0,
-        Y: -150
+        Y: -150,
+        X: 0
     },
 ];
 
@@ -72,6 +75,18 @@ function afficher() {
     ctx_notes.clearRect(0, 0, W, H)
     ctx_notes.fillStyle = "blue";
     ctx_notes.fillRect(xNotes, yNotes, 20, 20)
+
+    Object.entries(partition_ecran).forEach(([numero_entité, charactéristique]) => {
+
+        if (charactéristique.etat == "note") {
+            ctx_notes.fillStyle = "red";
+            ctx_notes.fillRect(xNotes, charactéristique.Y, 20, 20)
+        }
+        if (charactéristique.etat == "obstacle") {
+            ctx_notes.fillStyle = "green";
+            ctx_notes.fillRect(xNotes, charactéristique.Y, 20, 20)
+        }
+    })
 }
 
 function calcul() {
@@ -80,14 +95,42 @@ function calcul() {
     yNotes += vY;
     yObstacles += vY;
 
+    // partition_ecran.forEach( i => {
+    //     i.vY += accelerationY;
+    //     i.Y += vY;
+    // })
+
+    console.log(partition_ecran)
 
     Object.entries(partition_ecran).forEach(([numero_entité, charactéristique]) => {
         charactéristique.vY += accelerationY;
         charactéristique.Y += vY;
 
         if (charactéristique.Y >= H + 50) {
-            // delet charactéristique
+            partition_ecran.splice(0, 1);
         }
+
+        let position = [1, 2, 3];
+        shuffle(position);
+
+        if (yNotes <= -50 || yNotes >= H) {
+            position_note = position.pop();
+        }
+        if (yObstacles <= -50 || yObstacles >= H) {
+            position_obstacle = position.pop();
+        }
+
+
+        if (position_obstacle == 1) {
+            charactéristique.X = (W * 0.25) - 20;
+        }
+        if (position_obstacle == 2) {
+            charactéristique.X = (W * 0.5) - 10;
+        }
+        if (position_obstacle == 3) {
+            charactéristique.X = W * 0.75;
+        }
+
     })
 
     if (yNotes >= H + 50) {
@@ -197,6 +240,6 @@ function chrono_incrementage() {
         }
     })
 
-    console.log(partition_ecran)
+    // console.log(partition_ecran)
 
 }
