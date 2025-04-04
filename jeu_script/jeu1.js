@@ -21,7 +21,8 @@ let partition = [
         numero: 1,
         vY: 0,
         Y: -150,
-        X: 0
+        X: 0,
+        position_partition: 0
     },
     {
         timeur: 465,
@@ -29,7 +30,8 @@ let partition = [
         numero: 2,
         vY: 0,
         Y: -150,
-        X: 0
+        X: 0,
+        position_partition: 0
     },
     {
         timeur: 3500000000000000,
@@ -37,7 +39,8 @@ let partition = [
         numero: 3,
         vY: 0,
         Y: -150,
-        X: 0
+        X: 0,
+        position_partition: 0
     },
 ];
 
@@ -80,11 +83,11 @@ function afficher() {
 
         if (charactéristique.etat == "note") {
             ctx_notes.fillStyle = "red";
-            ctx_notes.fillRect(xNotes, charactéristique.Y, 20, 20)
+            ctx_notes.fillRect(charactéristique.X, charactéristique.Y, 20, 20)
         }
         if (charactéristique.etat == "obstacle") {
             ctx_notes.fillStyle = "green";
-            ctx_notes.fillRect(xNotes, charactéristique.Y, 20, 20)
+            ctx_notes.fillRect(charactéristique.X, charactéristique.Y, 20, 20)
         }
     })
 }
@@ -100,8 +103,10 @@ function calcul() {
     //     i.Y += vY;
     // })
 
-    console.log(partition_ecran)
+let position = [1, 2, 3];
+        shuffle(position);
 
+        
     Object.entries(partition_ecran).forEach(([numero_entité, charactéristique]) => {
         charactéristique.vY += accelerationY;
         charactéristique.Y += vY;
@@ -110,80 +115,82 @@ function calcul() {
             partition_ecran.splice(0, 1);
         }
 
-        let position = [1, 2, 3];
-        shuffle(position);
+        
 
-        if (yNotes <= -50 || yNotes >= H) {
-            position_note = position.pop();
-        }
-        if (yObstacles <= -50 || yObstacles >= H) {
-            position_obstacle = position.pop();
+        if (charactéristique.Y <= -50 || charactéristique.Y >= H) {
+            charactéristique.position_partition = position.pop();
         }
 
 
-        if (position_obstacle == 1) {
+        if (charactéristique.position_partition == 1) {
             charactéristique.X = (W * 0.25) - 20;
         }
-        if (position_obstacle == 2) {
+        if (charactéristique.position_partition == 2) {
             charactéristique.X = (W * 0.5) - 10;
         }
-        if (position_obstacle == 3) {
+        if (charactéristique.position_partition == 3) {
             charactéristique.X = W * 0.75;
         }
 
+
+        console.log(charactéristique.position_partition)
+
     })
 
-    if (yNotes >= H + 50) {
-        vY = 0
-        yNotes = 0 - 50
-    }
-    if (yObstacles >= H + 50) {
-        vY = 0
-        yObstacles = 0 - 50
-    }
 
 
 
-    if (yNotes >= H - 60 && yNotes <= H - 40 && xBille == xNotes) {
-        document.querySelector(".ecran_rouge").classList.add("vert");
-        setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("vert") }, 150);
-    }
-
-    if (yObstacles >= H - 60 && yObstacles <= H - 40 && xBille == xObstacles) {
-        document.querySelector(".ecran_rouge").classList.add("rouge");
-        setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
-    }
-
-    let position = [1, 2, 3];
-    shuffle(position);
-
-    if (yNotes <= -50 || yNotes >= H) {
-        position_note = position.pop();
-    }
-    if (yObstacles <= -50 || yObstacles >= H) {
-        position_obstacle = position.pop();
-    }
+    // if (yNotes >= H + 50) {
+    //     vY = 0
+    //     yNotes = 0 - 50
+    // }
+    // if (yObstacles >= H + 50) {
+    //     vY = 0
+    //     yObstacles = 0 - 50
+    // }
 
 
-    if (position_note == 1) {
-        xNotes = (W * 0.25) - 20;
-    }
-    if (position_note == 2) {
-        xNotes = (W * 0.5) - 10;
-    }
-    if (position_note == 3) {
-        xNotes = W * 0.75;
-    }
 
-    if (position_obstacle == 1) {
-        xObstacles = (W * 0.25) - 20;
-    }
-    if (position_obstacle == 2) {
-        xObstacles = (W * 0.5) - 10;
-    }
-    if (position_obstacle == 3) {
-        xObstacles = W * 0.75;
-    }
+    // if (yNotes >= H - 60 && yNotes <= H - 40 && xBille == xNotes) {
+    //     document.querySelector(".ecran_rouge").classList.add("vert");
+    //     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("vert") }, 150);
+    // }
+
+    // if (yObstacles >= H - 60 && yObstacles <= H - 40 && xBille == xObstacles) {
+    //     document.querySelector(".ecran_rouge").classList.add("rouge");
+    //     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
+    // }
+
+    // let position = [1, 2, 3];
+    // shuffle(position);
+
+    // if (yNotes <= -50 || yNotes >= H) {
+    //     position_note = position.pop();
+    // }
+    // if (yObstacles <= -50 || yObstacles >= H) {
+    //     position_obstacle = position.pop();
+    // }
+
+
+    // if (position_note == 1) {
+    //     xNotes = (W * 0.25) - 20;
+    // }
+    // if (position_note == 2) {
+    //     xNotes = (W * 0.5) - 10;
+    // }
+    // if (position_note == 3) {
+    //     xNotes = W * 0.75;
+    // }
+
+    // if (position_obstacle == 1) {
+    //     xObstacles = (W * 0.25) - 20;
+    // }
+    // if (position_obstacle == 2) {
+    //     xObstacles = (W * 0.5) - 10;
+    // }
+    // if (position_obstacle == 3) {
+    //     xObstacles = W * 0.75;
+    // }
 }
 
 function boucle() {
