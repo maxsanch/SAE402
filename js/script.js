@@ -184,6 +184,7 @@ function initialisation() {
 
 function boucle() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+
     tab.forEach(e => {
         e.x += e.vx
         e.y += e.vy
@@ -213,7 +214,7 @@ function boucle() {
 }
 
 function transition(){
-    
+    console.log('pending')
 }
 
 initialisation();

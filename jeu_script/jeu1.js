@@ -10,6 +10,36 @@ var xNotes = 0;
 var xObstacles = 0;
 let position_note = 0;
 let position_obstacle = 0;
+let chrono = 0
+let partition_ecriture = {};
+
+let partition_ecran = [];
+let partition = [
+    {
+        timeur: 465,
+        etat: "note",
+        numero: 1,
+        vY: 0,
+        Y: -150,
+        X: 0
+    },
+    {
+        timeur: 465,
+        etat: "obstacle",
+        numero: 2,
+        vY: 0,
+        Y: -150,
+        X: 0
+    },
+    {
+        timeur: 3500000000000000,
+        etat: "obstacle",
+        numero: 3,
+        vY: 0,
+        Y: -150,
+        X: 0
+    },
+];
 
 var gravite = 0.01;
 
@@ -22,8 +52,8 @@ canvas_obstacles.width = window.innerWidth;
 let W = window.innerWidth;
 let H = window.innerHeight;
 
-var yNotes = -50;
-var yObstacles = -50;
+var yNotes = -150;
+var yObstacles = -150;
 var xBille = W / 2;
 
 function afficher() {
@@ -45,63 +75,113 @@ function afficher() {
     ctx_notes.clearRect(0, 0, W, H)
     ctx_notes.fillStyle = "blue";
     ctx_notes.fillRect(xNotes, yNotes, 20, 20)
+
+    Object.entries(partition_ecran).forEach(([numero_entité, charactéristique]) => {
+
+        if (charactéristique.etat == "note") {
+            ctx_notes.fillStyle = "red";
+            ctx_notes.fillRect(xNotes, charactéristique.Y, 20, 20)
+        }
+        if (charactéristique.etat == "obstacle") {
+            ctx_notes.fillStyle = "green";
+            ctx_notes.fillRect(xNotes, charactéristique.Y, 20, 20)
+        }
+    })
 }
 
 function calcul() {
     accelerationY = gravite;
     vY += accelerationY;
     yNotes += vY;
+    yObstacles += vY;
+
+    // partition_ecran.forEach( i => {
+    //     i.vY += accelerationY;
+    //     i.Y += vY;
+    // })
+
+    console.log(partition_ecran)
+
+    Object.entries(partition_ecran).forEach(([numero_entité, charactéristique]) => {
+        charactéristique.vY += accelerationY;
+        charactéristique.Y += vY;
+
+        if (charactéristique.Y >= H + 50) {
+            partition_ecran.splice(0, 1);
+        }
+
+        let position = [1, 2, 3];
+        shuffle(position);
+
+        if (yNotes <= -50 || yNotes >= H) {
+            position_note = position.pop();
+        }
+        if (yObstacles <= -50 || yObstacles >= H) {
+            position_obstacle = position.pop();
+        }
+
+
+        if (position_obstacle == 1) {
+            charactéristique.X = (W * 0.25) - 20;
+        }
+        if (position_obstacle == 2) {
+            charactéristique.X = (W * 0.5) - 10;
+        }
+        if (position_obstacle == 3) {
+            charactéristique.X = W * 0.75;
+        }
+
+    })
+
     if (yNotes >= H + 50) {
         vY = 0
-        yNotes = H - 50
+        yNotes = 0 - 50
     }
-
-    if (yNotes >= H - 60 && yNotes <= H - 40 && xBille == xNotes) {
-        document.querySelector("div").style = "display: block;";
-    }
-    if (yNotes <= H - 60 || yNotes >= H - 40 || xBille != xNotes) {
-        document.querySelector("div").style = "display: none;";
-    }
-
-    yObstacles += vY;
     if (yObstacles >= H + 50) {
         vY = 0
-        yObstacles = H - 50
+        yObstacles = 0 - 50
     }
 
-    // if (yObstacles >= H - 60 && yObstacles <= H - 40 && xBille == xNotes) {
-    //     document.querySelector("div").style = "display: block;";
-    // }
 
-    // if (yObstacles <= H - 60 || yObstacles >= H - 40 || xBille != xNotes) {
-    //     document.querySelector("div").style = "display: none;";
-    // }
 
-    if (yNotes <= 0 || yNotes >= H) {
-        position_note = (Math.random() * 3);
+    if (yNotes >= H - 60 && yNotes <= H - 40 && xBille == xNotes) {
+        document.querySelector(".ecran_rouge").classList.add("vert");
+        setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("vert") }, 150);
     }
 
-    if (yObstacles <= 0 || yObstacles >= H) {
-        position_obstacle = (Math.random() * 3);
+    if (yObstacles >= H - 60 && yObstacles <= H - 40 && xBille == xObstacles) {
+        document.querySelector(".ecran_rouge").classList.add("rouge");
+        setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
     }
 
-    if (position_note < 1) {
+    let position = [1, 2, 3];
+    shuffle(position);
+
+    if (yNotes <= -50 || yNotes >= H) {
+        position_note = position.pop();
+    }
+    if (yObstacles <= -50 || yObstacles >= H) {
+        position_obstacle = position.pop();
+    }
+
+
+    if (position_note == 1) {
         xNotes = (W * 0.25) - 20;
     }
-    if (position_note < 2 && position_note >= 1) {
+    if (position_note == 2) {
         xNotes = (W * 0.5) - 10;
     }
-    if (position_note < 3 && position_note >= 2) {
+    if (position_note == 3) {
         xNotes = W * 0.75;
     }
 
-    if (position_obstacle < 1 && xNotes != xObstacles) {
+    if (position_obstacle == 1) {
         xObstacles = (W * 0.25) - 20;
     }
-    if (position_obstacle < 2 && position_obstacle >= 1  && xNotes != xObstacles) {
+    if (position_obstacle == 2) {
         xObstacles = (W * 0.5) - 10;
     }
-    if (position_obstacle < 3 && position_obstacle >= 2  && xNotes != xObstacles) {
+    if (position_obstacle == 3) {
         xObstacles = W * 0.75;
     }
 }
@@ -116,15 +196,50 @@ window.addEventListener("deviceorientation", Inclinaison_Du_Telephone, true);
 
 function Inclinaison_Du_Telephone(event) {
     const gamma = event.gamma;
-    if (gamma >= 25) {
+    if (gamma >= 20) {
         xBille = W * 0.75;
     }
-    if (gamma <= -25) {
+    if (gamma <= -20) {
         xBille = (W * 0.25) - 20;
     }
-    if (gamma <= 25 && gamma >= -25) {
+    if (gamma <= 20 && gamma >= -20) {
         xBille = (W * 0.5) - 10;
     }
 }
 
+function shuffle(array) {
+    let currentIndex = array.length;
+
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
+
+        // Pick a remaining element...
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+    }
+}
+
 boucle();
+chrono_incrementage();
+
+function chrono_incrementage() {
+    chrono++;
+    // console.log(chrono);
+    window.setTimeout("chrono_incrementage();", 1);
+
+
+
+    Object.entries(partition).forEach(([numero_entité, charactéristique]) => {
+        if (chrono == charactéristique.timeur) {
+            partition_ecran.push(charactéristique);
+            console.log("détection de " + numero_entité + " au timeur " + chrono);
+        }
+    })
+
+    // console.log(partition_ecran)
+
+}
