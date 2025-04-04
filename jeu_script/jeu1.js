@@ -11,6 +11,9 @@ var xObstacles = 0;
 let position_note = 0;
 let position_obstacle = 0;
 let chrono = 0
+let temps = 0;
+let temps_avant = 0;
+let temps_difference = 0;
 let partition_ecriture = {};
 
 let partition_ecran = [];
@@ -25,7 +28,7 @@ let partition = [
         position_partition: 0
     },
     {
-        timeur: 465,
+        timeur: 467,
         etat: "obstacle",
         numero: 2,
         vY: 0,
@@ -44,7 +47,7 @@ let partition = [
     },
 ];
 
-var gravite = 0.01;
+var gravite = 1;
 
 canvas_personnage.height = window.innerHeight;
 canvas_personnage.width = window.innerWidth;
@@ -93,20 +96,21 @@ function afficher() {
 }
 
 function calcul() {
-    accelerationY = gravite;
+    temps = performance.now();
+    temps_difference = temps - temps_avant;
+
+
+    console.log(temps_difference);
+    accelerationY = gravite / (temps_difference * 10);
     vY += accelerationY;
-    yNotes += vY;
-    yObstacles += vY;
+    // yNotes += vY;
+    // yObstacles += vY;
 
-    // partition_ecran.forEach( i => {
-    //     i.vY += accelerationY;
-    //     i.Y += vY;
-    // })
 
-let position = [1, 2, 3];
-        shuffle(position);
+    let position = [1, 2, 3];
+    shuffle(position);
 
-        
+
     Object.entries(partition_ecran).forEach(([numero_entité, charactéristique]) => {
         charactéristique.vY += accelerationY;
         charactéristique.Y += vY;
@@ -115,7 +119,7 @@ let position = [1, 2, 3];
             partition_ecran.splice(0, 1);
         }
 
-        
+
 
         if (charactéristique.Y <= -50 || charactéristique.Y >= H) {
             charactéristique.position_partition = position.pop();
@@ -131,10 +135,6 @@ let position = [1, 2, 3];
         if (charactéristique.position_partition == 3) {
             charactéristique.X = W * 0.75;
         }
-
-
-        console.log(charactéristique.position_partition)
-
     })
 
 
@@ -191,6 +191,7 @@ let position = [1, 2, 3];
     // if (position_obstacle == 3) {
     //     xObstacles = W * 0.75;
     // }
+    temps_avant = performance.now();
 }
 
 function boucle() {
@@ -236,7 +237,7 @@ chrono_incrementage();
 function chrono_incrementage() {
     chrono++;
     // console.log(chrono);
-    window.setTimeout("chrono_incrementage();", 1);
+    window.setTimeout(chrono_incrementage, 1);
 
 
 
@@ -246,6 +247,10 @@ function chrono_incrementage() {
             console.log("détection de " + numero_entité + " au timeur " + chrono);
         }
     })
+
+
+
+
 
     // console.log(partition_ecran)
 
