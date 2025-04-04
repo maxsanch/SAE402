@@ -1,0 +1,8 @@
+body{
+    background-color: rgba(135, 207, 235, 0);
+    margin: 0;
+}
+
+#perso{
+    z-index: 2;
+}
