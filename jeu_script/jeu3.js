@@ -43,6 +43,11 @@ let temps = 0
 
 let coordonnées = []
 
+
+// pour baisser le pourcentage de remplissage du barile
+
+let facteurVideAngle = 0;
+
 // plus la vitesse est grande, plus le tonneau tremble (impacte surtout au début)
 
 let tremblements = 0;
@@ -76,7 +81,7 @@ if (navigator.geolocation) {
             if (derniereLat && derniereLong) {
                 distance = calculeDistance(derniereLat, derniereLong, latitude, longitude)
 
-                
+
                 temps = (tempsActuel - derniertemps) / 1000;
                 if (temps > 0) {
                     vitesse = (distance / temps) * 3600; // km/h
@@ -86,12 +91,12 @@ if (navigator.geolocation) {
                     }
                 }
 
-                coordonnées.forEach(e=>{
+                coordonnées.forEach(e => {
                     document.querySelector('.tableau').innerHTML += e + " <br> "
                 })
             }
 
-            document.querySelector('.coo').innerHTML = distance * 1000 + " | "+ derniereLat +  " | " + latitude
+            document.querySelector('.coo').innerHTML = distance * 1000 + " | " + derniereLat + " | " + latitude
 
             derniereLat = latitude
             derniereLong = longitude
@@ -104,7 +109,6 @@ if (navigator.geolocation) {
 else {
     console.log('le navigateur ne supporte pas la geolocalisation')
 }
-
 
 
 function calculeDistance(lastlat, lastlong, lat, long) {
@@ -133,32 +137,33 @@ function initialisation() {
 window.addEventListener('deviceorientation', inclinaison_tel, true)
 
 function inclinaison_tel(event) {
-    let beta = event.beta || 0;   // Inclinaison avant-arrière (-180 à 180)
     let gamma = event.gamma || 0; // Inclinaison gauche-droite (-90 à 90)
-    let alpha = event.alpha || 0; // Orientation absolue (0 à 360)
 
     // Corriger l'inclinaison en fonction de l'orientation
-    let inclinaison = Math.cos(gamma) * alpha + Math.sin(beta) * gamma
+    // let inclinaison = Math.cos(gamma) * alpha + Math.sin(beta) * gamma
 
-    aRedressement = 0.0001 * inclinaison;
+    aRedressement = 0.001 * gamma;
 }
 
 function calculer() {
     VitesseUtilisateur = 1 / vitesse * 10000;
 
-    if(vitesse >= 3){
-        if(contenu >= 1){
-            tremblements = (vitesse * 0.005) / (contenu/50);
+    if (vitesse >= 3) {
+        if (contenu >= 1) {
+            tremblements = (vitesse * 0.005) * (contenu / 50);
         }
-        else{
+        else {
             tremblements = 0;
         }
     }
-    else{
+    else {
         tremblements = 0;
     }
 
     contenu -= tremblements;
+
+
+    // random pour la rotation du tonneau
 
     let Random = parseInt(Math.random() * VitesseUtilisateur)
 
@@ -176,22 +181,65 @@ function calculer() {
         }
     }
 
-    if (rotaleft) {
-        vBarile = aBarile;
-    }
-    if (rotaright) {
-        vBarile = aBarile;
-    }
+    // rotation aléatoire
+
+    // if (rotaleft) {
+    //     vBarile = aBarile;
+    // }
+    // if (rotaright) {
+    //     vBarile = aBarile;
+    // }
 
     vBarile += aRedressement;
-    angle += vBarile;
 
-    document.querySelector('.info1').innerHTML = `Vitesse estimée : ${vitesse} km/h pour ${Math.round(distance*1000)/1000} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
-    document.querySelector('.contenu').innerHTML = `Contenu du barile : ${Math.round(contenu*100)/100} %, facteur de baisse lié au tremblements : ${Math.round(tremblements * 1000)/1000}`
+    // angle qui ne peut pas dépasser les 90 degrés (le tonneau est tombé et rebondi)
+
+    if (angle >= 90) {
+        angle = 90;
+        vBarile = vBarile * -0.5;
+    }
+    if (angle <= -90) {
+        angle = -90;
+        vBarile = vBarile * -0.5;
+    }
+    if (angle <= 90 && angle >= -90) {
+        angle += vBarile;
+    }
+
+
+    // si le tonneau est PublicKeyCredential, ca tombe plus facilement.
+
+    if (contenu >= 90) {
+        if(angle >= 0){
+            facteurVideAngle = (-angle * 0.001) * (contenu / 60)
+        }
+        else{
+            facteurVideAngle = (angle * 0.001) * (contenu / 60)
+        }
+    }
+    else {
+        if (angle >= 30 || angle <= -30) {
+            if(angle >= 0){
+                facteurVideAngle = (-angle * 0.001) * (contenu / 60)
+            }
+            else{
+                facteurVideAngle = (angle * 0.001) * (contenu / 60)
+            }
+        }
+        else {
+            facteurVideAngle = 0
+        }
+    }
+
+    console.log(angle)
+
+    contenu += facteurVideAngle;
+
+    document.querySelector('.info1').innerHTML = `Vitesse estimée : ${vitesse} km/h pour ${Math.round(distance * 1000) / 1000} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
+    document.querySelector('.contenu').innerHTML = `Contenu du barile : ${Math.round(contenu * 100) / 100} %, facteur de baisse lié au tremblements : ${Math.round(tremblements * 1000) / 1000}`
 }
 
 function afficher() {
-
     ctx.fillStyle = "#09C";
     ctx.fillRect(0, 0, W, H);
 
@@ -211,15 +259,15 @@ function afficher() {
     dessinerRectangle(20, "#FFFFF0", 610); // Ombre du baril
     dessinerRectangle(25, "#6b4c21", 600); // Avant du baril
 
-    if(contenu == 0){
+    if (contenu == 0) {
         stopGame();
     }
 }
 
-function stopGame(){
+function stopGame() {
     console.log('Perdu.')
 
-    
+
 }
 
 function boucle() {
