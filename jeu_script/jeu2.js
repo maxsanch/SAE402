@@ -28,7 +28,7 @@ function AfficherFond() {
 
     // rectangle de couleur
     perso.fillStyle = "red";
-    perso.fillRect(0, 0, largeur, hauteur);
+    perso.fillRect(0, 0, largeur, hauteur); 
 
     window.requestAnimationFrame(AfficherFond);
 }
