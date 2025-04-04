@@ -1,8 +1,12 @@
-body{
+body {
     background-color: rgba(135, 207, 235, 0);
     margin: 0;
 }
 
-#perso{
+#perso {
     z-index: 2;
+}
+
+canvas {
+    position: absolute;
 }
