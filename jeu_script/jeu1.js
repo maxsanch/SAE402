@@ -101,7 +101,7 @@ function calcul() {
 
 
     console.log(temps_difference);
-    accelerationY = gravite / (temps_difference * 10);
+    accelerationY = (gravite / (temps_difference * 2.5)) * (gravite / (temps_difference * 2.5));
     vY += accelerationY;
     // yNotes += vY;
     // yObstacles += vY;
