@@ -142,18 +142,11 @@ function initialisation() {
 window.addEventListener('deviceorientation', inclinaison_tel, true)
 
 function inclinaison_tel(event) {
-    let gamma = event.gamma || 0; // Inclinaison gauche-droite (-90 à 90)
-
-    // Corriger l'inclinaison en fonction de l'orientation
-    // let inclinaison = Math.cos(gamma) * alpha + Math.sin(beta) * gamma
-
-    // aRedressement = 0.001 * gamma;
-
     let matrix = getRotationMatrix(event.alpha, event.beta, event.gamma)
 
     let rotation = EulerAngle(matrix)
 
-    console.log(rotation)
+    aRedressement = 0.0001 * -rotation
 }
 
 // pour transformer les angles en une matrice de rotation
@@ -204,7 +197,7 @@ function EulerAngle( matrix ) {
         z = 0;
     }
 
-    return [retouraudegre * x, retouraudegre * y, retouraudegre * z];
+    return retouraudegre * x;
 }
 
 function calculer() {
