@@ -52,6 +52,12 @@ let facteurVideAngle = 0;
 
 let tremblements = 0;
 
+// pour les matrices : 
+
+let x = 0;
+let y = 0;
+let z = 0;
+
 if (navigator.geolocation) {
     navigator.geolocation.watchPosition(position => {
 
@@ -85,7 +91,6 @@ if (navigator.geolocation) {
                 temps = (tempsActuel - derniertemps) / 1000;
                 if (temps > 0) {
                     vitesse = (distance / temps) * 3600; // km/h
-                    console.log(vitesse)
                     if (vitesse == 0) {
                         vitesse = 1;
                     }
@@ -142,7 +147,64 @@ function inclinaison_tel(event) {
     // Corriger l'inclinaison en fonction de l'orientation
     // let inclinaison = Math.cos(gamma) * alpha + Math.sin(beta) * gamma
 
-    aRedressement = 0.001 * gamma;
+    // aRedressement = 0.001 * gamma;
+
+    let matrix = getRotationMatrix(event.alpha, event.beta, event.gamma)
+
+    let rotation = EulerAngle(matrix)
+
+    console.log(rotation)
+}
+
+// pour transformer les angles en une matrice de rotation
+function getRotationMatrix(alpha, beta, gamma){
+    const radiants = Math.PI / 180
+
+    let cX = Math.cos(beta * radiants)
+    let cY = Math.cos( gamma * radiants );
+    let cZ = Math.cos( alpha * radiants );
+    let sX = Math.sin( beta  * radiants );
+    let sY = Math.sin( gamma * radiants );
+    let sZ = Math.sin( alpha * radiants );
+
+    let m11 = cZ * cY - sZ * sX * sY;
+    let m12 = - cX * sZ;
+    let m13 = cY * sZ * sX + cZ * sY;
+
+    let m21 = cY * sZ + cZ * sX * sY;
+    let m22 = cZ * cX;
+    let m23 = sZ * sY - cZ * cY * sX;
+
+    let m31 = - cX * sY;
+    let m32 = sX;
+    let m33 = cX * cY;
+
+    return [
+        m13, m11, m12,
+        m23, m21, m22,
+        m33, m31, m32
+    ];
+}
+
+// fonction pour transformer les valeurs de la matrice en un angle
+
+function EulerAngle( matrix ) {
+    var retouraudegre = 180 / Math.PI; // Radian-to-Degree conversion
+    let sy = Math.sqrt(matrix[0] * matrix[0] +  matrix[3] * matrix[3] );
+ 
+    let singular = sy < 1e-6; // If
+ 
+    if (!singular) {
+        x = Math.atan2(matrix[7] , matrix[8]);
+        y = Math.atan2(-matrix[6], sy);
+        z = Math.atan2(matrix[3], matrix[0]);
+    } else {
+        x = Math.atan2(-matrix[5], matrix[4]);
+        y = Math.atan2(-matrix[6], sy);
+        z = 0;
+    }
+
+    return [retouraudegre * x, retouraudegre * y, retouraudegre * z];
 }
 
 function calculer() {
@@ -231,8 +293,6 @@ function calculer() {
         }
     }
 
-    console.log(angle)
-
     contenu += facteurVideAngle;
 
     document.querySelector('.info1').innerHTML = `Vitesse estimée : ${vitesse} km/h pour ${Math.round(distance * 1000) / 1000} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
@@ -266,8 +326,6 @@ function afficher() {
 
 function stopGame() {
     console.log('Perdu.')
-
-
 }
 
 function boucle() {
