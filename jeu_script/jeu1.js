@@ -28,7 +28,7 @@ let partition = [
         position_partition: 0
     },
     {
-        timeur: 467,
+        timeur: 46007,
         etat: "obstacle",
         numero: 2,
         vY: 0,
@@ -47,7 +47,7 @@ let partition = [
     },
 ];
 
-var gravite = 1;
+var gravite = 100;
 
 canvas_personnage.height = window.innerHeight;
 canvas_personnage.width = window.innerWidth;
@@ -97,12 +97,12 @@ function afficher() {
 
 function calcul() {
     temps = performance.now();
-    temps_difference = temps - temps_avant;
+    temps_difference = (temps - temps_avant) / 1000;
 
 
-    console.log(temps_difference);
-    accelerationY = (gravite / (temps_difference * 2.5)) * (gravite / (temps_difference * 2.5));
-    vY += accelerationY;
+    // console.log(temps_difference);
+    // accelerationY = (gravite / (temps_difference * 2.5)) * (gravite / (temps_difference * 2.5));
+    // vY += accelerationY * temps_difference;
     // yNotes += vY;
     // yObstacles += vY;
 
@@ -112,9 +112,10 @@ function calcul() {
 
 
     Object.entries(partition_ecran).forEach(([numero_entité, charactéristique]) => {
-        charactéristique.vY += accelerationY;
-        charactéristique.Y += vY;
+        charactéristique.vY += gravite * temps_difference;
+        charactéristique.Y += charactéristique.vY * temps_difference;
 
+        // console.log(charactéristique.vY)
         if (charactéristique.Y >= H + 50) {
             partition_ecran.splice(0, 1);
         }
@@ -191,7 +192,7 @@ function calcul() {
     // if (position_obstacle == 3) {
     //     xObstacles = W * 0.75;
     // }
-    temps_avant = performance.now();
+    temps_avant = temps;
 }
 
 function boucle() {
