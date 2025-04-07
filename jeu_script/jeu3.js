@@ -5,6 +5,9 @@ const ctx = draw.getContext('2d')
 let H = window.innerHeight
 let W = window.innerWidth
 
+let front = document.querySelector('.avant-tonneau')
+let fondjeu = document.querySelector('.fond-jeu')
+let back = document.querySelector('.arrière-tonneau')
 
 // le barile
 
@@ -14,7 +17,7 @@ let yflotte = 160
 let yBarileFront = 170
 
 let xCentre = W / 2
-let yCentre = 480
+let yCentre = 600
 
 let aBarile = 0.0001
 let vBarile = 0;
@@ -57,6 +60,12 @@ let tremblements = 0;
 let x = 0;
 let y = 0;
 let z = 0;
+let map = L.map('map').setView([47.742293124114774, 7.2765954224972536], 10);
+
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
 
 if (navigator.geolocation) {
     navigator.geolocation.watchPosition(position => {
@@ -70,7 +79,6 @@ if (navigator.geolocation) {
         }
 
         if (coordonnées.length == 21) {
-            document.querySelector('.tableau').innerHTML = "";
             let latitude = 0;
             let longitude = 0;
             coordonnées.forEach(element => {
@@ -95,13 +103,7 @@ if (navigator.geolocation) {
                         vitesse = 1;
                     }
                 }
-
-                coordonnées.forEach(e => {
-                    document.querySelector('.tableau').innerHTML += e + " <br> "
-                })
             }
-
-            document.querySelector('.coo').innerHTML = distance * 1000 + " | " + derniereLat + " | " + latitude
 
             derniereLat = latitude
             derniereLong = longitude
@@ -150,15 +152,15 @@ function inclinaison_tel(event) {
 }
 
 // pour transformer les angles en une matrice de rotation
-function getRotationMatrix(alpha, beta, gamma){
+function getRotationMatrix(alpha, beta, gamma) {
     const radiants = Math.PI / 180
 
     let cX = Math.cos(beta * radiants)
-    let cY = Math.cos( gamma * radiants );
-    let cZ = Math.cos( alpha * radiants );
-    let sX = Math.sin( beta  * radiants );
-    let sY = Math.sin( gamma * radiants );
-    let sZ = Math.sin( alpha * radiants );
+    let cY = Math.cos(gamma * radiants);
+    let cZ = Math.cos(alpha * radiants);
+    let sX = Math.sin(beta * radiants);
+    let sY = Math.sin(gamma * radiants);
+    let sZ = Math.sin(alpha * radiants);
 
     let m11 = cZ * cY - sZ * sX * sY;
     let m12 = - cX * sZ;
@@ -181,14 +183,14 @@ function getRotationMatrix(alpha, beta, gamma){
 
 // fonction pour transformer les valeurs de la matrice en un angle
 
-function EulerAngle( matrix ) {
+function EulerAngle(matrix) {
     var retouraudegre = 180 / Math.PI; // Radian-to-Degree conversion
-    let sy = Math.sqrt(matrix[0] * matrix[0] +  matrix[3] * matrix[3] );
- 
+    let sy = Math.sqrt(matrix[0] * matrix[0] + matrix[3] * matrix[3]);
+
     let singular = sy < 1e-6; // If
- 
+
     if (!singular) {
-        x = Math.atan2(matrix[7] , matrix[8]);
+        x = Math.atan2(matrix[7], matrix[8]);
         y = Math.atan2(-matrix[6], sy);
         z = Math.atan2(matrix[3], matrix[0]);
     } else {
@@ -265,19 +267,19 @@ function calculer() {
     // si le tonneau est PublicKeyCredential, ca tombe plus facilement.
 
     if (contenu >= 90) {
-        if(angle >= 0){
+        if (angle >= 0) {
             facteurVideAngle = (-angle * 0.001) * (contenu / 60)
         }
-        else{
+        else {
             facteurVideAngle = (angle * 0.001) * (contenu / 60)
         }
     }
     else {
         if (angle >= 30 || angle <= -30) {
-            if(angle >= 0){
+            if (angle >= 0) {
                 facteurVideAngle = (-angle * 0.001) * (contenu / 60)
             }
-            else{
+            else {
                 facteurVideAngle = (angle * 0.001) * (contenu / 60)
             }
         }
@@ -288,29 +290,29 @@ function calculer() {
 
     contenu += facteurVideAngle;
 
-    document.querySelector('.info1').innerHTML = `Vitesse estimée : ${vitesse} km/h pour ${Math.round(distance * 1000) / 1000} KM en ${Math.floor(temps)} secondes <br> La probabilité pour que le tonneau bouge est de : 1 chance sur ${VitesseUtilisateur}`;
-    document.querySelector('.contenu').innerHTML = `Contenu du barile : ${Math.round(contenu * 100) / 100} %, facteur de baisse lié au tremblements : ${Math.round(tremblements * 1000) / 1000}`
+    document.querySelector('.info1').innerHTML = `Speed : <div class='vitesse'>${vitesse} km/h</div>`;
+    document.querySelector('.contenu').innerHTML = `Barrel's content : <div class='pourcents'>${Math.round(contenu * 100) / 100} %</div>`
 }
 
 function afficher() {
     ctx.fillStyle = "#09C";
-    ctx.fillRect(0, 0, W, H);
+    ctx.drawImage(fondjeu, 0, 0, W + 350, H);
 
-    function dessinerRectangle(yDéplacement, color, taille) {
+    function dessinerRectangle(yDéplacement, color, taille, image) {
         // Store the current context state (i.e. rotation, translation etc..)
         ctx.save()
         ctx.translate(xCentre, yCentre);
         //Rotate the canvas around the origin
         ctx.rotate(angle * Math.PI / 180);
         ctx.fillStyle = color;
-        ctx.fillRect(-350 / 2, yDéplacement - taille / 2, 350, taille)
+        ctx.drawImage(image, -500 / 2, yDéplacement - taille / 2, 500, taille);
         // Restore canvas state as saved from above
         ctx.restore();
     }
 
-    dessinerRectangle(0, "#5b3c11", 650);  // Baril
-    dessinerRectangle(20, "#FFFFF0", 610); // Ombre du baril
-    dessinerRectangle(25, "#6b4c21", 600); // Avant du baril
+    dessinerRectangle(0, "#5b3c11", 600, back);  // Baril
+    dessinerRectangle(0, "#FFFFF0", 600, back);
+    dessinerRectangle(0, "#6b4c21", 600, front); // Avant du baril
 
     if (contenu == 0) {
         stopGame();
@@ -328,5 +330,18 @@ function boucle() {
     window.requestAnimationFrame(boucle)
 }
 
-initialisation()
-boucle()
+document.querySelector('.startGame'); addEventListener('click', startGame)
+
+
+function startGame() {
+    document.querySelector('.first').classList.add('none')
+    const audio = document.getElementById("audio");
+    audio.play();
+    initialisation()
+    boucle()
+}
+
+
+
+
+

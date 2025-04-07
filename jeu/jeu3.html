@@ -1,30 +1,58 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>3rd Game - the unstable barrel</title>
     <link rel="stylesheet" href="../jeu_style/jeu3.css">
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
+
 <body>
-    <div class="info1">
+    <div class="first">
+        <div class="histoire">
 
-    </div>
-    <div class="contenu">
-        
-    </div>
-    <div class="tableau">
+        </div>
+        <div class="buttons">
+            <div class="startGame">
+                Start
+            </div>
+            <div class="tutorial">
+                Tutorial
+            </div>
+        </div>
+        <div class="cache">
 
+        </div>
     </div>
-    <div class="coo">
-        
+    <div class="global">
+        <div class="grid">
+            <div class="info1">
+
+            </div>
+            <div class="contenu">
+
+            </div>
+            <div class="grande">
+                <div id="map"></div>
+            </div>
+        </div>
     </div>
+
     <canvas id="barile">
 
     </canvas>
-
+    <img src="../img/front-tonneau.png" class="avant-tonneau" alt="avant-tonneau">
+    <img src="../img/back-tonneau.png" class="arrière-tonneau" alt="arrière-tonneau">
+    <img src="../img/fond-jeu-3.jpg" alt="fond" class="fond-jeu">
+    <audio id="audio" src="../audio/Donkey Kong Country Music SNES - DK Island Swing.mp3"></audio>
     <script src="../jeu_script/jeu3.js">
     </script>
 </body>
+
 </html>
