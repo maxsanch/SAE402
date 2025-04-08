@@ -189,15 +189,6 @@ function calcul() {
             }
         }
     })
-    // if (yNotes >= H - 60 && yNotes <= H - 40 && xBille == xNotes) {
-    //     document.querySelector(".ecran_rouge").classList.add("vert");
-    //     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("vert") }, 150);
-    // }
-
-    // if (yObstacles >= H - 60 && yObstacles <= H - 40 && xBille == xObstacles) {
-    //     document.querySelector(".ecran_rouge").classList.add("rouge");
-    //     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
-    // }
     temps_avant = temps;
 }
 
@@ -243,7 +234,6 @@ chrono_incrementage();
 
 function chrono_incrementage() {
     chrono++;
-    // console.log(chrono);
     window.setTimeout(chrono_incrementage, 1);
 
 
@@ -254,11 +244,4 @@ function chrono_incrementage() {
             console.log("détection de " + numero_entité + " au timeur " + chrono);
         }
     })
-
-
-
-
-
-    // console.log(partition_ecran)
-
 }
