@@ -26,22 +26,32 @@ var largeur = ecrW;
 var hauteur = ecrH;
 var gravité = 1;
 
+// initialisation des variables de la route
+var epaisseurRoute = 50;
+var roadL = (largeur - 3 * epaisseurRoute) / 4; // position de la route à gauche
+var roadM = roadL + epaisseurRoute + ((largeur - 3 * epaisseurRoute) / 4); // position de la route au milieu
+var roadR = roadM + epaisseurRoute + (largeur - 3 * epaisseurRoute) / 4; // position de la route à droite
+var CurrentRoad = 1; // position de la route actuelle (0 = gauche, 1 = milieu, 2 = droite)
+
 // initialisation des variables pour le personnage
-var persoX = 200; // position X du personnage à l'horizontale
+var persoX = hauteur - 100; // position X du personnage à l'horizontale
 var persoY = 200; // position Y du personnage à la verticale
 var tailleX = 50; // taille du personnage à l'horizontale
 var tailleY = 50; // taille du personnage à la verticale
 
-// initialisation des variables de la route
-var epaisseurRoute = 50;
-var roadL = (largeur - 3 * epaisseurRoute) / 4;
-var roadM = roadL + epaisseurRoute + ((largeur - 3 * epaisseurRoute) / 4);
-var roadR = roadM + epaisseurRoute + (largeur - 3 * epaisseurRoute) / 4;
-var spdRoute = 0;
-
 // initialisation des variables de vitesse pour les obstacles / maisons
 var spdObstc = 0;
 var spdMais = 0;
+
+
+
+//////////////////////////////////////////////////////////
+
+
+
+
+
+/////////////////////////////////////////////////////////
 
 function Afficher() {
     perso.clearRect(0, 0, largeur, hauteur);
