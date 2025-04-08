@@ -4,10 +4,10 @@ var canvas_notes = document.querySelector("#canvas_notes");
 var ctx_notes = canvas_notes.getContext("2d");
 var canvas_obstacles = document.querySelector("#canvas_obstacles");
 var ctx_obstacles = canvas_obstacles.getContext("2d");
-var vX = 0;
-var vY = 0;
-var xNotes = 0;
-var xObstacles = 0;
+// var vX = 0;0
+// var vY = 0;
+// var xNotes = 0;
+// var xObstacles = 0;
 let position_note = 0;
 let position_obstacle = 0;
 let chrono = 0
@@ -19,7 +19,7 @@ let partition_ecriture = {};
 let partition_ecran = [];
 let partition = [
     {
-        timeur: 465,
+        timeur: 500,
         etat: "note",
         numero: 1,
         vY: 0,
@@ -28,7 +28,25 @@ let partition = [
         position_partition: 0
     },
     {
-        timeur: 46007,
+        timeur: 500,
+        etat: "note",
+        numero: 1,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        position_partition: 0
+    },
+    {
+        timeur: 500,
+        etat: "note",
+        numero: 1,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        position_partition: 0
+    },
+    {
+        timeur: 450,
         etat: "obstacle",
         numero: 2,
         vY: 0,
@@ -37,7 +55,43 @@ let partition = [
         position_partition: 0
     },
     {
-        timeur: 3500000000000000,
+        timeur: 450,
+        etat: "obstacle",
+        numero: 2,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        position_partition: 0
+    },
+    {
+        timeur: 450,
+        etat: "obstacle",
+        numero: 2,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        position_partition: 0
+    },
+    {
+        timeur: 550,
+        etat: "obstacle",
+        numero: 3,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        position_partition: 0
+    },
+    {
+        timeur: 550,
+        etat: "obstacle",
+        numero: 3,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        position_partition: 0
+    },
+    {
+        timeur: 550,
         etat: "obstacle",
         numero: 3,
         vY: 0,
@@ -71,16 +125,10 @@ function afficher() {
     ctx_personnage.fillRect((W * 0.5) - 10, 0, 20, H)
     ctx_personnage.fillRect(W * 0.75, 0, 20, H)
 
-    ctx_obstacles.clearRect(0, 0, W, H)
-    ctx_obstacles.fillStyle = "yellow";
-    ctx_obstacles.fillRect(xObstacles, yObstacles, 20, 20)
-
     ctx_personnage.fillStyle = "black";
     ctx_personnage.fillRect(xBille, H - 50, 20, 20)
 
     ctx_notes.clearRect(0, 0, W, H)
-    ctx_notes.fillStyle = "blue";
-    ctx_notes.fillRect(xNotes, yNotes, 20, 20)
 
     Object.entries(partition_ecran).forEach(([numero_entité, charactéristique]) => {
 
@@ -99,14 +147,6 @@ function calcul() {
     temps = performance.now();
     temps_difference = (temps - temps_avant) / 1000;
 
-
-    // console.log(temps_difference);
-    // accelerationY = (gravite / (temps_difference * 2.5)) * (gravite / (temps_difference * 2.5));
-    // vY += accelerationY * temps_difference;
-    // yNotes += vY;
-    // yObstacles += vY;
-
-
     let position = [1, 2, 3];
     shuffle(position);
 
@@ -115,8 +155,8 @@ function calcul() {
         charactéristique.vY += gravite * temps_difference;
         charactéristique.Y += charactéristique.vY * temps_difference;
 
-        // console.log(charactéristique.vY)
         if (charactéristique.Y >= H + 50) {
+            console.log(numero_entité + "    " + charactéristique.vY);
             partition_ecran.splice(0, 1);
         }
 
@@ -136,22 +176,19 @@ function calcul() {
         if (charactéristique.position_partition == 3) {
             charactéristique.X = W * 0.75;
         }
+
+
+        if (charactéristique.Y >= H - 60 && charactéristique.Y <= H - 40 && xBille == charactéristique.X) {
+            if (charactéristique.etat == "note") {
+                document.querySelector(".ecran_rouge").classList.add("vert");
+                setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("vert") }, 150);
+            }
+            if (charactéristique.etat == "obstacle") {
+                document.querySelector(".ecran_rouge").classList.add("rouge");
+                setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
+            }
+        }
     })
-
-
-
-
-    // if (yNotes >= H + 50) {
-    //     vY = 0
-    //     yNotes = 0 - 50
-    // }
-    // if (yObstacles >= H + 50) {
-    //     vY = 0
-    //     yObstacles = 0 - 50
-    // }
-
-
-
     // if (yNotes >= H - 60 && yNotes <= H - 40 && xBille == xNotes) {
     //     document.querySelector(".ecran_rouge").classList.add("vert");
     //     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("vert") }, 150);
@@ -160,37 +197,6 @@ function calcul() {
     // if (yObstacles >= H - 60 && yObstacles <= H - 40 && xBille == xObstacles) {
     //     document.querySelector(".ecran_rouge").classList.add("rouge");
     //     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
-    // }
-
-    // let position = [1, 2, 3];
-    // shuffle(position);
-
-    // if (yNotes <= -50 || yNotes >= H) {
-    //     position_note = position.pop();
-    // }
-    // if (yObstacles <= -50 || yObstacles >= H) {
-    //     position_obstacle = position.pop();
-    // }
-
-
-    // if (position_note == 1) {
-    //     xNotes = (W * 0.25) - 20;
-    // }
-    // if (position_note == 2) {
-    //     xNotes = (W * 0.5) - 10;
-    // }
-    // if (position_note == 3) {
-    //     xNotes = W * 0.75;
-    // }
-
-    // if (position_obstacle == 1) {
-    //     xObstacles = (W * 0.25) - 20;
-    // }
-    // if (position_obstacle == 2) {
-    //     xObstacles = (W * 0.5) - 10;
-    // }
-    // if (position_obstacle == 3) {
-    //     xObstacles = W * 0.75;
     // }
     temps_avant = temps;
 }

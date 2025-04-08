@@ -115,3 +115,36 @@ img {
         display: none;
     }
 }
+
+.video{
+    position: absolute;
+    z-index: 1003;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    transform: scale(0);
+}
+
+.ouvrir{
+    display: flex;
+    animation: openvid 0.5s forwards ease-in-out;
+}
+
+@keyframes openvid{
+    0%{
+        transform: scale(0);
+    }
+    100%{
+        display: flex;
+        transform: scale(1);
+    }
+}
+
+.video>video{
+    display: flex;
+    border: 10px #8E4E16 solid;
+}

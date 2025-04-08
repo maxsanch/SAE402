@@ -54,6 +54,9 @@ let facteurVideAngle = 0;
 // plus la vitesse est grande, plus le tonneau tremble (impacte surtout au début)
 
 let tremblements = 0;
+let trembler = 0;
+let tempsTremble = 0;
+let tremblersense = false;
 
 // pour les matrices : 
 
@@ -203,18 +206,36 @@ function EulerAngle(matrix) {
 }
 
 function calculer() {
+
     VitesseUtilisateur = 1 / vitesse * 10000;
 
     // faire trembler le tonneau
 
-
-
     if (vitesse >= 3) {
         if (contenu >= 1) {
-            tremblements = (vitesse * 0.005) * (contenu / 50);
+            tremblements = (vitesse * 0.0002) * (contenu / 70);
         }
         else {
             tremblements = 0;
+        }
+
+        if (tremblersense) {
+            if(tempsTremble <= 5){
+                tempsTremble += 1
+            }
+            else{
+                tremblersense = false;
+            }
+            trembler = vitesse * 0.2;
+        }
+        else {
+            if(tempsTremble >= 0){
+                tempsTremble -= 1
+            }
+            else{
+                tremblersense = true;
+            }
+            trembler = - vitesse * 0.2;
         }
     }
     else {
@@ -291,25 +312,23 @@ function calculer() {
             facteurVideAngle = 0
         }
     }
-
     contenu += facteurVideAngle;
-
-    document.querySelector('.info1').innerHTML = `Speed : <div class='vitesse'>${vitesse} km/h</div>`;
+    document.querySelector('.info1').innerHTML = `Speed : <div class='vitesse'>${Math.floor(vitesse * 100) / 100} km/h</div>`;
     document.querySelector('.contenu').innerHTML = `Barrel's content : <div class='pourcents'>${Math.round(contenu * 100) / 100} %</div>`
 }
 
 function afficher() {
     ctx.fillStyle = "#09C";
     ctx.drawImage(fondjeu, 0, 0, W + 350, H);
-
+    console.log(trembler)
     function dessinerRectangle(yDéplacement, color, taille, image) {
         // Store the current context state (i.e. rotation, translation etc..)
         ctx.save()
-        ctx.translate(xCentre, yCentre);
+        ctx.translate(xCentre, yCentre + trembler);
         //Rotate the canvas around the origin
         ctx.rotate(angle * Math.PI / 180);
         ctx.fillStyle = color;
-        ctx.drawImage(image, -500 / 2, yDéplacement - taille / 2, 500, taille);
+        ctx.drawImage(image, -500 / 2, (yDéplacement - taille / 2) + trembler, 500, taille);
         // Restore canvas state as saved from above
         ctx.restore();
     }
@@ -345,13 +364,25 @@ function startGame() {
     boucle()
 }
 
+const video = document.querySelector('.video>video');
+
 document.querySelector('.tutorial').addEventListener('click', ouvrirVideo)
 
-function ouvrirVideo(){
-    
+function ouvrirVideo() {
+    document.querySelector('.video').classList.add('ouvrir')
+    document.querySelector('.video').classList.remove('none')
+    video.play();
 }
 
+video.addEventListener('ended', fermerVideo)
 
+function fermerVideo() {
+    document.querySelector('.video').classList.add('none')
+    video.pause()
+}
 
-
-
+if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock("landscape").catch(function (error) {
+        console.warn("Orientation lock failed:", error);
+    });
+}
