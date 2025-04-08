@@ -387,16 +387,17 @@ document.querySelector('.tutorial').addEventListener('click', ouvrirVideo)
 
 function ouvrirVideo() {
     document.querySelector('.video').classList.add('ouvrir');
-    document.querySelector('.video').classList.remove('none');
+    document.querySelector('.video').classList.remove('closevid');
     video.play();
+    
 }
 
+document.querySelector('.croix-video').addEventListener('click', fermerVideo);
 video.addEventListener('ended', fermerVideo);
-video.addEventListener('.visible', fermerVideo);
 
 function fermerVideo() {
-    console.log('hey')
-    document.querySelector('.video').classList.add('none');
+    document.querySelector('.video').classList.add('closevid');
+    document.querySelector('.video').classList.remove('ouvrir');
     video.pause();
 }
 
