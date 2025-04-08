@@ -381,20 +381,23 @@ function close(){
     document.querySelector('.errorWindow').classList.remove('ouvrirerror');
 }
 
-const video = document.querySelector('.video>video');
+const video = document.querySelector('.video>.global>video');
 
 document.querySelector('.tutorial').addEventListener('click', ouvrirVideo)
 
 function ouvrirVideo() {
     document.querySelector('.video').classList.add('ouvrir');
-    document.querySelector('.video').classList.remove('none');
+    document.querySelector('.video').classList.remove('closevid');
     video.play();
+    
 }
 
+document.querySelector('.croix-video').addEventListener('click', fermerVideo);
 video.addEventListener('ended', fermerVideo);
 
 function fermerVideo() {
-    document.querySelector('.video').classList.add('none');
+    document.querySelector('.video').classList.add('closevid');
+    document.querySelector('.video').classList.remove('ouvrir');
     video.pause();
 }
 
