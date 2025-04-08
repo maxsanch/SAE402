@@ -197,6 +197,7 @@ function calcul() {
                 charactéristique.toucher = true;
                 document.querySelector(".ecran_rouge").classList.add("rouge");
                 setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
+                score--;
             }
         }
     })
