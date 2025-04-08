@@ -358,16 +358,27 @@ function boucle() {
 }
 
 document.querySelector('.startGame').addEventListener('click', startGame)
+document.querySelector('.button-single-game').addEventListener('click', close)
 
+// coo start : 47.74686, 7.335626139614205 
 
 function startGame() {
-    console.log(latitude);
-    console.log(longitude);
-    document.querySelector('.first').classList.add('none')
-    const audio = document.getElementById("audio");
-    audio.play();
-    initialisation();
-    boucle();
+    if(latVictoire >= 47.74666 && latVictoire <= 47.74706 && longVictoire >= 7.33542 && longVictoire <= 7.33582){
+        document.querySelector('.first').classList.add('none')
+        const audio = document.getElementById("audio");
+        audio.play();
+        initialisation();
+        boucle();
+    }
+    else{
+        document.querySelector('.errorWindow').classList.remove('closerror');
+        document.querySelector('.errorWindow').classList.add('ouvrirerror')
+    }
+}
+
+function close(){
+    document.querySelector('.errorWindow').classList.add('closerror');
+    document.querySelector('.errorWindow').classList.remove('ouvrirerror');
 }
 
 const video = document.querySelector('.video>video');
@@ -375,16 +386,16 @@ const video = document.querySelector('.video>video');
 document.querySelector('.tutorial').addEventListener('click', ouvrirVideo)
 
 function ouvrirVideo() {
-    document.querySelector('.video').classList.add('ouvrir')
-    document.querySelector('.video').classList.remove('none')
+    document.querySelector('.video').classList.add('ouvrir');
+    document.querySelector('.video').classList.remove('none');
     video.play();
 }
 
-video.addEventListener('ended', fermerVideo)
+video.addEventListener('ended', fermerVideo);
 
 function fermerVideo() {
-    document.querySelector('.video').classList.add('none')
-    video.pause()
+    document.querySelector('.video').classList.add('none');
+    video.pause();
 }
 
 if (screen.orientation && screen.orientation.lock) {
@@ -392,3 +403,4 @@ if (screen.orientation && screen.orientation.lock) {
         console.warn("Orientation lock failed:", error);
     });
 }
+

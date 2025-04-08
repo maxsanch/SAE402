@@ -33,9 +33,12 @@ var roadM = roadL + epaisseurRoute + ((largeur - 3 * epaisseurRoute) / 4); // po
 var roadR = roadM + epaisseurRoute + (largeur - 3 * epaisseurRoute) / 4; // position de la route à droite
 var CurrentRoad = 1; // position de la route actuelle (0 = gauche, 1 = milieu, 2 = droite)
 
+// Ajout des positions des voies dans un tableau
+var road = [roadL + epaisseurRoute / 2, roadM + epaisseurRoute / 2, roadR + epaisseurRoute / 2];
+
 // initialisation des variables pour le personnage
 var persoX = hauteur - 100; // position X du personnage à l'horizontale
-var persoY = 200; // position Y du personnage à la verticale
+var persoY = road[CurrentRoad]; // position Y du personnage à la verticale
 var tailleX = 50; // taille du personnage à l'horizontale
 var tailleY = 50; // taille du personnage à la verticale
 
@@ -47,9 +50,24 @@ var spdMais = 0;
 
 //////////////////////////////////////////////////////////
 
+// Fonction pour controler le personnage
+function moveCharacter(direction) {
+    if (direction === "left" && CurrentRoad > 0) {
+        CurrentRoad--; // Déplace vers la voie de gauche
+    } else if (direction === "right" && CurrentRoad < 2) {
+        CurrentRoad++; // Déplace vers la voie de droite
+    }
+    persoY = road[CurrentRoad]; // Met à jour la position horizontale du personnage
+}
 
-
-
+// Gestion des événements du clavier
+document.addEventListener("keydown", function (event) {
+    if (event.key === "q" || event.key === "Q") {
+        moveCharacter("left"); // Déplacement à gauche
+    } else if (event.key === "d" || event.key === "D") {
+        moveCharacter("right"); // Déplacement à droite
+    }
+});
 
 /////////////////////////////////////////////////////////
 
@@ -58,8 +76,7 @@ function Afficher() {
 
     perso.fillStyle = "black";
     perso.fillRect(persoY - (tailleY / 2), persoX - (tailleX / 2), tailleY, tailleX);
-    perso.fillStyle = "red";
-    perso.fillRect(persoY, persoX, 50, 50);
+    
 
     // affichage de la route
     route.clearRect(0, 0, largeur, hauteur);
