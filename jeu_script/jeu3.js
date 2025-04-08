@@ -381,7 +381,7 @@ function close(){
     document.querySelector('.errorWindow').classList.remove('ouvrirerror');
 }
 
-const video = document.querySelector('.video>video');
+const video = document.querySelector('.video>.global>video');
 
 document.querySelector('.tutorial').addEventListener('click', ouvrirVideo)
 
@@ -392,8 +392,10 @@ function ouvrirVideo() {
 }
 
 video.addEventListener('ended', fermerVideo);
+video.addEventListener('.visible', fermerVideo);
 
 function fermerVideo() {
+    console.log('hey')
     document.querySelector('.video').classList.add('none');
     video.pause();
 }

@@ -12,6 +12,7 @@ body {
 
 img {
     display: none;
+    width: 100%;
 }
 
 .grid {
@@ -119,14 +120,14 @@ img {
 .video{
     position: absolute;
     z-index: 1003;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     align-items: center;
     justify-content: center;
     display: none;
     transform: scale(0);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .ouvrir{
@@ -143,9 +144,16 @@ img {
     }
 }
 
-.video>video{
+.video>.global{
+    position: relative;
+    width: 80%;
+}
+
+.video>.global>video{
     display: flex;
-    border: 10px #8E4E16 solid;
+    border: 10px #F6EFDB solid;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .errorWindow {
@@ -220,4 +228,15 @@ img {
     display: flex;
     flex-direction: column;
     gap: 50px;
+}
+
+.visible{
+    display: block;
+}
+
+.croix-video{
+    background-color: #F6EFDB;
+    position: absolute;
+    bottom: 3px;
+    left: 3px;
 }
