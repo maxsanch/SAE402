@@ -25,78 +25,86 @@ let partition = [
         toucher: false, 
         position_partition: 0
     },
-    // {
-    //     timeur: 500,
-    //     etat: "note",
-    //     numero: 1,
-    //     vY: 0,
-    //     Y: -150,
-    //     X: 0,
-    //     position_partition: 0
-    // },
-    // {
-    //     timeur: 500,
-    //     etat: "note",
-    //     numero: 1,
-    //     vY: 0,
-    //     Y: -150,
-    //     X: 0,
-    //     position_partition: 0
-    // },
-    // {
-    //     timeur: 450,
-    //     etat: "obstacle",
-    //     numero: 2,
-    //     vY: 0,
-    //     Y: -150,
-    //     X: 0,
-    //     position_partition: 0
-    // },
-    // {
-    //     timeur: 450,
-    //     etat: "obstacle",
-    //     numero: 2,
-    //     vY: 0,
-    //     Y: -150,
-    //     X: 0,
-    //     position_partition: 0
-    // },
-    // {
-    //     timeur: 450,
-    //     etat: "obstacle",
-    //     numero: 2,
-    //     vY: 0,
-    //     Y: -150,
-    //     X: 0,
-    //     position_partition: 0
-    // },
-    // {
-    //     timeur: 550,
-    //     etat: "obstacle",
-    //     numero: 3,
-    //     vY: 0,
-    //     Y: -150,
-    //     X: 0,
-    //     position_partition: 0
-    // },
-    // {
-    //     timeur: 550,
-    //     etat: "obstacle",
-    //     numero: 3,
-    //     vY: 0,
-    //     Y: -150,
-    //     X: 0,
-    //     position_partition: 0
-    // },
-    // {
-    //     timeur: 550,
-    //     etat: "obstacle",
-    //     numero: 3,
-    //     vY: 0,
-    //     Y: -150,
-    //     X: 0,
-    //     position_partition: 0
-    // },
+    {
+        timeur: 500,
+        etat: "note",
+        numero: 1,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        toucher: false, 
+        position_partition: 0
+    },
+    {
+        timeur: 500,
+        etat: "note",
+        numero: 1,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        toucher: false, 
+        position_partition: 0
+    },
+    {
+        timeur: 450,
+        etat: "obstacle",
+        numero: 2,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        toucher: false, 
+        position_partition: 0
+    },
+    {
+        timeur: 450,
+        etat: "obstacle",
+        numero: 2,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        toucher: false, 
+        position_partition: 0
+    },
+    {
+        timeur: 450,
+        etat: "obstacle",
+        numero: 2,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        toucher: false, 
+        position_partition: 0
+    },
+    {
+        timeur: 550,
+        etat: "obstacle",
+        numero: 3,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        toucher: false, 
+        position_partition: 0
+    },
+    {
+        timeur: 550,
+        etat: "obstacle",
+        numero: 3,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        toucher: false, 
+        position_partition: 0
+    },
+    {
+        timeur: 550,
+        etat: "obstacle",
+        numero: 3,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        toucher: false, 
+        position_partition: 0
+    },
 ];
 
 var gravite = 100;
@@ -115,6 +123,7 @@ var yObstacles = -150;
 var xBille = W / 2;
 
 function afficher() {
+    document.querySelector(".score").innerHTML = "Score : " + (score * 100) + "";
     ctx_personnage.fillStyle = "pink";
     ctx_personnage.fillRect(0, 0, W, H);
 
@@ -188,6 +197,7 @@ function calcul() {
                 charactéristique.toucher = true;
                 document.querySelector(".ecran_rouge").classList.add("rouge");
                 setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
+                score--;
             }
         }
     })
