@@ -205,6 +205,10 @@ function EulerAngle(matrix) {
 function calculer() {
     VitesseUtilisateur = 1 / vitesse * 10000;
 
+    // faire trembler le tonneau
+
+
+
     if (vitesse >= 3) {
         if (contenu >= 1) {
             tremblements = (vitesse * 0.005) * (contenu / 50);
@@ -330,7 +334,7 @@ function boucle() {
     window.requestAnimationFrame(boucle)
 }
 
-document.querySelector('.startGame'); addEventListener('click', startGame)
+document.querySelector('.startGame').addEventListener('click', startGame)
 
 
 function startGame() {
@@ -339,6 +343,12 @@ function startGame() {
     audio.play();
     initialisation()
     boucle()
+}
+
+document.querySelector('.tutorial').addEventListener('click', ouvrirVideo)
+
+function ouvrirVideo(){
+    
 }
 
 
