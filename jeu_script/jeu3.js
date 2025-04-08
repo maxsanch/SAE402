@@ -19,7 +19,7 @@ let yBarileFront = 170
 let xCentre = W / 2
 let yCentre = 600
 
-let aBarile = 0.0001
+let aBarile = 0.001
 let vBarile = 0;
 
 let rotaleft = false;
@@ -42,10 +42,12 @@ let derniereLat = null;
 let derniereLong = null;
 let derniertemps = null;
 let distance = 0;
-let temps = 0
+let temps = 0;
 
-let coordonnées = []
+let coordonnées = [];
 
+let latVictoire = 0;
+let longVictoire = 0;
 
 // pour baisser le pourcentage de remplissage du barile
 
@@ -72,6 +74,8 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 if (navigator.geolocation) {
     navigator.geolocation.watchPosition(position => {
+        latVictoire = position.coords.latitude;
+        longVictoire = position.coords.longitude;
 
         if (coordonnées.length <= 20) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
@@ -207,7 +211,7 @@ function EulerAngle(matrix) {
 
 function calculer() {
 
-    VitesseUtilisateur = 1 / vitesse * 10000;
+    VitesseUtilisateur = 1 / vitesse * 1000;
 
     // faire trembler le tonneau
 
@@ -220,13 +224,13 @@ function calculer() {
         }
 
         if (tremblersense) {
-            if(tempsTremble <= 5){
+            if(tempsTremble <= (20/vitesse)){
                 tempsTremble += 1
             }
             else{
                 tremblersense = false;
             }
-            trembler = vitesse * 0.2;
+            trembler = 0.8;
         }
         else {
             if(tempsTremble >= 0){
@@ -235,7 +239,7 @@ function calculer() {
             else{
                 tremblersense = true;
             }
-            trembler = - vitesse * 0.2;
+            trembler = - 0.8;
         }
     }
     else {
@@ -248,16 +252,17 @@ function calculer() {
     // random pour la rotation du tonneau
 
     let Random = parseInt(Math.random() * VitesseUtilisateur)
-
     if (Random == 1) {
         let R2 = parseInt(Math.random() * 10)
 
         if (R2 <= 4) {
+            console.log('hey')
             rotaleft = true;
             rotaright = false;
         }
 
         if (R2 >= 5) {
+            console.log('droite')
             rotaright = true;
             rotaleft = false;
         }
@@ -265,12 +270,12 @@ function calculer() {
 
     // rotation aléatoire
 
-    // if (rotaleft) {
-    //     vBarile = aBarile;
-    // }
-    // if (rotaright) {
-    //     vBarile = aBarile;
-    // }
+    if (rotaleft) {
+        vBarile -= aBarile;
+    }
+    if (rotaright) {
+        vBarile += aBarile;
+    }
 
     vBarile += aRedressement;
 
@@ -289,7 +294,7 @@ function calculer() {
     }
 
 
-    // si le tonneau est PublicKeyCredential, ca tombe plus facilement.
+    // si le tonneau est plus penché, ca se vide plus facilement.
 
     if (contenu >= 90) {
         if (angle >= 0) {
@@ -320,7 +325,6 @@ function calculer() {
 function afficher() {
     ctx.fillStyle = "#09C";
     ctx.drawImage(fondjeu, 0, 0, W + 350, H);
-    console.log(trembler)
     function dessinerRectangle(yDéplacement, color, taille, image) {
         // Store the current context state (i.e. rotation, translation etc..)
         ctx.save()
@@ -357,11 +361,13 @@ document.querySelector('.startGame').addEventListener('click', startGame)
 
 
 function startGame() {
+    console.log(latitude);
+    console.log(longitude);
     document.querySelector('.first').classList.add('none')
     const audio = document.getElementById("audio");
     audio.play();
-    initialisation()
-    boucle()
+    initialisation();
+    boucle();
 }
 
 const video = document.querySelector('.video>video');
