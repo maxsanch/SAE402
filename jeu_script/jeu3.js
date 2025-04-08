@@ -65,7 +65,8 @@ let tremblersense = false;
 let x = 0;
 let y = 0;
 let z = 0;
-let map = L.map('map').setView([47.742293124114774, 7.2765954224972536], 10);
+
+let map = L.map('map').setView([47.742293124114774, 7.335626139614205], 15);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
