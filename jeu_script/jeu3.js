@@ -358,6 +358,7 @@ function boucle() {
 }
 
 document.querySelector('.startGame').addEventListener('click', startGame)
+document.querySelector('.button-single-game').addEventListener('click', close)
 
 // coo start : 47.74686, 7.335626139614205 
 
@@ -370,9 +371,14 @@ function startGame() {
         boucle();
     }
     else{
-        console.log("vous n'êtes pas au bon endroit.")
-        
+        document.querySelector('.errorWindow').classList.remove('closerror');
+        document.querySelector('.errorWindow').classList.add('ouvrirerror')
     }
+}
+
+function close(){
+    document.querySelector('.errorWindow').classList.add('closerror');
+    document.querySelector('.errorWindow').classList.remove('ouvrirerror');
 }
 
 const video = document.querySelector('.video>video');
@@ -397,3 +403,4 @@ if (screen.orientation && screen.orientation.lock) {
         console.warn("Orientation lock failed:", error);
     });
 }
+
