@@ -265,3 +265,52 @@ img {
     z-index: 10000;
     left: 3px;
 }
+
+.victoire, .defaite{
+    position: fixed;
+    z-index: 10005;
+    background: #FFF1B8;
+    color: #000004;
+    padding: 10px;
+    border: solid 5px #8E4E16;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    gap: 25px;
+    flex-direction: column;
+    width: 80%;
+    font-size: 18px;
+}
+
+.title-stat{
+    font-weight: bold;
+}
+
+.stats{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.message{
+    font-weight: bold;
+    text-align: center;
+    font-size: 25px;
+}
+
+.button-victory, .button-play-again{
+    font-family: pixel;
+    background: linear-gradient(45deg, #FFB515, #8E4E16);
+    padding: 8px;
+    box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 0.25);
+    padding-inline: 20px;
+    color: #000004;
+    -webkit-text-stroke: 1px #FFF1B8;
+    text-align: center;
+    transition: 0.4s;
+}
+
+.button-victory:active, .button-play-again:active{
+    transform: scale(0.9);
+}

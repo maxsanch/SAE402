@@ -1,3 +1,22 @@
+// selecteurs sur les différents éléments
+
+document.querySelector('.startGame').addEventListener('click', startGame)
+document.querySelector('.button-single-game').addEventListener('click', close)
+
+// coo start : 47.74686, 7.335626139614205
+// co victoire :
+// 47.74712, 7.33655
+
+const video = document.querySelector('.video>.global>video');
+
+document.querySelector('.croix-video').addEventListener('click', fermerVideo);
+video.addEventListener('ended', fermerVideo);
+
+
+document.querySelector('.tutorial').addEventListener('click', ouvrirVideo)
+
+// variables pour le jeu (initialisation)
+
 const draw = document.querySelector('#barile')
 
 const ctx = draw.getContext('2d')
@@ -70,10 +89,10 @@ let z = 0;
 let victoire = false;
 let finJeu = false;
 
-let map = L.map('map').setView([47.742293124114774, 7.335626139614205], 15);
+let map = L.map('map').setView([47.742293124114774, 7.335626139614205], 18);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
+    maxZoom: 20,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
@@ -81,6 +100,8 @@ if (navigator.geolocation) {
     navigator.geolocation.watchPosition(position => {
         latVictoire = position.coords.latitude;
         longVictoire = position.coords.longitude;
+
+        map.setView([latVictoire, longVictoire], 18);
 
         if (coordonnées.length <= 20) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
@@ -218,7 +239,7 @@ function EulerAngle(matrix) {
 
 function calculer() {
 
-    if((latVictoire >= 47.74692 && latVictoire <= 47.74742 && longVictoire >= 7.33635 && longVictoire <= 7.33675) || contenu == 0){
+    if((latVictoire >= 47.74692 && latVictoire <= 47.74742 && longVictoire >= 7.33635 && longVictoire <= 7.33675) || contenu <= 1){
         finJeu = true;
     }
 
@@ -263,13 +284,11 @@ function calculer() {
         let R2 = parseInt(Math.random() * 10)
 
         if (R2 <= 4) {
-            console.log('hey')
             rotaleft = true;
             rotaright = false;
         }
 
         if (R2 >= 5) {
-            console.log('droite')
             rotaright = true;
             rotaleft = false;
         }
@@ -373,17 +392,14 @@ function boucle() {
     }
 }
 
-document.querySelector('.startGame').addEventListener('click', startGame)
-document.querySelector('.button-single-game').addEventListener('click', close)
-
-// coo start : 47.74686, 7.335626139614205
-// co victoire :
-// 47.74712, 7.33655
+// débuter le jeu
 
 function startGame() {
     if(latVictoire >= 47.74666 && latVictoire <= 47.74706 && longVictoire >= 7.33542 && longVictoire <= 7.33582){
         document.querySelector('.first').classList.add('none')
         const audio = document.getElementById("audio");
+        // Date.now ou performance.now
+
         audio.play();
         initialisation();
         boucle();
@@ -394,24 +410,22 @@ function startGame() {
     }
 }
 
+// fermer la pop up
+
 function close(){
     document.querySelector('.errorWindow').classList.add('closerror');
     document.querySelector('.errorWindow').classList.remove('ouvrirerror');
 }
 
-const video = document.querySelector('.video>.global>video');
-
-document.querySelector('.tutorial').addEventListener('click', ouvrirVideo)
+// ouvrir la video
 
 function ouvrirVideo() {
     document.querySelector('.video').classList.add('ouvrir');
     document.querySelector('.video').classList.remove('closevid');
     video.play();
-    
 }
 
-document.querySelector('.croix-video').addEventListener('click', fermerVideo);
-video.addEventListener('ended', fermerVideo);
+// fermer la video
 
 function fermerVideo() {
     document.querySelector('.video').classList.add('closevid');
@@ -424,4 +438,3 @@ if (screen.orientation && screen.orientation.lock) {
         console.warn("Orientation lock failed:", error);
     });
 }
-
