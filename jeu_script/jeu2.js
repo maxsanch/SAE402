@@ -149,7 +149,7 @@ function Afficher() {
     if (viePlayer <= 0) {
         window.cancelAnimationFrame(Afficher); // Arrête l'animation si le joueur n'a plus de vies
         clearScreen(); // retire les canvass en les passant en display none
-        if (score > 30){
+        if (score >= 30){
             console.log("Vous avez gagné, Votre score est de " + score + ".");
         }
         else{
