@@ -43,7 +43,6 @@ let derniereLong = null;
 let derniertemps = null;
 let distance = 0;
 let temps = 0;
-
 let coordonnées = [];
 
 let latVictoire = 0;
@@ -65,6 +64,11 @@ let tremblersense = false;
 let x = 0;
 let y = 0;
 let z = 0;
+
+// fin du jeu
+
+let victoire = false;
+let finJeu = false;
 
 let map = L.map('map').setView([47.742293124114774, 7.335626139614205], 15);
 
@@ -159,6 +163,8 @@ function inclinaison_tel(event) {
     aRedressement = 0.0001 * -rotation
 }
 
+
+
 // pour transformer les angles en une matrice de rotation
 function getRotationMatrix(alpha, beta, gamma) {
     const radiants = Math.PI / 180
@@ -212,10 +218,12 @@ function EulerAngle(matrix) {
 
 function calculer() {
 
+    if((latVictoire >= 47.74692 && latVictoire <= 47.74742 && longVictoire >= 7.33635 && longVictoire <= 7.33675) || contenu == 0){
+        finJeu = true;
+    }
+
     VitesseUtilisateur = 1 / vitesse * 1000;
-
     // faire trembler le tonneau
-
     if (vitesse >= 3) {
         if (contenu >= 1) {
             tremblements = (vitesse * 0.0002) * (contenu / 70);
@@ -248,8 +256,6 @@ function calculer() {
     }
 
     contenu -= tremblements;
-
-
     // random pour la rotation du tonneau
 
     let Random = parseInt(Math.random() * VitesseUtilisateur)
@@ -268,16 +274,13 @@ function calculer() {
             rotaleft = false;
         }
     }
-
     // rotation aléatoire
-
     if (rotaleft) {
         vBarile -= aBarile;
     }
     if (rotaright) {
         vBarile += aBarile;
     }
-
     vBarile += aRedressement;
 
     // angle qui ne peut pas dépasser les 90 degrés (le tonneau est tombé et rebondi)
@@ -341,27 +344,41 @@ function afficher() {
     dessinerRectangle(0, "#5b3c11", 600, back);  // Baril
     dessinerRectangle(0, "#FFFFF0", 600, back);
     dessinerRectangle(0, "#6b4c21", 600, front); // Avant du baril
-
-    if (contenu == 0) {
-        stopGame();
-    }
 }
 
 function stopGame() {
-    console.log('Perdu.')
+    if(victoire){
+        
+    }
+    else{
+
+    }
 }
 
 function boucle() {
-    calculer()
-    afficher()
+    if(finJeu){
+        if(contenu >= 50){
+            victoire = true;
+        }
+        else {
+            victoire = false;
+        }
 
-    window.requestAnimationFrame(boucle)
+        stopGame();
+    }
+    else {
+        calculer()
+        afficher()
+        window.requestAnimationFrame(boucle)
+    }
 }
 
 document.querySelector('.startGame').addEventListener('click', startGame)
 document.querySelector('.button-single-game').addEventListener('click', close)
 
-// coo start : 47.74686, 7.335626139614205 
+// coo start : 47.74686, 7.335626139614205
+// co victoire :
+// 47.74712, 7.33655
 
 function startGame() {
     if(latVictoire >= 47.74666 && latVictoire <= 47.74706 && longVictoire >= 7.33542 && longVictoire <= 7.33582){
