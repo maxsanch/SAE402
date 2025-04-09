@@ -3,8 +3,20 @@ body {
     margin: 0;
 }
 
-#perso {
+#route{
+    z-index: 0;
+}
+
+#maisons {
+    z-index: 1;
+}
+
+#obstacles {
     z-index: 2;
+}
+
+#perso {
+    z-index: 3;
 }
 
 canvas {
