@@ -77,6 +77,24 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
+let collision = false; // Variable pour vérifier la collision
+
+// Fonction pour détecter les collisions
+function detectCollision() {
+    // Vérifie si les zones du personnage et de l'obstacle se chevauchent
+    if (
+        obstacleY + tailleY > persoX - tailleX / 2 && // Bas de l'obstacle atteint le haut du personnage
+        obstacleY < persoX + tailleX / 2 &&          // Haut de l'obstacle atteint le bas du personnage
+        obstacleX + tailleX / 2 > persoY - tailleY / 2 && // Droite de l'obstacle atteint la gauche du personnage
+        obstacleX - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'obstacle atteint la droite du personnage
+    ) {
+        console.log("Collision détectée !");
+        collision = true; // Met à jour la variable de collision
+        // Vous pouvez ajouter ici des actions à effectuer en cas de collision
+        // Par exemple : réinitialiser le jeu, réduire des points de vie, etc.
+    }
+}
+
 /////////////////////////////////////////////////////////
 
 function Afficher() {
@@ -95,7 +113,17 @@ function Afficher() {
     if (obstacleY > hauteur) {
         obstacleY = 0; // Réinitialise la position de l'obstacle
         obstacleX = road[Math.floor(Math.random() * 3)]; // Change la position de l'obstacle aléatoirement
+        if (collision === true){
+            score++; // Augmente le score
+            console.log(score);
+        }
+        collision = false; // Réinitialise la variable de collision
+        // score++; // Augmente le score
+        // console.log(score);
     }
+
+
+    detectCollision(); // Vérifie les collisions
     
 
     // affichage de la route
