@@ -11,6 +11,10 @@ body {
 }
 
 img {
+    width: 100%;
+}
+
+.invisibleImage{
     display: none;
 }
 
@@ -119,14 +123,14 @@ img {
 .video{
     position: absolute;
     z-index: 1003;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     align-items: center;
     justify-content: center;
     display: none;
     transform: scale(0);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .ouvrir{
@@ -139,22 +143,125 @@ img {
         transform: scale(0);
     }
     100%{
-        display: flex;
         transform: scale(1);
     }
 }
 
-.video>video{
+.video>.global{
+    position: relative;
+    width: 80%;
+}
+
+.video>.global>video{
     display: flex;
-    border: 10px #8E4E16 solid;
+    border: 10px #F6EFDB solid;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .errorWindow {
     color: black;
     position: fixed;
     top: 50%;
+    left: 50%;
+    width: 50%;
+    border: 3px solid #B26E00;
     transform: translate(-50%, -50%);
     background: #F6EFDB;
     box-shadow: 2px 2px 2px #000004;
-    z-index: 1005;    
+    z-index: 1005;
+    padding: 20px;
+    padding-inline: 50px;
+    font-size: 20px;
+    display: none;
+    transform: scale(0);
+
+}
+
+.buttons-error>div{
+    font-family: pixel;
+    background: linear-gradient(45deg, #FFB515, #8E4E16);
+    padding: 8px;
+    box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 0.25);
+    padding-inline: 20px;
+    color: #000004;
+    -webkit-text-stroke: 1px #FFF1B8;
+    text-align: center;
+    z-index: 1002;
+    transition: 0.3s;
+}
+.button-single-map:active{
+    transform: scale(0.9);
+}
+
+.ouvrirerror{
+    display: block;
+    animation: open2 0.5s forwards ease-in-out;
+}
+
+.closerror{
+    display: block;
+    animation: close2 0.5s forwards ease-in-out;
+}
+
+.closevid{
+    display: flex;
+    animation: closevid 0.5s forwards ease-in-out;
+}
+
+@keyframes closevid{
+    0%{
+        transform: scale(1);
+    }
+    99%{
+        transform: scale(0);
+    }
+    100%{
+        display: none;
+    }
+}
+
+
+@keyframes close2{
+    0%{
+        transform: translate(-50%, -50%) scale(1);
+    }
+    99%{
+        transform: translate(-50%, -50%) scale(0);
+    }
+    100%{
+        display: none;
+    }
+}
+
+@keyframes open2{
+    0%{
+        transform: translate(-50%, -50%) scale(0);
+    }
+    100%{
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.button-single-game:active{
+    transform: scale(0.9);
+}
+
+.buttons-error{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.visible{
+    display: block;
+}
+
+.croix-video{
+    background-color: #F6EFDB;
+    position: absolute;
+    bottom: 3px;
+    z-index: 10000;
+    left: 3px;
 }

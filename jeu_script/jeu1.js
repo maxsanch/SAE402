@@ -4,10 +4,7 @@ var canvas_notes = document.querySelector("#canvas_notes");
 var ctx_notes = canvas_notes.getContext("2d");
 var canvas_obstacles = document.querySelector("#canvas_obstacles");
 var ctx_obstacles = canvas_obstacles.getContext("2d");
-// var vX = 0;0
-// var vY = 0;
-// var xNotes = 0;
-// var xObstacles = 0;
+let score = 0;
 let position_note = 0;
 let position_obstacle = 0;
 let chrono = 0
@@ -19,21 +16,13 @@ let partition_ecriture = {};
 let partition_ecran = [];
 let partition = [
     {
-        timeur: 500,
+        timeur: 5,
         etat: "note",
         numero: 1,
         vY: 0,
         Y: -150,
         X: 0,
-        position_partition: 0
-    },
-    {
-        timeur: 500,
-        etat: "note",
-        numero: 1,
-        vY: 0,
-        Y: -150,
-        X: 0,
+        toucher: false, 
         position_partition: 0
     },
     {
@@ -43,6 +32,17 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
+        toucher: false, 
+        position_partition: 0
+    },
+    {
+        timeur: 500,
+        etat: "note",
+        numero: 1,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        toucher: false, 
         position_partition: 0
     },
     {
@@ -52,6 +52,7 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
+        toucher: false, 
         position_partition: 0
     },
     {
@@ -61,6 +62,7 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
+        toucher: false, 
         position_partition: 0
     },
     {
@@ -70,6 +72,7 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
+        toucher: false, 
         position_partition: 0
     },
     {
@@ -79,6 +82,7 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
+        toucher: false, 
         position_partition: 0
     },
     {
@@ -88,6 +92,7 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
+        toucher: false, 
         position_partition: 0
     },
     {
@@ -97,6 +102,7 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
+        toucher: false, 
         position_partition: 0
     },
 ];
@@ -117,6 +123,7 @@ var yObstacles = -150;
 var xBille = W / 2;
 
 function afficher() {
+    document.querySelector(".score").innerHTML = "Score : " + (score * 100) + "";
     ctx_personnage.fillStyle = "pink";
     ctx_personnage.fillRect(0, 0, W, H);
 
@@ -156,7 +163,6 @@ function calcul() {
         charactéristique.Y += charactéristique.vY * temps_difference;
 
         if (charactéristique.Y >= H + 50) {
-            console.log(numero_entité + "    " + charactéristique.vY);
             partition_ecran.splice(0, 1);
         }
 
@@ -177,18 +183,25 @@ function calcul() {
             charactéristique.X = W * 0.75;
         }
 
+        // console.log(charactéristique.toucher)
 
-        if (charactéristique.Y >= H - 60 && charactéristique.Y <= H - 40 && xBille == charactéristique.X) {
+        if (charactéristique.Y >= H - 60 && charactéristique.Y <= H - 40 && xBille == charactéristique.X && charactéristique.toucher == false) {
+            // console.log("toucher")
             if (charactéristique.etat == "note") {
+                charactéristique.toucher = true;
                 document.querySelector(".ecran_rouge").classList.add("vert");
                 setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("vert") }, 150);
+                score++;
             }
             if (charactéristique.etat == "obstacle") {
+                charactéristique.toucher = true;
                 document.querySelector(".ecran_rouge").classList.add("rouge");
                 setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
+                score--;
             }
         }
     })
+    console.log(score)
     temps_avant = temps;
 }
 
@@ -241,7 +254,6 @@ function chrono_incrementage() {
     Object.entries(partition).forEach(([numero_entité, charactéristique]) => {
         if (chrono == charactéristique.timeur) {
             partition_ecran.push(charactéristique);
-            console.log("détection de " + numero_entité + " au timeur " + chrono);
         }
     })
 }

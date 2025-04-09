@@ -65,7 +65,8 @@ let tremblersense = false;
 let x = 0;
 let y = 0;
 let z = 0;
-let map = L.map('map').setView([47.742293124114774, 7.2765954224972536], 10);
+
+let map = L.map('map').setView([47.742293124114774, 7.335626139614205], 15);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -358,6 +359,7 @@ function boucle() {
 }
 
 document.querySelector('.startGame').addEventListener('click', startGame)
+document.querySelector('.button-single-game').addEventListener('click', close)
 
 // coo start : 47.74686, 7.335626139614205 
 
@@ -370,25 +372,33 @@ function startGame() {
         boucle();
     }
     else{
-        console.log("vous n'êtes pas au bon endroit.")
-        
+        document.querySelector('.errorWindow').classList.remove('closerror');
+        document.querySelector('.errorWindow').classList.add('ouvrirerror')
     }
 }
 
-const video = document.querySelector('.video>video');
+function close(){
+    document.querySelector('.errorWindow').classList.add('closerror');
+    document.querySelector('.errorWindow').classList.remove('ouvrirerror');
+}
+
+const video = document.querySelector('.video>.global>video');
 
 document.querySelector('.tutorial').addEventListener('click', ouvrirVideo)
 
 function ouvrirVideo() {
     document.querySelector('.video').classList.add('ouvrir');
-    document.querySelector('.video').classList.remove('none');
+    document.querySelector('.video').classList.remove('closevid');
     video.play();
+    
 }
 
+document.querySelector('.croix-video').addEventListener('click', fermerVideo);
 video.addEventListener('ended', fermerVideo);
 
 function fermerVideo() {
-    document.querySelector('.video').classList.add('none');
+    document.querySelector('.video').classList.add('closevid');
+    document.querySelector('.video').classList.remove('ouvrir');
     video.pause();
 }
 
@@ -397,3 +407,4 @@ if (screen.orientation && screen.orientation.lock) {
         console.warn("Orientation lock failed:", error);
     });
 }
+
