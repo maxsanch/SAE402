@@ -53,6 +53,7 @@ let spdEnmy = 1;
 
 // Initialisation d'une variable pour le score
 let score = 0;
+let viePlayer = 3; // Nombre de vies du joueur
 
 //////////////////////////////////////////////////////////
 
@@ -77,6 +78,32 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
+let collision = false; // Variable pour vérifier la collision
+
+// Fonction pour détecter les collisions
+function detectCollision() {
+    // Vérifie si les zones du personnage et de l'obstacle se chevauchent
+    if (
+        obstacleY + tailleY > persoX - tailleX / 2 && // Bas de l'obstacle atteint le haut du personnage
+        obstacleY < persoX + tailleX / 2 &&          // Haut de l'obstacle atteint le bas du personnage
+        obstacleX + tailleX / 2 > persoY - tailleY / 2 && // Droite de l'obstacle atteint la gauche du personnage
+        obstacleX - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'obstacle atteint la droite du personnage
+    ) {
+        console.log("Collision");
+        collision = true; // Met à jour la variable de collision
+        // Vous pouvez ajouter ici des actions à effectuer en cas de collision
+        // Par exemple : réinitialiser le jeu, réduire des points de vie, etc.
+    }
+}
+
+function clearScreen() {
+    // Met tous les canvas en display none
+    canvas_maisons.style.display = "none";
+    canvas_route.style.display = "none";
+    canvas_obstacles.style.display = "none";
+    canvas_perso.style.display = "none";
+}
+
 /////////////////////////////////////////////////////////
 
 function Afficher() {
@@ -95,7 +122,21 @@ function Afficher() {
     if (obstacleY > hauteur) {
         obstacleY = 0; // Réinitialise la position de l'obstacle
         obstacleX = road[Math.floor(Math.random() * 3)]; // Change la position de l'obstacle aléatoirement
+        if (collision === true){
+            viePlayer--; // Diminue le nombre de vies
+            console.log("Score actuelle", score,"vie restante" , viePlayer);
+        }
+        else{
+            score++; // Augmente le score
+            console.log("Score actuelle", score,"vie restante" , viePlayer);
+        }
+        collision = false; // Réinitialise la variable de collision
+        // score++; // Augmente le score
+        // console.log(score);
     }
+
+
+    detectCollision(); // Vérifie les collisions
     
 
     // affichage de la route
@@ -105,7 +146,19 @@ function Afficher() {
     route.fillRect(roadM, 0, epaisseurRoute, hauteur);
     route.fillRect(roadR, 0, epaisseurRoute, hauteur);
 
-    window.requestAnimationFrame(Afficher);
+    if (viePlayer <= 0) {
+        window.cancelAnimationFrame(Afficher); // Arrête l'animation si le joueur n'a plus de vies
+        clearScreen(); // retire les canvass en les passant en display none
+        if (score > 30){
+            console.log("Vous avez gagné, Votre score est de " + score + ".");
+        }
+        else{
+            console.log("Vous avez perdu, Votre score est de " + score + ". Vous devez faire un score supérieur à 30 pour gagner.");
+        }
+    }
+    else {
+        window.requestAnimationFrame(Afficher); // Continue l'animation si le joueur a encore des vies
+    }
 }
 
 // Appel de la fonction pour l'afficher sur le site
