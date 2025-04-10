@@ -197,7 +197,7 @@ function calcul() {
                 charactéristique.toucher = true;
                 document.querySelector(".ecran_rouge").classList.add("rouge");
                 setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
-                score--;
+                score = score - 0.5;
             }
         }
     })
@@ -257,3 +257,10 @@ function chrono_incrementage() {
         }
     })
 }
+
+screen.orientation.addEventListener("change", (event) => {
+    const type = event.target.type;
+    const angle = event.target.angle;
+    document.querySelector(".orientation").innerHTML = "type : " + type + " et angle : " + angle;
+    console.log(`ScreenOrientation change: ${type}, ${angle} degrees.`);
+  });
