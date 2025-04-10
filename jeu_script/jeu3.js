@@ -2,10 +2,22 @@
 
 document.querySelector('.startGame').addEventListener('click', startGame)
 document.querySelector('.button-single-game').addEventListener('click', close)
+const audioTremblement = document.querySelector('.tremblementsAudio');
+audioTremblement.volume = 0.2
 
-// coo start : 47.74686, 7.335626139614205
+// coo start : 47.74677388962272, 7.33549761035268
 // co victoire :
-// 47.74712, 7.33655
+// 47.747022602578845, 7.336040920713743
+
+// constantes
+const approachSound = new AudioContext();
+const oscillator = approachSound.createOscillator();
+const gainNode = approachSound.createGain();
+// initialisation et volume a 0 de base
+oscillator.connect(gainNode);
+gainNode.connect(approachSound.destination);
+gainNode.gain.value = 0;
+oscillator.start();
 
 const video = document.querySelector('.video>.global>video');
 
@@ -100,6 +112,22 @@ if (navigator.geolocation) {
     navigator.geolocation.watchPosition(position => {
         latVictoire = position.coords.latitude;
         longVictoire = position.coords.longitude;
+
+        L.Routing.control({
+            waypoints: [
+                L.latLng(latVictoire, longVictoire),
+                L.latLng(47.747022602578845, 7.336040920713743)
+            ],
+            router: L.Routing.osrmv1({
+                serviceUrl: 'https://router.project-osrm.org/route/v1',
+                profile: 'foot'
+              }),
+              lineOptions: {
+                styles: [{color: 'orange', opacity: 0.8, weight: 5}]
+              },
+              show: true,
+              routeWhileDragging: true
+        }).addTo(map);
 
         map.setView([latVictoire, longVictoire], 18);
 
@@ -238,11 +266,9 @@ function EulerAngle(matrix) {
 }
 
 function calculer() {
-
-    if((latVictoire >= 47.74692 && latVictoire <= 47.74742 && longVictoire >= 7.33635 && longVictoire <= 7.33675) || contenu <= 1){
+    if ((latVictoire >= 47.74682 && latVictoire <= 47.74722 && longVictoire >= 7.33584 && longVictoire <= 7.33624) || contenu <= 1) {
         finJeu = true;
     }
-
     VitesseUtilisateur = 1 / vitesse * 1000;
     // faire trembler le tonneau
     if (vitesse >= 3) {
@@ -252,21 +278,21 @@ function calculer() {
         else {
             tremblements = 0;
         }
-
+        audioTremblement.play();
         if (tremblersense) {
-            if(tempsTremble <= (20/vitesse)){
+            if (tempsTremble <= (20 / vitesse)) {
                 tempsTremble += 1
             }
-            else{
+            else {
                 tremblersense = false;
             }
             trembler = 0.8;
         }
         else {
-            if(tempsTremble >= 0){
+            if (tempsTremble >= 0) {
                 tempsTremble -= 1
             }
-            else{
+            else {
                 tremblersense = true;
             }
             trembler = - 0.8;
@@ -274,6 +300,7 @@ function calculer() {
     }
     else {
         tremblements = 0;
+        audioTremblement.pause();
     }
 
     contenu -= tremblements;
@@ -314,6 +341,15 @@ function calculer() {
     }
     if (angle <= 90 && angle >= -90) {
         angle += vBarile;
+        if(angle >= 10 || angle <= -10){
+            if(angle >= 10){
+                gainNode.gain.value = 0.4;
+                oscillator.frequency.value = angle * 100;
+            }
+            if(angle <= -10){
+
+            }
+        }
     }
 
 
@@ -321,19 +357,19 @@ function calculer() {
 
     if (contenu >= 90) {
         if (angle >= 0) {
-            facteurVideAngle = (-angle * 0.001) * (contenu / 60)
+            facteurVideAngle = (-angle * 0.0001) * (contenu / 60)
         }
         else {
-            facteurVideAngle = (angle * 0.001) * (contenu / 60)
+            facteurVideAngle = (angle * 0.0001) * (contenu / 60)
         }
     }
     else {
         if (angle >= 30 || angle <= -30) {
             if (angle >= 0) {
-                facteurVideAngle = (-angle * 0.001) * (contenu / 60)
+                facteurVideAngle = (-angle * 0.0001) * (contenu / 60)
             }
             else {
-                facteurVideAngle = (angle * 0.001) * (contenu / 60)
+                facteurVideAngle = (angle * 0.0001) * (contenu / 60)
             }
         }
         else {
@@ -366,17 +402,17 @@ function afficher() {
 }
 
 function stopGame() {
-    if(victoire){
-        
+    if (victoire) {
+
     }
-    else{
+    else {
 
     }
 }
 
 function boucle() {
-    if(finJeu){
-        if(contenu >= 50){
+    if (finJeu) {
+        if (contenu >= 50) {
             victoire = true;
         }
         else {
@@ -395,16 +431,17 @@ function boucle() {
 // débuter le jeu
 
 function startGame() {
-    if(latVictoire >= 47.74666 && latVictoire <= 47.74706 && longVictoire >= 7.33542 && longVictoire <= 7.33582){
+    if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
         document.querySelector('.first').classList.add('none')
         const audio = document.getElementById("audio");
         // Date.now ou performance.now
 
         audio.play();
+        audio.volume = 0.4;
         initialisation();
         boucle();
     }
-    else{
+    else {
         document.querySelector('.errorWindow').classList.remove('closerror');
         document.querySelector('.errorWindow').classList.add('ouvrirerror')
     }
@@ -412,7 +449,7 @@ function startGame() {
 
 // fermer la pop up
 
-function close(){
+function close() {
     document.querySelector('.errorWindow').classList.add('closerror');
     document.querySelector('.errorWindow').classList.remove('ouvrirerror');
 }

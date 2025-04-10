@@ -18,6 +18,10 @@ img {
     display: none;
 }
 
+.leaflet-control-container{
+    display: none !important;
+}
+
 .grid {
     position: fixed;
     display: grid;
