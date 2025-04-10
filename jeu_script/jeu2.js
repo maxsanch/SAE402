@@ -50,6 +50,7 @@ let obstacleX = road[CurrentRoad]; // position X de l'obstacle à l'horizontale
 // initialisation des variables de vitesse pour les obstacles & maisons / ennemis
 let spdObstc = 6;
 let spdEnmy = 1;
+let ennemiX = road[0]; // position X de l'ennemi à l'horizontale
 
 // Initialisation d'une variable pour le score
 let score = 0;
@@ -84,10 +85,17 @@ let collision = false; // Variable pour vérifier la collision
 function detectCollision() {
     // Vérifie si les zones du personnage et de l'obstacle se chevauchent
     if (
+        // colision rouge
         obstacleY + tailleY > persoX - tailleX / 2 && // Bas de l'obstacle atteint le haut du personnage
         obstacleY < persoX + tailleX / 2 &&          // Haut de l'obstacle atteint le bas du personnage
         obstacleX + tailleX / 2 > persoY - tailleY / 2 && // Droite de l'obstacle atteint la gauche du personnage
         obstacleX - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'obstacle atteint la droite du personnage
+        ||
+        // colision orange
+        obstacleY + tailleY > persoX - tailleX / 2 && // Bas de l'obstacle atteint le haut du personnage
+        obstacleY < persoX + tailleX / 2 &&          // Haut de l'obstacle atteint le bas du personnage
+        ennemiX + tailleX / 2 > persoY - tailleY / 2 && // Droite de l'ennemi atteint la gauche du personnage
+        ennemiX - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'ennemi atteint la droite du personnage
     ) {
         console.log("Collision");
         collision = true; // Met à jour la variable de collision
@@ -117,11 +125,17 @@ function Afficher() {
     // obstacle
     obstacles.fillStyle = "red";
     obstacles.fillRect(obstacleX - (tailleX / 2), obstacleY, tailleY, tailleX);
+    // obstacle 2
+    obstacles.fillStyle = "orange";
+    obstacles.fillRect(ennemiX - (tailleX / 2), obstacleY, tailleY, tailleX);
 
     obstacleY += spdObstc; // Déplacement de l'obstacle vers le bas
     if (obstacleY > hauteur) {
         obstacleY = 0; // Réinitialise la position de l'obstacle
         obstacleX = road[Math.floor(Math.random() * 3)]; // Change la position de l'obstacle aléatoirement
+        ennemiX = road[Math.floor(Math.random() * 3)]; // Change la position de l'obstacle aléatoirement
+        // if ennemiX == obstacleX { // Si l'ennemi et l'obstacle sont sur la même voie, on change la position de l'ennemi
+        // }
         if (collision === true){
             viePlayer--; // Diminue le nombre de vies
             console.log("Score actuelle", score,"vie restante" , viePlayer);
@@ -150,10 +164,10 @@ function Afficher() {
         window.cancelAnimationFrame(Afficher); // Arrête l'animation si le joueur n'a plus de vies
         clearScreen(); // retire les canvass en les passant en display none
         if (score >= 30){
-            console.log("Vous avez gagné, Votre score est de " + score + ".");
+            console.log("Vous avez gagné, Votre score est de " + score + " !");
         }
         else{
-            console.log("Vous avez perdu, Votre score est de " + score + ". Vous devez faire un score supérieur à 30 pour gagner.");
+            console.log("Vous avez perdu, Votre score est de " + score + " ! Vous devez faire un score supérieur à 30 pour gagner.");
         }
     }
     else {
