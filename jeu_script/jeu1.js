@@ -11,6 +11,7 @@ let chrono = 0
 let temps = 0;
 let temps_avant = 0;
 let temps_difference = 0;
+lockOrientation("portrait-primary");
 let partition_ecriture = {};
 
 let partition_ecran = [];
@@ -264,25 +265,3 @@ screen.orientation.addEventListener("change", (event) => {
     document.querySelector(".orientation").innerHTML = "type : " + type + " et angle : " + angle;
     console.log(`ScreenOrientation change: ${type}, ${angle} degrees.`);
   });
-
-
-
-  const log = document.getElementById("log");
-
-// Lock button: Lock the screen to the other orientation (rotated by 90 degrees)
-const rotate_btn = document.querySelector("#lock_button");
-rotate_btn.addEventListener("click", () => {
-  log.textContent += `Lock pressed \n`;
-
-  const oppositeOrientation = screen.orientation.type.startsWith("portrait")
-    ? "landscape"
-    : "portrait";
-  screen.orientation
-    .lock(oppositeOrientation)
-    .then(() => {
-      log.textContent = `Locked to ${oppositeOrientation}\n`;
-    })
-    .catch((error) => {
-      log.textContent += `${error}\n`;
-    });
-});
