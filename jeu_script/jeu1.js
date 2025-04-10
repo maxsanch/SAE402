@@ -11,7 +11,7 @@ let chrono = 0
 let temps = 0;
 let temps_avant = 0;
 let temps_difference = 0;
-screen.lockOrientation("portrait-primary");
+lock("portrait");
 let partition_ecriture = {};
 
 let partition_ecran = [];
