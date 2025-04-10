@@ -17,7 +17,7 @@ const gainNode = approachSound.createGain();
 oscillator.connect(gainNode);
 gainNode.connect(approachSound.destination);
 gainNode.gain.value = 0;
-oscillator.start();
+
 
 const video = document.querySelector('.video>.global>video');
 
@@ -343,12 +343,16 @@ function calculer() {
         angle += vBarile;
         if(angle >= 10 || angle <= -10){
             if(angle >= 10){
-                gainNode.gain.value = 0.4;
-                oscillator.frequency.value = angle * 100;
+                gainNode.gain.value = 0.1;
+                oscillator.frequency.value = angle * 20;
             }
             if(angle <= -10){
-
+                gainNode.gain.value = 0.1;
+                oscillator.frequency.value = angle * 20;
             }
+        }
+        else{
+            gainNode.gain.value = 0;
         }
     }
 
@@ -440,6 +444,7 @@ function startGame() {
         audio.volume = 0.4;
         initialisation();
         boucle();
+        oscillator.start();
     }
     else {
         document.querySelector('.errorWindow').classList.remove('closerror');
