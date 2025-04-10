@@ -258,29 +258,29 @@ function chrono_incrementage() {
     })
 }
 
-screen.orientation.addEventListener("change", (event) => {
-    const type = event.target.type;
-    const angle = event.target.angle;
-    document.querySelector(".orientation").innerHTML = "type : " + type + " et angle : " + angle;
-    console.log(`ScreenOrientation change: ${type}, ${angle} degrees.`);
-  });
+// screen.orientation.addEventListener("change", (event) => {
+//     const type = event.target.type;
+//     const angle = event.target.angle;
+//     document.querySelector(".orientation").innerHTML = "type : " + type + " et angle : " + angle;
+//     console.log(`ScreenOrientation change: ${type}, ${angle} degrees.`);
+//   });
 
 
 
-  // Lock button: Lock the screen to the other orientation (rotated by 90 degrees)
-const rotate_btn = document.querySelector("#lock_button");
-rotate_btn.addEventListener("click", () => {
-  log.textContent += `Lock pressed \n`;
+//   // Lock button: Lock the screen to the other orientation (rotated by 90 degrees)
+// const rotate_btn = document.querySelector("#lock_button");
+// rotate_btn.addEventListener("click", () => {
+//   log.textContent += `Lock pressed \n`;
 
-  const oppositeOrientation = screen.orientation.type.startsWith("portrait")
-    ? "landscape"
-    : "portrait";
-  screen.orientation
-    .lock(oppositeOrientation)
-    .then(() => {
-      log.textContent = `Locked to ${oppositeOrientation}\n`;
-    })
-    .catch((error) => {
-      log.textContent += `${error}\n`;
-    });
-});
+//   const oppositeOrientation = screen.orientation.type.startsWith("portrait")
+//     ? "landscape"
+//     : "portrait";
+//   screen.orientation
+//     .lock(oppositeOrientation)
+//     .then(() => {
+//       log.textContent = `Locked to ${oppositeOrientation}\n`;
+//     })
+//     .catch((error) => {
+//       log.textContent += `${error}\n`;
+//     });
+// });
