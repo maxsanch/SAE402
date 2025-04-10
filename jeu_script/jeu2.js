@@ -24,7 +24,7 @@ canvas_route.height = ecrH;
 // initialisation des variables globales
 let largeur = ecrW;
 let hauteur = ecrH;
-let gravité = 1;
+let gravité = 0.05;
 
 // initialisation des variables de la route
 let epaisseurRoute = 50;
@@ -45,15 +45,20 @@ let tailleY = 50; // taille du personnage à la verticale
 // initialisation des variables pour les obstacles
 let obstacleY = 0; // position Y de l'obstacle à la verticale
 let obstacleX = road[CurrentRoad]; // position X de l'obstacle à l'horizontale
-
+let obstacleExist = true; // variable pour vérifier si l'obstacle existe ou non
 
 // initialisation des variables de vitesse pour les obstacles & maisons / ennemis
 let spdObstc = 6;
 let spdEnmy = 1;
+let ennemiX = road[0]; // position X de l'ennemi à l'horizontale
+let ennemiExist = true; // variable pour vérifier si l'ennemi existe ou non
 
 // Initialisation d'une variable pour le score
 let score = 0;
 let viePlayer = 3; // Nombre de vies du joueur
+
+// Initialisation de variable que j'ai plus envie de définir
+let decideExist = 0; // Variable qui décide de qui va disparaître de notre réalité
 
 //////////////////////////////////////////////////////////
 
@@ -84,10 +89,17 @@ let collision = false; // Variable pour vérifier la collision
 function detectCollision() {
     // Vérifie si les zones du personnage et de l'obstacle se chevauchent
     if (
+        // colision rouge
         obstacleY + tailleY > persoX - tailleX / 2 && // Bas de l'obstacle atteint le haut du personnage
         obstacleY < persoX + tailleX / 2 &&          // Haut de l'obstacle atteint le bas du personnage
         obstacleX + tailleX / 2 > persoY - tailleY / 2 && // Droite de l'obstacle atteint la gauche du personnage
         obstacleX - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'obstacle atteint la droite du personnage
+        ||
+        // colision orange
+        obstacleY + tailleY > persoX - tailleX / 2 && // Bas de l'obstacle atteint le haut du personnage
+        obstacleY < persoX + tailleX / 2 &&          // Haut de l'obstacle atteint le bas du personnage
+        ennemiX + tailleX / 2 > persoY - tailleY / 2 && // Droite de l'ennemi atteint la gauche du personnage
+        ennemiX - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'ennemi atteint la droite du personnage
     ) {
         console.log("Collision");
         collision = true; // Met à jour la variable de collision
@@ -112,32 +124,53 @@ function Afficher() {
     route.clearRect(0, 0, largeur, hauteur);
     maisons.clearRect(0, 0, largeur, hauteur);
     // joueur
-    perso.fillStyle = "black"; 
+    perso.fillStyle = "black";
     perso.fillRect(persoY - (tailleY / 2), persoX - (tailleX / 2), tailleY, tailleX);
-    // obstacle
-    obstacles.fillStyle = "red";
-    obstacles.fillRect(obstacleX - (tailleX / 2), obstacleY, tailleY, tailleX);
+    // obstacle 1
+    if (obstacleExist == true) {
+        obstacles.fillStyle = "red";
+        obstacles.fillRect(obstacleX - (tailleX / 2), obstacleY, tailleY, tailleX);
+    }
+    // obstacle 2
+    if (ennemiExist == true) {
+        obstacles.fillStyle = "orange";
+        obstacles.fillRect(ennemiX - (tailleX / 2), obstacleY, tailleY, tailleX);
+    }
 
     obstacleY += spdObstc; // Déplacement de l'obstacle vers le bas
     if (obstacleY > hauteur) {
         obstacleY = 0; // Réinitialise la position de l'obstacle
         obstacleX = road[Math.floor(Math.random() * 3)]; // Change la position de l'obstacle aléatoirement
-        if (collision === true){
+        ennemiX = road[Math.floor(Math.random() * 3)]; // Change la position de l'obstacle aléatoirement
+        if (collision === true) {
             viePlayer--; // Diminue le nombre de vies
-            console.log("Score actuelle", score,"vie restante" , viePlayer);
+            console.log("Score actuelle", score, "vie restante", viePlayer);
         }
-        else{
+        else {
             score++; // Augmente le score
-            console.log("Score actuelle", score,"vie restante" , viePlayer);
+            console.log("Score actuelle", score, "vie restante", viePlayer);
         }
+        spdObstc += gravité; // Augmente la vitesse de l'obstacle
+        spdEnmy += gravité; // Augmente la vitesse de l'ennemi
+        console.log("Vitesse de l'obstacle", spdObstc, "Vitesse de l'ennemi", spdEnmy);
+        decideExist = Math.floor(Math.random() * 2); // 0 ou 1 pour décider de qui va disparaître
         collision = false; // Réinitialise la variable de collision
+        obstacleExist = true; // Réinitialise l'existence de l'obstacle
+        ennemiExist = true; // Réinitialise l'existence de l'ennemi
         // score++; // Augmente le score
         // console.log(score);
     }
-
+    if (ennemiX == obstacleX) { // Si l'ennemi et l'obstacle sont sur la même voie, on change la position de l'ennemi
+        if (decideExist == 0) {
+            obstacleExist = false; // L'obstacle n'existe plus
+        }
+        else {
+            ennemiExist = false; // L'ennemi n'existe plus
+        }
+    }
 
     detectCollision(); // Vérifie les collisions
-    
+
 
     // affichage de la route
     route.clearRect(0, 0, largeur, hauteur);
@@ -146,14 +179,14 @@ function Afficher() {
     route.fillRect(roadM, 0, epaisseurRoute, hauteur);
     route.fillRect(roadR, 0, epaisseurRoute, hauteur);
 
-    if (viePlayer <= 0) {
+    if (viePlayer <= 0) { // Si le joueur n'a plus de vies
         window.cancelAnimationFrame(Afficher); // Arrête l'animation si le joueur n'a plus de vies
         clearScreen(); // retire les canvass en les passant en display none
-        if (score >= 30){
-            console.log("Vous avez gagné, Votre score est de " + score + ".");
+        if (score >= 30) {
+            console.log("Vous avez gagné, Votre score est de " + score + " !");
         }
-        else{
-            console.log("Vous avez perdu, Votre score est de " + score + ". Vous devez faire un score supérieur à 30 pour gagner.");
+        else {
+            console.log("Vous avez perdu, Votre score est de " + score + " ! Vous devez faire un score supérieur à 30 pour gagner.");
         }
     }
     else {
