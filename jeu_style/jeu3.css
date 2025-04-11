@@ -279,7 +279,7 @@ img {
     border: solid 5px #8E4E16;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0);
     display: none;
     gap: 25px;
     flex-direction: column;
@@ -317,4 +317,9 @@ img {
 
 .button-victory:active, .button-play-again:active{
     transform: scale(0.9);
+}
+
+.openEndGame{
+    display: flex;
+    animation: open2 0.5s forwards ease-in-out;
 }

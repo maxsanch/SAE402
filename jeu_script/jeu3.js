@@ -1,7 +1,11 @@
 // selecteurs sur les différents éléments
 
 document.querySelector('.startGame').addEventListener('click', startGame)
+document.querySelector('.startGame').addEventListener('click', startGame)
+document.querySelector('.startGame').addEventListener('click', startGame)
+
 document.querySelector('.button-single-game').addEventListener('click', close)
+
 const audioTremblement = document.querySelector('.tremblementsAudio');
 audioTremblement.volume = 0.2
 
@@ -13,7 +17,9 @@ audioTremblement.volume = 0.2
 const approachSound = new AudioContext();
 const oscillator = approachSound.createOscillator();
 const gainNode = approachSound.createGain();
+
 // initialisation et volume a 0 de base
+
 oscillator.connect(gainNode);
 gainNode.connect(approachSound.destination);
 gainNode.gain.value = 0;
@@ -65,7 +71,6 @@ let aRedressement = 0;
 let VitesseUtilisateur = 0;
 
 let contenu = 100;
-let facteurVide = 0;
 
 let vitesse = 1;
 
@@ -117,16 +122,7 @@ if (navigator.geolocation) {
             waypoints: [
                 L.latLng(latVictoire, longVictoire),
                 L.latLng(47.747022602578845, 7.336040920713743)
-            ],
-            router: L.Routing.osrmv1({
-                serviceUrl: 'https://router.project-osrm.org/route/v1',
-                profile: 'foot'
-              }),
-              lineOptions: {
-                styles: [{color: 'orange', opacity: 0.8, weight: 5}]
-              },
-              show: true,
-              routeWhileDragging: true
+            ]
         }).addTo(map);
 
         map.setView([latVictoire, longVictoire], 18);
@@ -172,7 +168,7 @@ if (navigator.geolocation) {
         }
     }, (error) => {
         console.error("Erreur de géolocalisation :", error);
-    }, { enableHighAccuracy: true, timeout: 1000 });
+    }, {enableHighAccuracy: true, timeout: 1000 });
 }
 else {
     console.log('le navigateur ne supporte pas la geolocalisation')
@@ -341,17 +337,17 @@ function calculer() {
     }
     if (angle <= 90 && angle >= -90) {
         angle += vBarile;
-        if(angle >= 10 || angle <= -10){
-            if(angle >= 10){
+        if (angle >= 10 || angle <= -10) {
+            if (angle >= 10) {
                 gainNode.gain.value = 0.1;
                 oscillator.frequency.value = angle * 20;
             }
-            if(angle <= -10){
+            if (angle <= -10) {
                 gainNode.gain.value = 0.1;
                 oscillator.frequency.value = angle * 20;
             }
         }
-        else{
+        else {
             gainNode.gain.value = 0;
         }
     }
@@ -407,10 +403,10 @@ function afficher() {
 
 function stopGame() {
     if (victoire) {
-
+        document.querySelector('.victoire').classList.add('openEndGame')
     }
     else {
-
+        document.querySelector('.defaite').classList.add('openEndGame')
     }
 }
 
@@ -435,16 +431,33 @@ function boucle() {
 // débuter le jeu
 
 function startGame() {
-    if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
-        document.querySelector('.first').classList.add('none')
-        const audio = document.getElementById("audio");
-        // Date.now ou performance.now
+    document.querySelector('.first').classList.add('none')
+    const audio = document.getElementById("audio");
 
-        audio.play();
-        audio.volume = 0.4;
-        initialisation();
-        boucle();
-        oscillator.start();
+    // Réinitialisation des valeures
+
+    angle = 0;
+    rotaleft = false;
+    rotaright = false;
+    aRedressement = 0;
+    VitesseUtilisateur = 0;
+    contenu = 100;
+    vitesse = 1;
+    facteurVideAngle = 0;
+    tremblements = 0;
+    trembler = 0
+    tempsTremble = 0;
+    tremblersense = 0;
+    victoire = 0;
+    finJeu = 0;
+
+    // Date.now ou performance.now
+    audio.play();
+    audio.volume = 0.4;
+    initialisation();
+    boucle();
+    oscillator.start();
+    if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
     }
     else {
         document.querySelector('.errorWindow').classList.remove('closerror');
@@ -453,14 +466,12 @@ function startGame() {
 }
 
 // fermer la pop up
-
 function close() {
     document.querySelector('.errorWindow').classList.add('closerror');
     document.querySelector('.errorWindow').classList.remove('ouvrirerror');
 }
 
 // ouvrir la video
-
 function ouvrirVideo() {
     document.querySelector('.video').classList.add('ouvrir');
     document.querySelector('.video').classList.remove('closevid');
@@ -468,7 +479,6 @@ function ouvrirVideo() {
 }
 
 // fermer la video
-
 function fermerVideo() {
     document.querySelector('.video').classList.add('closevid');
     document.querySelector('.video').classList.remove('ouvrir');
