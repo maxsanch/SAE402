@@ -120,6 +120,19 @@ let mili = timing % 1000;
 
 let map = L.map('map').setView([47.742293124114774, 7.335626139614205], 18);
 
+// Marqueur mobile (au départ à [0, 0], il sera mis à jour ensuite)
+let marker = L.marker([0, 0]).addTo(map);
+
+// Marqueur fixe
+let marker2 = L.marker([47.747022602578845, 7.336040920713743]).addTo(map);
+
+// Polygon mobile (au départ avec des coordonnées de base)
+let polygon = L.polygon([
+    [0, 0],
+    [47.747022602578845, 7.336040920713743],
+]).addTo(map);
+
+
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 20,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -129,6 +142,15 @@ if (navigator.geolocation) {
     navigator.geolocation.watchPosition(position => {
         latVictoire = position.coords.latitude;
         longVictoire = position.coords.longitude;
+
+        // Mise à jour du marqueur
+        marker.setLatLng([latVictoire, longVictoire]);
+
+        // Mise à jour du polygone
+        polygon.setLatLngs([
+            [latVictoire, longVictoire],
+            [47.747022602578845, 7.336040920713743]
+        ]);
 
         map.setView([latVictoire, longVictoire], 18);
 
