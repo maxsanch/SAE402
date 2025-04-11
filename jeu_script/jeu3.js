@@ -107,8 +107,16 @@ let victoire = false;
 let finJeu = false;
 
 // pour le timer
+let start = 0;
+let chro = -1;
 
-let start = Date.now();
+let now = Date.now();
+let timing = 0
+
+let secondes = Math.floor(timing / 1000);
+let minutes = Math.floor(secondes / 60);
+let secondesSansVirgule = secondes % 60;
+let mili = timing % 1000;
 
 let map = L.map('map').setView([47.742293124114774, 7.335626139614205], 18);
 
@@ -121,13 +129,6 @@ if (navigator.geolocation) {
     navigator.geolocation.watchPosition(position => {
         latVictoire = position.coords.latitude;
         longVictoire = position.coords.longitude;
-
-        L.Routing.control({
-            waypoints: [
-                L.latLng(latVictoire, longVictoire),
-                L.latLng(47.747022602578845, 7.336040920713743)
-            ]
-        }).addTo(map);
 
         map.setView([latVictoire, longVictoire], 18);
 
@@ -370,10 +371,10 @@ function calculer() {
     else {
         if (angle >= 30 || angle <= -30) {
             if (angle >= 0) {
-                facteurVideAngle = (-angle * 0.0001) * (contenu / 60)
+                facteurVideAngle = (-angle * 0.001) * (contenu / 60)
             }
             else {
-                facteurVideAngle = (angle * 0.0001) * (contenu / 60)
+                facteurVideAngle = (angle * 0.001) * (contenu / 60)
             }
         }
         else {
@@ -406,12 +407,20 @@ function afficher() {
 }
 
 function stopGame() {
+    document.querySelectorAll('.time').forEach(e => {
+        e.innerHTML = 'Your Time = ' + minutes + 'm : ' + secondes + 's : ' + mili + "ms";
+    })
+    document.querySelectorAll('.content-barel-end').forEach(e => {
+        e.innerHTML = 'Content of the barrel : ' + Math.floor(contenu * 100) / 100;
+    })
     if (victoire) {
         document.querySelector('.victoire').classList.add('openEndGame')
     }
     else {
         document.querySelector('.defaite').classList.add('openEndGame')
     }
+    clearTimeout(chro);
+    chro = minutes + 'm : ' + secondes + 's : ' + mili + "ms";
 }
 
 function boucle() {
@@ -452,15 +461,16 @@ function startGame() {
     victoire = false;
     finJeu = false;
 
-    chrono = 0
+    chro = 0
+    start = Date.now();
 
     if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
         document.querySelector('.first').classList.add('none')
         const audio = document.getElementById("audio");
-    
+
         document.querySelector('.victoire').classList.remove('openEndGame')
-        document.querySelector('.defaite').classList.remove('openEndGame')    
-        
+        document.querySelector('.defaite').classList.remove('openEndGame')
+
         // Date.now ou performance.now
         audio.play();
         audio.volume = 0.4;
@@ -505,16 +515,16 @@ if (screen.orientation && screen.orientation.lock) {
     });
 }
 
-function chronoT(){
-    setInterval(function () {
-        let now = Date.now();
-        let temps = now - start
+function chronoT() {
+    chro = setInterval(function () {
+        now = Date.now();
+        timing = now - start
 
-        let secondes = Math.floor(temps/1000);
-        let minutes = Math.floor(secondes/60);
-        let secondesSansVirgule = secondes % 60;
-        let mili = temps % 1000;
+        secondes = Math.floor(timing / 1000);
+        minutes = Math.floor(secondes / 60);
+        secondesSansVirgule = secondes % 60;
+        mili = timing % 1000;
 
-        document.querySelector('body').innerHTML = minutes+':'+secondesSansVirgule+':'+mili
+        document.querySelector('.timer').innerHTML = minutes + ':' + secondesSansVirgule + ':' + mili
     }, 16);
 }
