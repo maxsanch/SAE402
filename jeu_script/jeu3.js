@@ -1,8 +1,8 @@
 // selecteurs sur les différents éléments
 
 document.querySelector('.startGame').addEventListener('click', startGame)
-document.querySelector('.startGame').addEventListener('click', startGame)
-document.querySelector('.startGame').addEventListener('click', startGame)
+document.querySelector('.defaite>.button-play-again').addEventListener('click', startGame)
+document.querySelector('.victoire>.button-play-again').addEventListener('click', startGame)
 
 document.querySelector('.button-single-game').addEventListener('click', close)
 
@@ -106,6 +106,10 @@ let z = 0;
 let victoire = false;
 let finJeu = false;
 
+// pour le timer
+
+let start = Date.now();
+
 let map = L.map('map').setView([47.742293124114774, 7.335626139614205], 18);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -168,7 +172,7 @@ if (navigator.geolocation) {
         }
     }, (error) => {
         console.error("Erreur de géolocalisation :", error);
-    }, {enableHighAccuracy: true, timeout: 1000 });
+    }, { enableHighAccuracy: true, timeout: 1000 });
 }
 else {
     console.log('le navigateur ne supporte pas la geolocalisation')
@@ -357,10 +361,10 @@ function calculer() {
 
     if (contenu >= 90) {
         if (angle >= 0) {
-            facteurVideAngle = (-angle * 0.0001) * (contenu / 60)
+            facteurVideAngle = (-angle * 0.001) * (contenu / 60)
         }
         else {
-            facteurVideAngle = (angle * 0.0001) * (contenu / 60)
+            facteurVideAngle = (angle * 0.001) * (contenu / 60)
         }
     }
     else {
@@ -431,9 +435,6 @@ function boucle() {
 // débuter le jeu
 
 function startGame() {
-    document.querySelector('.first').classList.add('none')
-    const audio = document.getElementById("audio");
-
     // Réinitialisation des valeures
 
     angle = 0;
@@ -448,16 +449,29 @@ function startGame() {
     trembler = 0
     tempsTremble = 0;
     tremblersense = 0;
-    victoire = 0;
-    finJeu = 0;
+    victoire = false;
+    finJeu = false;
 
-    // Date.now ou performance.now
-    audio.play();
-    audio.volume = 0.4;
-    initialisation();
-    boucle();
-    oscillator.start();
+    chrono = 0
+
     if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
+        document.querySelector('.first').classList.add('none')
+        const audio = document.getElementById("audio");
+    
+        document.querySelector('.victoire').classList.remove('openEndGame')
+        document.querySelector('.defaite').classList.remove('openEndGame')    
+        
+        // Date.now ou performance.now
+        audio.play();
+        audio.volume = 0.4;
+        initialisation();
+        chronoT();
+
+        if (this.className == "startGame") {
+            oscillator.start();
+        }
+
+        boucle();
     }
     else {
         document.querySelector('.errorWindow').classList.remove('closerror');
@@ -489,4 +503,18 @@ if (screen.orientation && screen.orientation.lock) {
     screen.orientation.lock("landscape").catch(function (error) {
         console.warn("Orientation lock failed:", error);
     });
+}
+
+function chronoT(){
+    setInterval(function () {
+        let now = Date.now();
+        let temps = now - start
+
+        let secondes = Math.floor(temps/1000);
+        let minutes = Math.floor(secondes/60);
+        let secondesSansVirgule = secondes % 60;
+        let mili = temps % 1000;
+
+        document.querySelector('body').innerHTML = minutes+':'+secondesSansVirgule+':'+mili
+    }, 16);
 }

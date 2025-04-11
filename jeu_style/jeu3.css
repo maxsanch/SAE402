@@ -6,7 +6,7 @@
 body {
     overflow: hidden;
     margin: 0;
-    color: white;
+    color: rgb(0, 0, 0);
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -168,12 +168,13 @@ img {
     position: fixed;
     top: 50%;
     left: 50%;
+
     width: 50%;
     border: 3px solid #B26E00;
     transform: translate(-50%, -50%);
-    background: #F6EFDB;
+    background: #FFF1B8;
     box-shadow: 2px 2px 2px #000004;
-    z-index: 1005;
+    z-index: 1009;
     padding: 20px;
     padding-inline: 50px;
     font-size: 20px;
@@ -272,7 +273,7 @@ img {
 
 .victoire, .defaite{
     position: fixed;
-    z-index: 10005;
+    z-index: 1005;
     background: #FFF1B8;
     color: #000004;
     padding: 10px;
