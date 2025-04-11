@@ -116,6 +116,12 @@ function clearScreen() {
     canvas_perso.style.display = "none";
 }
 
+function drawScore() {
+    perso.font = "12px pixel"; // Définit la police et la taille du texte
+    perso.fillStyle = "black"; // Définit la couleur du texte
+    perso.fillText("Score: " + score + " Vie: " + viePlayer, 10, 20); // Affiche le score et la vue du personnage en haut à gauche
+}
+
 /////////////////////////////////////////////////////////
 
 function Afficher() {
@@ -170,6 +176,7 @@ function Afficher() {
     }
 
     detectCollision(); // Vérifie les collisions
+    drawScore(); // Affiche le score
 
 
     // affichage de la route
@@ -183,10 +190,14 @@ function Afficher() {
         window.cancelAnimationFrame(Afficher); // Arrête l'animation si le joueur n'a plus de vies
         clearScreen(); // retire les canvass en les passant en display none
         if (score >= 30) {
-            console.log("Vous avez gagné, Votre score est de " + score + " !");
+            console.log("Vous avez gagné, Votre score est de " + score + " !"); // Affiche le message de victoire dans la console
+            document.getElementsByClassName("écran_win")[0].style.display = "block"; // Affiche l'écran de victoire
+            document.getElementsByClassName("écran_win")[0].innerHTML = "<h1>Vous avez gagné !</h1><p>Votre score est de " + score + "</p><button onclick=\"location.reload()\">Rejouer</button>"; // Affiche le message de victoire
         }
         else {
-            console.log("Vous avez perdu, Votre score est de " + score + " ! Vous devez faire un score supérieur à 30 pour gagner.");
+            console.log("Vous avez perdu, Votre score est de " + score + " ! Vous devez faire un score supérieur à 30 pour gagner."); // Affiche le message de défaite dans la console
+            document.getElementsByClassName("écran_lose")[0].style.display = "block"; // Affiche l'écran de défaite
+            document.getElementsByClassName("écran_lose")[0].innerHTML = "<h1>Vous avez perdu !</h1><p>Votre score est de " + score + "</p><button onclick=\"location.reload()\">Rejouer</button>"; // Affiche le message de défaite
         }
     }
     else {
