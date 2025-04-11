@@ -74,11 +74,11 @@ function moveCharacter(direction) {
     persoY = road[CurrentRoad]; // Met à jour la position horizontale du personnage
 }
 
-// Gestion des événements du clavier
+// Gestion des événements du clavier (pour la correction ou le texte)
 document.addEventListener("keydown", function (event) {
-    if (event.key === "q") {
+    if (event.key === "q" || event.key === "Q" || event.key === "ArrowLeft") {
         moveCharacter("left"); // Déplacement à gauche
-    } else if (event.key === "d") {
+    } else if (event.key === "d" || event.key === "D" || event.key === "ArrowRight") {
         moveCharacter("right"); // Déplacement à droite
     }
 });
@@ -101,7 +101,7 @@ function detectCollision() {
         ennemiX + tailleX / 2 > persoY - tailleY / 2 && // Droite de l'ennemi atteint la gauche du personnage
         ennemiX - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'ennemi atteint la droite du personnage
     ) {
-        console.log("Collision");
+        // console.log("Collision");
         collision = true; // Met à jour la variable de collision
         // Vous pouvez ajouter ici des actions à effectuer en cas de collision
         // Par exemple : réinitialiser le jeu, réduire des points de vie, etc.
@@ -116,10 +116,13 @@ function clearScreen() {
     canvas_perso.style.display = "none";
 }
 
+// écrit le score et la vie du joueur en canvas
 function drawScore() {
     perso.font = "12px pixel"; // Définit la police et la taille du texte
-    perso.fillStyle = "black"; // Définit la couleur du texte
-    perso.fillText("Score: " + score + " Vie: " + viePlayer, 10, 20); // Affiche le score et la vue du personnage en haut à gauche
+    perso.fillStyle = "gold"; // Définit la couleur du texte
+    perso.fillText("Score: " + score, 10, 20);
+    perso.fillStyle = "red"; // Définit la couleur du texte
+    perso.fillText("Vie: " + viePlayer, 10, 40);
 }
 
 /////////////////////////////////////////////////////////
@@ -144,21 +147,21 @@ function Afficher() {
     }
 
     obstacleY += spdObstc; // Déplacement de l'obstacle vers le bas
-    if (obstacleY > hauteur) {
+    if (obstacleY > hauteur + tailleY) {
         obstacleY = 0; // Réinitialise la position de l'obstacle
         obstacleX = road[Math.floor(Math.random() * 3)]; // Change la position de l'obstacle aléatoirement
         ennemiX = road[Math.floor(Math.random() * 3)]; // Change la position de l'obstacle aléatoirement
         if (collision === true) {
             viePlayer--; // Diminue le nombre de vies
-            console.log("Score actuelle", score, "vie restante", viePlayer);
+            // console.log("Score actuelle", score, "vie restante", viePlayer);
         }
         else {
             score++; // Augmente le score
-            console.log("Score actuelle", score, "vie restante", viePlayer);
+            // console.log("Score actuelle", score, "vie restante", viePlayer);
         }
         spdObstc += gravité; // Augmente la vitesse de l'obstacle
         spdEnmy += gravité; // Augmente la vitesse de l'ennemi
-        console.log("Vitesse de l'obstacle", spdObstc, "Vitesse de l'ennemi", spdEnmy);
+        // console.log("Vitesse de l'obstacle", spdObstc, "Vitesse de l'ennemi", spdEnmy);
         decideExist = Math.floor(Math.random() * 2); // 0 ou 1 pour décider de qui va disparaître
         collision = false; // Réinitialise la variable de collision
         obstacleExist = true; // Réinitialise l'existence de l'obstacle
@@ -190,14 +193,14 @@ function Afficher() {
         window.cancelAnimationFrame(Afficher); // Arrête l'animation si le joueur n'a plus de vies
         clearScreen(); // retire les canvass en les passant en display none
         if (score >= 30) {
-            console.log("Vous avez gagné, Votre score est de " + score + " !"); // Affiche le message de victoire dans la console
+            // console.log("Vous avez gagné, Votre score est de " + score + " !"); // Affiche le message de victoire dans la console
             document.getElementsByClassName("écran_win")[0].style.display = "block"; // Affiche l'écran de victoire
-            document.getElementsByClassName("écran_win")[0].innerHTML = "<h1>Vous avez gagné !</h1><p>Votre score est de " + score + "</p><button onclick=\"location.reload()\">Rejouer</button>"; // Affiche le message de victoire
+            document.getElementsByClassName("écran_win")[0].innerHTML = "<h1>Vous avez gagné !</h1><p>Votre score est de " + score + "</p><div onclick=\"location.reload()\">Rejouer</div>"; // Affiche le message de victoire
         }
         else {
-            console.log("Vous avez perdu, Votre score est de " + score + " ! Vous devez faire un score supérieur à 30 pour gagner."); // Affiche le message de défaite dans la console
+            // console.log("Vous avez perdu, Votre score est de " + score + " ! Vous devez faire un score supérieur à 30 pour gagner."); // Affiche le message de défaite dans la console
             document.getElementsByClassName("écran_lose")[0].style.display = "block"; // Affiche l'écran de défaite
-            document.getElementsByClassName("écran_lose")[0].innerHTML = "<h1>Vous avez perdu !</h1><p>Votre score est de " + score + "</p><button onclick=\"location.reload()\">Rejouer</button>"; // Affiche le message de défaite
+            document.getElementsByClassName("écran_lose")[0].innerHTML = "<h1>Vous avez perdu !</h1><p>Votre score est de " + score + "</p><div onclick=\"location.reload()\">Rejouer</div>"; // Affiche le message de défaite
         }
     }
     else {
