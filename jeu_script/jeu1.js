@@ -11,6 +11,8 @@ let chrono = 0
 let temps = 0;
 let temps_avant = 0;
 let temps_difference = 0;
+const audio = document.querySelector("#audio");
+let Jeu_en_cours = false;
 let partition_ecriture = {};
 
 let partition_ecran = [];
@@ -22,7 +24,7 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
-        toucher: false, 
+        toucher: false,
         position_partition: 0
     },
     {
@@ -32,7 +34,7 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
-        toucher: false, 
+        toucher: false,
         position_partition: 0
     },
     {
@@ -42,7 +44,7 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
-        toucher: false, 
+        toucher: false,
         position_partition: 0
     },
     {
@@ -52,7 +54,7 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
-        toucher: false, 
+        toucher: false,
         position_partition: 0
     },
     {
@@ -62,7 +64,7 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
-        toucher: false, 
+        toucher: false,
         position_partition: 0
     },
     {
@@ -72,7 +74,7 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
-        toucher: false, 
+        toucher: false,
         position_partition: 0
     },
     {
@@ -82,7 +84,7 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
-        toucher: false, 
+        toucher: false,
         position_partition: 0
     },
     {
@@ -92,7 +94,7 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
-        toucher: false, 
+        toucher: false,
         position_partition: 0
     },
     {
@@ -102,7 +104,7 @@ let partition = [
         vY: 0,
         Y: -150,
         X: 0,
-        toucher: false, 
+        toucher: false,
         position_partition: 0
     },
 ];
@@ -184,6 +186,9 @@ function calcul() {
         }
 
         // console.log(charactéristique.toucher)
+        if (charactéristique.Y >= 50 && charactéristique.Y <= H - 60) {
+            audio.play();
+        }
 
         if (charactéristique.Y >= H - 60 && charactéristique.Y <= H - 40 && xBille == charactéristique.X && charactéristique.toucher == false) {
             // console.log("toucher")
@@ -242,13 +247,18 @@ function shuffle(array) {
     }
 }
 
-boucle();
-chrono_incrementage();
+// if (Jeu_en_cours == true) {
+//     boucle();
+//     chrono_incrementage();
+// }
+
 
 function chrono_incrementage() {
     chrono++;
-    window.setTimeout(chrono_incrementage, 1);
 
+    if (Jeu_en_cours == true) {
+        window.setTimeout(chrono_incrementage, 1);
+    }
 
 
     Object.entries(partition).forEach(([numero_entité, charactéristique]) => {
@@ -258,6 +268,14 @@ function chrono_incrementage() {
     })
 }
 
+document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu)
+
+function lancement_du_jeu() {
+    document.querySelector(".lancement").style = "display: none;";
+    Jeu_en_cours = true;
+    boucle();
+    chrono_incrementage();
+}
 // screen.orientation.addEventListener("change", (event) => {
 //     const type = event.target.type;
 //     const angle = event.target.angle;
