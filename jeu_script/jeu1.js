@@ -11,9 +11,22 @@ let chrono = 0
 let temps = 0;
 let temps_avant = 0;
 let temps_difference = 0;
-const audio = document.querySelector("#audio");
+const audioElementObstacle = document.querySelector("#audio_obstacle");
+const audioElementNote = document.querySelector("#audio_note");
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+const sourceObstacle = audioContext.createMediaElementSource(audioElementObstacle);
+const sourceNote = audioContext.createMediaElementSource(audioElementNote);
+const pannerObstacle = audioContext.createStereoPanner();
+const pannerNote = audioContext.createStereoPanner();
 let Jeu_en_cours = false;
 let partition_ecriture = {};
+
+// Connexion des nodes audio
+sourceObstacle.connect(pannerObstacle);
+pannerObstacle.connect(audioContext.destination);
+
+sourceNote.connect(pannerNote);
+pannerNote.connect(audioContext.destination);
 
 let partition_ecran = [];
 let partition = [
@@ -28,7 +41,17 @@ let partition = [
         position_partition: 0
     },
     {
-        timeur: 500,
+        timeur: 5,
+        etat: "obstacle",
+        numero: 1,
+        vY: 0,
+        Y: -150,
+        X: 0,
+        toucher: false,
+        position_partition: 0
+    },
+    {
+        timeur: 1500,
         etat: "note",
         numero: 1,
         vY: 0,
@@ -38,7 +61,7 @@ let partition = [
         position_partition: 0
     },
     {
-        timeur: 500,
+        timeur: 4500,
         etat: "note",
         numero: 1,
         vY: 0,
@@ -48,7 +71,7 @@ let partition = [
         position_partition: 0
     },
     {
-        timeur: 450,
+        timeur: 2000,
         etat: "obstacle",
         numero: 2,
         vY: 0,
@@ -58,7 +81,7 @@ let partition = [
         position_partition: 0
     },
     {
-        timeur: 450,
+        timeur: 2500,
         etat: "obstacle",
         numero: 2,
         vY: 0,
@@ -68,7 +91,7 @@ let partition = [
         position_partition: 0
     },
     {
-        timeur: 450,
+        timeur: 3000,
         etat: "obstacle",
         numero: 2,
         vY: 0,
@@ -78,7 +101,7 @@ let partition = [
         position_partition: 0
     },
     {
-        timeur: 550,
+        timeur: 3500,
         etat: "obstacle",
         numero: 3,
         vY: 0,
@@ -88,7 +111,7 @@ let partition = [
         position_partition: 0
     },
     {
-        timeur: 550,
+        timeur: 4000,
         etat: "obstacle",
         numero: 3,
         vY: 0,
@@ -98,7 +121,7 @@ let partition = [
         position_partition: 0
     },
     {
-        timeur: 550,
+        timeur: 4500,
         etat: "obstacle",
         numero: 3,
         vY: 0,
@@ -186,8 +209,15 @@ function calcul() {
         }
 
         // console.log(charactéristique.toucher)
-        if (charactéristique.Y >= 50 && charactéristique.Y <= H - 60) {
-            audio.play();
+        if (charactéristique.Y >= 0 && charactéristique.Y <= H - 60) {
+            if (charactéristique.etat === "obstacle" && audioElementObstacle.paused) {
+                setAudioPan(charactéristique.position_partition, pannerObstacle);
+                audioElementObstacle.play();
+            }
+            if (charactéristique.etat === "note" && audioElementNote.paused) {
+                setAudioPan(charactéristique.position_partition, pannerNote);
+                audioElementNote.play();
+            }
         }
 
         if (charactéristique.Y >= H - 60 && charactéristique.Y <= H - 40 && xBille == charactéristique.X && charactéristique.toucher == false) {
@@ -276,12 +306,23 @@ function lancement_du_jeu() {
     boucle();
     chrono_incrementage();
 }
-// screen.orientation.addEventListener("change", (event) => {
-//     const type = event.target.type;
-//     const angle = event.target.angle;
-//     document.querySelector(".orientation").innerHTML = "type : " + type + " et angle : " + angle;
-//     console.log(`ScreenOrientation change: ${type}, ${angle} degrees.`);
-//   });
+
+// Fonction pour définir la balance du son
+function setAudioPan(position_partition, panner) {
+    if (position_partition === 1) {
+        panner.pan.value = -1; // Gauche
+    } else if (position_partition === 3) {
+        panner.pan.value = 1;  // Droite
+    } else {
+        panner.pan.value = 0;  // Centré (les deux oreilles)
+    }
+}
+screen.orientation.addEventListener("change", (event) => {
+    const type = event.target.type;
+    const angle = event.target.angle;
+    document.querySelector(".orientation").innerHTML = "type : " + type + " et angle : " + angle;
+    console.log(`ScreenOrientation change: ${type}, ${angle} degrees.`);
+  });
 
 
 
