@@ -60,6 +60,12 @@ let viePlayer = 3; // Nombre de vies du joueur
 // Initialisation de variable que j'ai plus envie de définir
 let decideExist = 0; // Variable qui décide de qui va disparaître de notre réalité
 
+// Initialisation des variables pour faire en sorte que le le jeux ne dépende pas des frames mais du temps
+let Tstart = performance.now(); // Temps de départ
+let Tnow = 0; // Temps actuel
+let Dtemp = 0; // différence de temps entre le temps de départ et le temps actuel 
+let RedefineTime = 0; // Variable pour redéfinir le temps vu que ça marche pas
+
 //////////////////////////////////////////////////////////
 
 // Fonction pour controler le personnage
@@ -128,6 +134,20 @@ function drawScore() {
 /////////////////////////////////////////////////////////
 
 function Afficher() {
+
+    if (RedefineTime <= 20) {
+        Tnow = performance.now(); // Temps actuel
+        Dtemp = (Tnow - Tstart) / 1000; // Différence de temps entre le temps de départ et le temps actuel
+        Tstart = Tnow; // Met à jour le temps de départ
+        gravité = 5 * Dtemp; // Met à jour la gravité en fonction du temps écoulé
+        spdObstc = 250 * Dtemp; // Met à jour la vitesse de l'obstacle en fonction du temps écoulé
+        spdEnmy = 1 * Dtemp; // Met à jour la vitesse de l'ennemi en fonction du temps écoulé
+        RedefineTime += 1; // Met à jour la variable pour ne pas redéfinir le temps à chaque frame
+        console.log("ça marche");
+    }
+
+
+
     perso.clearRect(0, 0, largeur, hauteur);
     obstacles.clearRect(0, 0, largeur, hauteur);
     route.clearRect(0, 0, largeur, hauteur);
@@ -148,6 +168,8 @@ function Afficher() {
 
     obstacleY += spdObstc; // Déplacement de l'obstacle vers le bas
     if (obstacleY > hauteur + tailleY) {
+        // console.log("Dtemp", Dtemp, "| Tnow", Tnow, "| Tstart", Tstart);
+
         obstacleY = 0; // Réinitialise la position de l'obstacle
         obstacleX = road[Math.floor(Math.random() * 3)]; // Change la position de l'obstacle aléatoirement
         ennemiX = road[Math.floor(Math.random() * 3)]; // Change la position de l'obstacle aléatoirement
