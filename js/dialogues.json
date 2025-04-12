@@ -1,0 +1,23 @@
+{
+    "intro": [
+        {
+            "CharacterOne": "none",
+            "CharacterTwo": "none",
+            "Background": "War",
+            "Dialogues": [
+                {
+                    "WhoTalk": "none",
+                    "Sentance": "During the year 1798, in the city of Mulhouse, tension is building between  two camps in the city, the first one who want to claim the indépendance of the city and the second one who want to form an alliance with France for economic reason."
+                },
+                {
+                    "WhoTalk": "none",
+                    "Sentance": "To avoid a civil war, the two chief of the both sides take a descision, create a competition between fields of activity. You are a member of the group who need to help the tanner."
+                },
+                {
+                    "WhoTalk": "none",
+                    "Sentance": "At the end, the best team will be able to take the final descision for the mulhouse’s city."
+                }
+            ]
+        }
+    ]
+}
