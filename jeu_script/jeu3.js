@@ -3,6 +3,9 @@
 document.querySelector('.startGame').addEventListener('click', startGame)
 document.querySelector('.defaite>.button-play-again').addEventListener('click', startGame)
 document.querySelector('.victoire>.button-play-again').addEventListener('click', startGame)
+document.querySelector('.sendingButton').addEventListener('click', cheater)
+document.querySelector('.cache_Error').addEventListener('click', closeAll)
+document.querySelector('.victoire>.button-victory').addEventListener('click', passerJeu)
 
 document.querySelector('.button-single-game').addEventListener('click', close)
 
@@ -17,11 +20,14 @@ audioTremblement.volume = 0.2
 const approachSound = new AudioContext();
 const oscillator = approachSound.createOscillator();
 const gainNode = approachSound.createGain();
+const panner = approachSound.createStereoPanner();
+console.log(panner);
 
-// initialisation et volume a 0 de base
+// initialisation volume a 0 de base
 
 oscillator.connect(gainNode);
-gainNode.connect(approachSound.destination);
+gainNode.connect(panner);
+panner.connect(approachSound.destination);
 gainNode.gain.value = 0;
 
 
@@ -145,6 +151,7 @@ if (navigator.geolocation) {
 
         // Mise à jour du marqueur
         marker.setLatLng([latVictoire, longVictoire]);
+        marker.bindPopup("<b>Your position !</b>")
 
         // Mise à jour du polygone
         polygon.setLatLngs([
@@ -366,12 +373,14 @@ function calculer() {
         angle += vBarile;
         if (angle >= 10 || angle <= -10) {
             if (angle >= 10) {
-                gainNode.gain.value = 0.1;
+                gainNode.gain.value = 0.2;
                 oscillator.frequency.value = angle * 20;
+                panner.pan.value = 1; // son dans l'oreille droite
             }
             if (angle <= -10) {
-                gainNode.gain.value = 0.1;
+                gainNode.gain.value = 0.2;
                 oscillator.frequency.value = angle * 20;
+                panner.pan.value = -1; // son dans l'oreille droite
             }
         }
         else {
@@ -429,6 +438,7 @@ function afficher() {
 }
 
 function stopGame() {
+    gainNode.gain.value = 0;
     document.querySelectorAll('.time').forEach(e => {
         e.innerHTML = 'Your Time = ' + minutes + 'm : ' + secondes + 's : ' + mili + "ms";
     })
@@ -508,6 +518,7 @@ function startGame() {
     else {
         document.querySelector('.errorWindow').classList.remove('closerror');
         document.querySelector('.errorWindow').classList.add('ouvrirerror')
+        document.querySelector('.cache_Error').classList.add('ouvrirCache');
     }
 }
 
@@ -515,12 +526,14 @@ function startGame() {
 function close() {
     document.querySelector('.errorWindow').classList.add('closerror');
     document.querySelector('.errorWindow').classList.remove('ouvrirerror');
+    document.querySelector('.cache_Error').classList.remove('ouvrirCache');
 }
 
 // ouvrir la video
 function ouvrirVideo() {
     document.querySelector('.video').classList.add('ouvrir');
     document.querySelector('.video').classList.remove('closevid');
+    document.querySelector('.cache_Error').classList.add('ouvrirCache');
     video.play();
 }
 
@@ -528,6 +541,7 @@ function ouvrirVideo() {
 function fermerVideo() {
     document.querySelector('.video').classList.add('closevid');
     document.querySelector('.video').classList.remove('ouvrir');
+    document.querySelector('.cache_Error').classList.remove('ouvrirCache');
     video.pause();
 }
 
@@ -549,4 +563,37 @@ function chronoT() {
 
         document.querySelector('.timer').innerHTML = minutes + ':' + secondesSansVirgule + ':' + mili
     }, 16);
+}
+
+function cheater() {
+    let valeur = document.querySelector('.CheatCode').value
+
+
+    if (valeur == 'mmi') {
+        localStorage.setItem('progress', 'jeu3');
+        window.location.href = "../index.html";
+    }
+    else {
+        document.querySelector('.errorElse').classList.add('ouvrirerror');
+        document.querySelector('.cache_Error').classList.add('ouvrirCache');
+    }
+}
+
+function fermerError() {
+    document.querySelector('.errorWindow').classList.add('closerror');
+    document.querySelector('.errorElse').classList.remove('ouvrirerror');
+    document.querySelector('.cache_Error').classList.remove('ouvrirCache');
+}
+
+function closeAll() {
+    document.querySelector('.errorWindow').classList.remove('ouvrirerror');
+    document.querySelector('.cache_Error').classList.remove('ouvrirCache');
+
+    document.querySelector('.errorElse').classList.remove('ouvrirerror');
+    document.querySelector('.cache_Error').classList.remove('ouvrirCache');
+}
+
+function passerJeu(){
+    localStorage.setItem('progress', 'jeu3');
+    window.location.href = "../index.html";
 }
