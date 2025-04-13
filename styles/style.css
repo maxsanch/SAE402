@@ -420,3 +420,7 @@ img {
     z-index: 2;
     filter: brightness(100%);
 }
+
+.leaflet-control-container{
+    display: none !important;
+}

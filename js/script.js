@@ -5,49 +5,45 @@ let longitude = 0;
 
 let started = localStorage.getItem('started') || "non";
 
-var map = L.map('map').setView([51.505, -0.09], 13);
+var map = L.map('map').setView([0, 0], 13);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-// if (navigator.geolocation) {
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 20,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
 
-//     navigator.geolocation.getCurrentPosition(function (position) {
-//         latitude = position.coords.latitude;
-//         longitude = position.coords.longitude;
-//         var map = L.map('map').setView([latitude, longitude], 18);
+const routingControl = L.Routing.control({
+    waypoints: [
+        L.latLng(0, 0),
+        L.latLng(57.6792, 11.949),
+        L.latLng(57.6792, 11.949),
+        L.latLng(47.74677388962272, 7.33549761035268),
+    ]
+}).addTo(map);
 
-//         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//             maxZoom: 18,
-//             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-//         }).addTo(map);
+if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(position => {
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
 
-//         L.Routing.control({
-//             waypoints: [
-//                 L.latLng(latitude, longitude),
-//                 L.latLng(47.74696420259903, 7.333642888445753)
-//             ]
-//         }).addTo(map);
-//     }, function (erreur) {
+        map.setView([latitude, longitude], 15);
 
-//         var map = L.map('map').setView([latitude, longitude], 18);
-
-//         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//             maxZoom: 18,
-//             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-//         }).addTo(map);
-//     })
-// }
-// else {
-//     var map = L.map('map').setView([latitude, longitude], 13);
-
-//     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//         maxZoom: 13,
-//         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-//     }).addTo(map);
-// }
+        // Mise à jour du premier waypoint
+        const placeActuelle = routingControl.getWaypoints();
+        placeActuelle[0] = L.Routing.waypoint(L.latLng(latitude, longitude));
+        routingControl.setWaypoints(placeActuelle);
+    }, (error) => {
+        console.log("Erreur de géolocalisation :", error);
+    }, { enableHighAccuracy: true, timeout: 1000 });
+}
+else {
+    console.log('le navigateur ne supporte pas la geolocalisation')
+}
 
 
 // les canvas
@@ -213,7 +209,7 @@ function boucle() {
     window.requestAnimationFrame(boucle)
 }
 
-function transition(){
+function transition() {
     console.log('pending')
 }
 
@@ -233,7 +229,7 @@ function enlever() {
     document.querySelector('.startpart').style = "display: none;"
 }
 
-if(started == 'oui'){
+if (started == 'oui') {
     commencer()
     enlever()
 }
@@ -242,9 +238,9 @@ if(started == 'oui'){
 document.querySelector('.barres').addEventListener('click', ouvrirbarres)
 document.querySelector('.cache-black').addEventListener('click', ouvrirbarres)
 
-function ouvrirbarres(){
+function ouvrirbarres() {
     let barres = localStorage.getItem('menu') || 'categories';
-    document.querySelector('.'+barres).classList.toggle('ouvert');
+    document.querySelector('.' + barres).classList.toggle('ouvert');
     document.querySelector('.cache-black').classList.toggle('ouvert')
 }
 
@@ -252,18 +248,19 @@ document.querySelector('.games').addEventListener('click', opencategorie)
 document.querySelector('.story').addEventListener('click', opencategorie)
 document.querySelector('.map').addEventListener('click', opencategorie)
 
-function opencategorie(){
-    if(this.className == "games"){
+function opencategorie() {
+    if (this.className == "games") {
         localStorage.setItem('menu', 'jeux');
         document.querySelector('.jeux').classList.add('ouvert')
         document.querySelector('.categories').classList.remove('ouvert')
     }
-    if(this.className == "map"){
+    if (this.className == "map") {
+        map.invalidateSize();
         localStorage.setItem('menu', 'mapo');
         document.querySelector('.mapo').classList.add('ouvert')
         document.querySelector('.categories').classList.remove('ouvert')
     }
-    if(this.className == "story"){
+    if (this.className == "story") {
         localStorage.setItem('menu', 'story-resume');
         document.querySelector('.story-resume').classList.add('ouvert')
         document.querySelector('.categories').classList.remove('ouvert')
@@ -276,7 +273,7 @@ document.querySelectorAll('.retour').forEach(e => {
 
 
 
-function retour(){
+function retour() {
     localStorage.setItem('menu', 'categories');
     document.querySelector('.categories').classList.add('ouvert')
     document.querySelector('.story-resume').classList.remove('ouvert')
@@ -286,6 +283,6 @@ function retour(){
 
 // la partie histoire
 
-function gérerHistoire(){
-    
+function gérerHistoire() {
+
 }

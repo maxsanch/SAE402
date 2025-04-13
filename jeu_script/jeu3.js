@@ -138,7 +138,6 @@ let polygon = L.polygon([
     [47.747022602578845, 7.336040920713743],
 ]).addTo(map);
 
-
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 20,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -160,6 +159,8 @@ if (navigator.geolocation) {
         ]);
 
         map.setView([latVictoire, longVictoire], 18);
+
+        
 
         if (coordonnées.length <= 20) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
