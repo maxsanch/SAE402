@@ -4,26 +4,48 @@ let latitude = 0;
 let longitude = 0;
 
 let started = localStorage.getItem('started') || "non";
+localStorage.setItem('progress', "Jeu2");
+let progress = localStorage.getItem('progress') || "départ"
 
-var map = L.map('map').setView([0, 0], 13);
+var map = L.map('map').setView([0, 0], 12);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 20,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
-
+console.log(progress)
+switch (progress) {
+    case "Jeu1":
+        pts = [
+            L.latLng(0, 0),
+            L.latLng(47.7476668973079, 7.333935237261866),
+            L.latLng(47.74677388962272, 7.33549761035268),
+        ]
+        break;
+    case "Jeu2":
+        pts = [
+            L.latLng(0, 0),
+            L.latLng(47.74677388962272, 7.33549761035268),
+        ]
+        break;
+    case "Jeu3":
+        pts = [
+            L.latLng(0, 0)
+        ]
+        break;
+    default:
+        pts = [
+            L.latLng(0, 0),
+            L.latLng(47.74693247591911, 7.333608821941789),
+            L.latLng(47.7476668973079, 7.333935237261866),
+            L.latLng(47.74677388962272, 7.33549761035268),
+        ]
+}
 const routingControl = L.Routing.control({
-    waypoints: [
-        L.latLng(0, 0),
-        L.latLng(57.6792, 11.949),
-        L.latLng(57.6792, 11.949),
-        L.latLng(47.74677388962272, 7.33549761035268),
-    ]
+    waypoints: pts,
+    draggableWaypoints: false,
+    addWaypoints: false
 }).addTo(map);
 
 if (navigator.geolocation) {
@@ -36,6 +58,7 @@ if (navigator.geolocation) {
         // Mise à jour du premier waypoint
         const placeActuelle = routingControl.getWaypoints();
         placeActuelle[0] = L.Routing.waypoint(L.latLng(latitude, longitude));
+
         routingControl.setWaypoints(placeActuelle);
     }, (error) => {
         console.log("Erreur de géolocalisation :", error);
@@ -242,6 +265,8 @@ function ouvrirbarres() {
     let barres = localStorage.getItem('menu') || 'categories';
     document.querySelector('.' + barres).classList.toggle('ouvert');
     document.querySelector('.cache-black').classList.toggle('ouvert')
+    map.invalidateSize();
+    map.setView([latitude, longitude], 13);
 }
 
 document.querySelector('.games').addEventListener('click', opencategorie)
@@ -255,10 +280,11 @@ function opencategorie() {
         document.querySelector('.categories').classList.remove('ouvert')
     }
     if (this.className == "map") {
-        map.invalidateSize();
         localStorage.setItem('menu', 'mapo');
         document.querySelector('.mapo').classList.add('ouvert')
         document.querySelector('.categories').classList.remove('ouvert')
+        map.invalidateSize();
+        map.setView([latitude, longitude], 13);
     }
     if (this.className == "story") {
         localStorage.setItem('menu', 'story-resume');

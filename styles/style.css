@@ -10,9 +10,12 @@ a {
 }
 
 #map {
-
     height: 750px;
     padding: 10px;
+}
+#retourjeux{
+    width: 50px;
+    padding-left: 10px;
 }
 
 #mapreturn{
@@ -21,6 +24,7 @@ a {
     height: 50px;
     bottom: 0;
     left: 0;
+    z-index: 1000;
     background: #F1AE43;
 }
 
