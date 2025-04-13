@@ -283,3 +283,9 @@ function retour(){
     document.querySelector('.mapo').classList.remove('ouvert')
     document.querySelector('.jeux').classList.remove('ouvert')
 }
+
+// la partie histoire
+
+function gérerHistoire(){
+    
+}
