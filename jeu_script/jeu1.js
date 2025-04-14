@@ -242,8 +242,8 @@ function calcul() {
 
 function boucle() {
     if (Jeu_en_cours == true) {
-       calcul();
-    afficher(); 
+        calcul();
+        afficher();
     }
     window.requestAnimationFrame(boucle);
 }
@@ -288,16 +288,17 @@ function shuffle(array) {
 function chrono_incrementage() {
     chrono++;
 
+    window.setTimeout(chrono_incrementage, 1);
+
+
     if (Jeu_en_cours == true) {
-        window.setTimeout(chrono_incrementage, 1);
+
+        Object.entries(partition).forEach(([numero_entité, charactéristique]) => {
+            if (chrono == charactéristique.timeur) {
+                partition_ecran.push(charactéristique);
+            }
+        })
     }
-
-
-    Object.entries(partition).forEach(([numero_entité, charactéristique]) => {
-        if (chrono == charactéristique.timeur) {
-            partition_ecran.push(charactéristique);
-        }
-    })
 }
 
 document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu)
@@ -325,13 +326,16 @@ screen.orientation.addEventListener("change", (event) => {
     const angle = event.target.angle;
     document.querySelector(".orientation").innerHTML = "type : " + type + " et angle : " + angle;
     console.log(`ScreenOrientation change: ${type}, ${angle} degrees.`);
-    if (type == "portrait-primary"){
+    if (type == "portrait") {
         Jeu_en_cours = true;
     }
     else {
         Jeu_en_cours = false;
+        ctx_notes.clearRect(0, 0, W, H);
+        ctx_obstacles.clearRect(0, 0, W, H);
+        ctx_personnage.clearRect(0, 0, W, H);
     }
-  });
+});
 
 
 
