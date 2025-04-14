@@ -69,10 +69,10 @@ if (navigator.geolocation) {
 
         routingControl.setWaypoints(placeActuelle);
 
-        switch (progress){
+        switch (progress) {
             case 'preBar':
-                if(latitude >= 47.74673 && latitude <= 47.74713 && longitude >= 7.33340 && longitude <= 7.33380){
-                    if(pointAtteint === false){
+                if (latitude >= 47.74673 && latitude <= 47.74713 && longitude >= 7.33340 && longitude <= 7.33380) {
+                    if (pointAtteint === false) {
                         // faire l'action ici
                         localStorage.setItem('progress', 'bar');
                         gérerHistoire()
@@ -81,8 +81,8 @@ if (navigator.geolocation) {
                 }
                 break;
             case 'preRun':
-                if(latitude >= 47.74746 && latitude <= 47.74786 && longitude >= 7.33373 && longitude <= 7.33413){
-                    if(pointAtteint === false){
+                if (latitude >= 47.74746 && latitude <= 47.74786 && longitude >= 7.33373 && longitude <= 7.33413) {
+                    if (pointAtteint === false) {
                         // faire l'action ici
                         localStorage.setItem('progress', 'run');
                         gérerHistoire()
@@ -91,8 +91,8 @@ if (navigator.geolocation) {
                 }
                 break;
             case 'preBarrel':
-                if(latitude >= 47.74673 && latitude <= 47.74713 && longitude >= 7.33340 && longitude <= 7.33380){
-                    if(pointAtteint === false){
+                if (latitude >= 47.74673 && latitude <= 47.74713 && longitude >= 7.33340 && longitude <= 7.33380) {
+                    if (pointAtteint === false) {
                         // faire l'action ici
                         localStorage.setItem('progress', 'barrel');
                         gérerHistoire()
@@ -365,7 +365,7 @@ function gérerHistoire() {
     if (ecriture) {
         return;
     }
-
+    
     progress = localStorage.getItem('progress');
 
     fetch('js/dialogues.json')
@@ -452,9 +452,58 @@ function gérerHistoire() {
                         number++;
                     }
                     if (number == rep[progress][0].Dialogues.length) {
+                        localStorage.setItem('progress', 'startJeu1');
+                        number = 0;
+                    }
+                    break;
+                case "startJeu1":
+
+                    break;
+                case "Jeu1":
+                    if (number == 0) {
+                        document.querySelector('.cacheAppearDesapear').style = 'display: block;';
+                        document.querySelector('.cacheAppearDesapear').classList.add('AnimationCache')
+                        setTimeout(function () {
+                            document.querySelector('.cacheAppearDesapear').style = 'display: none;';
+                            document.querySelector('.cacheAppearDesapear').classList.remove('AnimationCache')
+                        }, 1000)
+
+                        setTimeout(function () {
+                            document.querySelector('.bgFixed>img').src = 'img/fondbar.jpg';
+
+                            document.querySelector('.personnage1').style = "display: block;";
+                            document.querySelector('.personnage2').style = "display: block;";
+                            document.querySelector('.personnage1>img').src = 'img/personnages/' + rep[progress][0].CharacterOne + '.png'
+                            document.querySelector('.personnage2>img').src = 'img/personnages/' + rep[progress][0].CharacterTwo + '.png'
+                        }, 500)
+                    }
+
+                    if (number < rep[progress][0].Dialogues.length) {
+                        document.querySelector('.' + rep[progress][0].Dialogues[number].WhoTalk).classList.add('parler')
+                        document.querySelector('.' + rep[progress][0].Dialogues[number].WhoDontTalk).classList.remove('parler')
+                        print(rep[progress][0].Dialogues[number].Sentance)
+                        number++;
+                    }
+                    if (number == rep[progress][0].Dialogues.length) {
                         localStorage.setItem('progress', 'preBar');
                         number = 0;
                     }
+                    break;
+                case 'preRun':
+                    localStorage.setItem('menu', 'mapo');
+                    document.querySelector('.mapo').classList.add('ouvert')
+                    document.querySelector('.categories').classList.remove('ouvert')
+                    document.querySelector('.cache-black').classList.toggle('ouvert')
+                    map.invalidateSize();
+                    map.setView([latitude, longitude], 13);
+                    break;
+                case 'Jeu2':
+                    localStorage.setItem('menu', 'mapo');
+                    document.querySelector('.mapo').classList.add('ouvert')
+                    document.querySelector('.categories').classList.remove('ouvert')
+                    document.querySelector('.cache-black').classList.toggle('ouvert')
+                    map.invalidateSize();
+                    map.setView([latitude, longitude], 13);
                     break;
                 default:
                     console.log('une erreur est survenue.')
