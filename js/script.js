@@ -4,8 +4,7 @@ let latitude = 0;
 let longitude = 0;
 
 let started = localStorage.getItem('started') || "non";
-localStorage.setItem('progress', "Jeu2");
-let progress = localStorage.getItem('progress') || "départ"
+let progress = localStorage.getItem('progress') || "intro"
 
 var map = L.map('map').setView([0, 0], 12);
 
@@ -14,7 +13,6 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-console.log(progress)
 switch (progress) {
     case "Jeu1":
         pts = [
@@ -203,7 +201,6 @@ function initialisation() {
 
 function boucle() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
-
     tab.forEach(e => {
         e.x += e.vx
         e.y += e.vy
@@ -228,7 +225,6 @@ function boucle() {
         ctx.fillStyle = gradient;
         ctx.fillRect(e.x, e.y, e.taille, e.taille)
     })
-
     window.requestAnimationFrame(boucle)
 }
 
@@ -239,24 +235,17 @@ function transition() {
 initialisation();
 boucle();
 
-
-
 document.querySelector('.bouton-main-page').addEventListener('click', commencer)
 
 function commencer() {
     localStorage.setItem("started", "oui")
-    setTimeout(enlever, 2000)
-}
-
-function enlever() {
     document.querySelector('.startpart').style = "display: none;"
+    gérerHistoire();
 }
 
 if (started == 'oui') {
     commencer()
-    enlever()
 }
-
 
 document.querySelector('.barres').addEventListener('click', ouvrirbarres)
 document.querySelector('.cache-black').addEventListener('click', ouvrirbarres)
@@ -309,6 +298,36 @@ function retour() {
 
 // la partie histoire
 
-function gérerHistoire() {
+let number = 0;
+document.querySelector('.histoire').addEventListener('click', gérerHistoire)
 
+function gérerHistoire() {
+    progress = localStorage.getItem('progress');
+
+    fetch('js/dialogues.json')
+    .then(function(reponse){
+        return reponse.json();
+    })
+    .then(function (rep){
+        switch (progress) {
+            case "intro":
+                document.querySelector('.personnage1').style = "display: none;";
+                document.querySelector('.personnage2').style = "display: none;";
+                document.querySelector('.bgFixed>img').src = 'img/fond'+progress+'.jpg';
+                console.log(rep.intro[0].Dialogues.length)
+                if(number < rep.intro[0].Dialogues.length){
+                    console.log(rep.intro[0].Dialogues[number].Sentance)
+                    document.querySelector('.bulleDialogue').innerHTML = rep.intro[0].Dialogues[number].Sentance
+                    number++;
+                }
+                if(number == rep.intro[0].Dialogues.length){
+                    localStorage.setItem('progress', 'scene1')
+                }
+                break;
+            case "scene1":
+                break;
+            default: 
+                console.log("une erreur est survenue")
+        }
+    })
 }
