@@ -121,33 +121,38 @@
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Hi, the cart's here, watch out for the enemies on your road."
+                    "Sentance": "Hi, the cart's here, take car for the enemies on your road. To avoid them, turn your phone as the last game"
                 }
             ]
         }
     ],
     "barrel": [
         {
-            "CharacterOne": "Barman",
+            "CharacterOne": "Lambda",
             "CharacterTwo": "Us",
             "Dialogues": [
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Hello, do you know why i call you here ?"
+                    "Sentance": "You need to walk now.. bring the barrel to the tanner. keep your phone in front of you, straight, and move it so that the barrile is upright, don't move too fast, it could fall."
                 }
             ]
         }
     ],
     "Jeu3": [
         {
-            "CharacterOne": "Barman",
+            "CharacterOne": "Tanner",
             "CharacterTwo": "Us",
             "Dialogues": [
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Hello, do you know why i call you here ?"
+                    "Sentance": "Well done, you've done it !"
+                },
+                {
+                    "WhoTalk": "personnage1",
+                    "WhoDontTalk": "personnage2",
+                    "Sentance": "Thanks to you, the town of Mulhouse will be much more likely to listen to our side! You've won !"
                 }
             ]
         }
