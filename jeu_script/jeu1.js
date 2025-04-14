@@ -326,7 +326,7 @@ screen.orientation.addEventListener("change", (event) => {
     const angle = event.target.angle;
     document.querySelector(".orientation").innerHTML = "type : " + type + " et angle : " + angle;
     console.log(`ScreenOrientation change: ${type}, ${angle} degrees.`);
-    if (type == "portrait") {
+    if (type.includes("portrait")) {
         Jeu_en_cours = true;
     }
     else {
