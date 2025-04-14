@@ -241,8 +241,10 @@ function calcul() {
 }
 
 function boucle() {
-    calcul();
-    afficher();
+    if (Jeu_en_cours == true) {
+       calcul();
+    afficher(); 
+    }
     window.requestAnimationFrame(boucle);
 }
 
@@ -317,11 +319,18 @@ function setAudioPan(position_partition, panner) {
         panner.pan.value = 0;  // Centré (les deux oreilles)
     }
 }
+
 screen.orientation.addEventListener("change", (event) => {
     const type = event.target.type;
     const angle = event.target.angle;
     document.querySelector(".orientation").innerHTML = "type : " + type + " et angle : " + angle;
     console.log(`ScreenOrientation change: ${type}, ${angle} degrees.`);
+    if (type == "portrait-primary"){
+        Jeu_en_cours = true;
+    }
+    else {
+        Jeu_en_cours = false;
+    }
   });
 
 
