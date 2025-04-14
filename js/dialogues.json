@@ -3,7 +3,6 @@
         {
             "CharacterOne": "none",
             "CharacterTwo": "none",
-            "Background": "War",
             "Dialogues": [
                 {
                     "WhoTalk": "none",
@@ -16,6 +15,127 @@
                 {
                     "WhoTalk": "none",
                     "Sentance": "At the end, the best team will be able to take the final descision for the mulhouse’s city."
+                }
+            ]
+        }
+    ],
+    "scene1": [
+        {
+            "CharacterOne": "Tanner",
+            "CharacterTwo": "Us",
+            "Dialogues": [
+                {
+                    "WhoTalk": "personnage1",
+                    "WhoDontTalk": "personnage2",
+                    "Sentance": "Hello, do you know why i call you here ?"
+                },
+                {
+                    "WhoTalk": "personnage2",
+                    "WhoDontTalk": "personnage1",
+                    "Sentance": "Yes. You need my help to convince the people of the street of tanner to join uss."
+                },
+                {
+                    "WhoTalk": "personnage1",
+                    "WhoDontTalk": "personnage2",
+                    "Sentance": "Good, your first mission is to go to the bar and help set the mood."
+                },
+                {
+                    "WhoTalk": "personnage2",
+                    "WhoDontTalk": "personnage1",
+                    "Sentance": "Why do we need to set the mood in a bar, are we not suposed to help the tanner ?"
+                },
+                {
+                    "WhoTalk": "personnage1",
+                    "WhoDontTalk": "personnage2",
+                    "Sentance": "Yes but you know to treat their product they need urine so we are gonna search some at the bar, for the tanner this liquid is gold."
+                },
+                {
+                    "WhoTalk": "personnage2",
+                    "WhoDontTalk": "personnage1",
+                    "Sentance": "Ok, im going to the bar."
+                },
+                {
+                    "WhoTalk": "personnage1",
+                    "WhoDontTalk": "personnage2",
+                    "Sentance": "Oh.. and be carefull, some bandit from the other camp hang around the bar."
+                }
+            ]
+        }
+    ],
+    "bar": [
+        {
+            "CharacterOne": "Barman",
+            "CharacterTwo": "Us",
+            "Dialogues": [
+                {
+                    "WhoTalk": "personnage1",
+                    "WhoDontTalk": "personnage2",
+                    "Sentance": "Hello, do you know why i call you here ?"
+                }
+            ]
+        }
+    ],
+    "Jeu1": [
+        {
+            "CharacterOne": "Barman",
+            "CharacterTwo": "Us",
+            "Dialogues": [
+                {
+                    "WhoTalk": "personnage1",
+                    "WhoDontTalk": "personnage2",
+                    "Sentance": "Hello, do you know why i call you here ?"
+                }
+            ]
+        }
+    ],
+    "run": [
+        {
+            "CharacterOne": "Barman",
+            "CharacterTwo": "Us",
+            "Dialogues": [
+                {
+                    "WhoTalk": "personnage1",
+                    "WhoDontTalk": "personnage2",
+                    "Sentance": "Hello, do you know why i call you here ?"
+                }
+            ]
+        }
+    ],
+    "Jeu2": [
+        {
+            "CharacterOne": "Barman",
+            "CharacterTwo": "Us",
+            "Dialogues": [
+                {
+                    "WhoTalk": "personnage1",
+                    "WhoDontTalk": "personnage2",
+                    "Sentance": "Hello, do you know why i call you here ?"
+                }
+            ]
+        }
+    ],
+    "barrel": [
+        {
+            "CharacterOne": "Barman",
+            "CharacterTwo": "Us",
+            "Dialogues": [
+                {
+                    "WhoTalk": "personnage1",
+                    "WhoDontTalk": "personnage2",
+                    "Sentance": "Hello, do you know why i call you here ?"
+                }
+            ]
+        }
+    ],
+    "Jeu3": [
+        {
+            "CharacterOne": "Barman",
+            "CharacterTwo": "Us",
+            "Dialogues": [
+                {
+                    "WhoTalk": "personnage1",
+                    "WhoDontTalk": "personnage2",
+                    "Sentance": "Hello, do you know why i call you here ?"
                 }
             ]
         }

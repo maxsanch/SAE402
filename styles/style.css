@@ -428,3 +428,34 @@ img {
 .leaflet-control-container{
     display: none !important;
 }
+
+.cacheAppearDesapear{
+    position: fixed;
+    z-index: 5;
+    background: #000000;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    opacity: 0;
+}
+
+.AnimationCache{
+    animation: transition 1s;
+}
+
+@keyframes transition{
+    0%{
+        opacity: 0;
+    }
+    40%{
+        opacity: 1;
+    }
+    60%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}

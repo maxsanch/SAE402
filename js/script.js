@@ -4,7 +4,15 @@ let latitude = 0;
 let longitude = 0;
 
 let started = localStorage.getItem('started') || "non";
-let progress = localStorage.getItem('progress') || "intro"
+let progress = localStorage.getItem('progress') || "intro";
+
+
+// initialisation histoire 
+
+// la partie histoire
+
+let number = 0;
+let ecriture = false;
 
 var map = L.map('map').setView([0, 0], 12);
 
@@ -12,6 +20,8 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
+
+let pointAtteint = false;
 
 switch (progress) {
     case "Jeu1":
@@ -58,6 +68,42 @@ if (navigator.geolocation) {
         placeActuelle[0] = L.Routing.waypoint(L.latLng(latitude, longitude));
 
         routingControl.setWaypoints(placeActuelle);
+
+        switch (progress){
+            case 'preBar':
+                if(latitude >= 47.74673 && latitude <= 47.74713 && longitude >= 7.33340 && longitude <= 7.33380){
+                    if(pointAtteint === false){
+                        // faire l'action ici
+                        localStorage.setItem('progress', 'bar');
+                        gérerHistoire()
+                        pointAtteint = true
+                    }
+                }
+                break;
+            case 'preRun':
+                if(latitude >= 47.74746 && latitude <= 47.74786 && longitude >= 7.33373 && longitude <= 7.33413){
+                    if(pointAtteint === false){
+                        // faire l'action ici
+                        localStorage.setItem('progress', 'run');
+                        gérerHistoire()
+                        pointAtteint = true
+                    }
+                }
+                break;
+            case 'preBarrel':
+                if(latitude >= 47.74673 && latitude <= 47.74713 && longitude >= 7.33340 && longitude <= 7.33380){
+                    if(pointAtteint === false){
+                        // faire l'action ici
+                        localStorage.setItem('progress', 'barrel');
+                        gérerHistoire()
+                        pointAtteint = true
+                    }
+                }
+                break;
+            default:
+                console.log("pas d'impacte")
+        }
+
     }, (error) => {
         console.log("Erreur de géolocalisation :", error);
     }, { enableHighAccuracy: true, timeout: 1000 });
@@ -296,38 +342,122 @@ function retour() {
     document.querySelector('.jeux').classList.remove('ouvert')
 }
 
-// la partie histoire
-
-let number = 0;
 document.querySelector('.histoire').addEventListener('click', gérerHistoire)
 
+function print(dialogue) {
+    let n = 0;
+    let contenu = document.querySelector('.bulleDialogue')
+
+    contenu.innerHTML = "";
+    ecriture = true;
+
+    let intervale = setInterval(() => {
+        contenu.innerHTML += dialogue.charAt(n);
+        n++;
+        if (n >= dialogue.length) {
+            clearInterval(intervale);
+            ecriture = false;
+        }
+    }, 16)
+}
+
 function gérerHistoire() {
+    if (ecriture) {
+        return;
+    }
+
     progress = localStorage.getItem('progress');
 
     fetch('js/dialogues.json')
-    .then(function(reponse){
-        return reponse.json();
-    })
-    .then(function (rep){
-        switch (progress) {
-            case "intro":
-                document.querySelector('.personnage1').style = "display: none;";
-                document.querySelector('.personnage2').style = "display: none;";
-                document.querySelector('.bgFixed>img').src = 'img/fond'+progress+'.jpg';
-                console.log(rep.intro[0].Dialogues.length)
-                if(number < rep.intro[0].Dialogues.length){
-                    console.log(rep.intro[0].Dialogues[number].Sentance)
-                    document.querySelector('.bulleDialogue').innerHTML = rep.intro[0].Dialogues[number].Sentance
-                    number++;
-                }
-                if(number == rep.intro[0].Dialogues.length){
-                    localStorage.setItem('progress', 'scene1')
-                }
-                break;
-            case "scene1":
-                break;
-            default: 
-                console.log("une erreur est survenue")
-        }
-    })
+        .then(function (reponse) {
+            return reponse.json();
+        })
+        .then(function (rep) {
+            switch (progress) {
+                case "intro":
+                    document.querySelector('.bgFixed>img').src = 'img/fond' + progress + '.jpg';
+                    document.querySelector('.personnage1').style = "display: none;";
+                    document.querySelector('.personnage2').style = "display: none;";
+
+                    if (number < rep.intro[0].Dialogues.length) {
+                        print(rep.intro[0].Dialogues[number].Sentance)
+                        number++;
+                    }
+                    if (number == rep.intro[0].Dialogues.length) {
+                        localStorage.setItem('progress', 'scene1')
+                        number = 0;
+                    }
+                    break;
+                case 'scene1':
+                    if (number == 0) {
+                        document.querySelector('.cacheAppearDesapear').style = 'display: block;';
+                        document.querySelector('.cacheAppearDesapear').classList.add('AnimationCache')
+                        setTimeout(function () {
+                            document.querySelector('.cacheAppearDesapear').style = 'display: none;';
+                            document.querySelector('.cacheAppearDesapear').classList.remove('AnimationCache')
+                        }, 1000)
+
+                        setTimeout(function () {
+                            document.querySelector('.bgFixed>img').src = 'img/fond' + progress + '.jpg';
+
+                            document.querySelector('.personnage1').style = "display: block;";
+                            document.querySelector('.personnage2').style = "display: block;";
+                            document.querySelector('.personnage1>img').src = 'img/personnages/' + rep[progress][0].CharacterOne + '.png'
+                            document.querySelector('.personnage2>img').src = 'img/personnages/' + rep[progress][0].CharacterTwo + '.png'
+                        }, 500)
+                    }
+
+                    if (number < rep[progress][0].Dialogues.length) {
+                        document.querySelector('.' + rep[progress][0].Dialogues[number].WhoTalk).classList.add('parler')
+                        document.querySelector('.' + rep[progress][0].Dialogues[number].WhoDontTalk).classList.remove('parler')
+                        print(rep[progress][0].Dialogues[number].Sentance)
+                        number++;
+                    }
+                    if (number == rep[progress][0].Dialogues.length) {
+                        localStorage.setItem('progress', 'preBar');
+                        number = 0;
+                    }
+                    break;
+                case 'preBar':
+                    localStorage.setItem('menu', 'mapo');
+                    document.querySelector('.mapo').classList.add('ouvert')
+                    document.querySelector('.categories').classList.remove('ouvert')
+                    document.querySelector('.cache-black').classList.toggle('ouvert')
+                    map.invalidateSize();
+                    map.setView([latitude, longitude], 13);
+                    break;
+                case 'bar':
+                    if (number == 0) {
+                        document.querySelector('.cacheAppearDesapear').style = 'display: block;';
+                        document.querySelector('.cacheAppearDesapear').classList.add('AnimationCache')
+                        setTimeout(function () {
+                            document.querySelector('.cacheAppearDesapear').style = 'display: none;';
+                            document.querySelector('.cacheAppearDesapear').classList.remove('AnimationCache')
+                        }, 1000)
+
+                        setTimeout(function () {
+                            document.querySelector('.bgFixed>img').src = 'img/fond' + progress + '.jpg';
+
+                            document.querySelector('.personnage1').style = "display: block;";
+                            document.querySelector('.personnage2').style = "display: block;";
+                            document.querySelector('.personnage1>img').src = 'img/personnages/' + rep[progress][0].CharacterOne + '.png'
+                            document.querySelector('.personnage2>img').src = 'img/personnages/' + rep[progress][0].CharacterTwo + '.png'
+                        }, 500)
+                    }
+
+                    if (number < rep[progress][0].Dialogues.length) {
+                        document.querySelector('.' + rep[progress][0].Dialogues[number].WhoTalk).classList.add('parler')
+                        document.querySelector('.' + rep[progress][0].Dialogues[number].WhoDontTalk).classList.remove('parler')
+                        print(rep[progress][0].Dialogues[number].Sentance)
+                        number++;
+                    }
+                    if (number == rep[progress][0].Dialogues.length) {
+                        localStorage.setItem('progress', 'preBar');
+                        number = 0;
+                    }
+                    break;
+                default:
+                    console.log('une erreur est survenue.')
+            }
+        })
 }
