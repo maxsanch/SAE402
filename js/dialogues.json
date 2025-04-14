@@ -70,7 +70,32 @@
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Hello, do you know why i call you here ?"
+                    "Sentance": "Hey ! Are you the one who's been called in to help me ?"
+                },
+                {
+                    "WhoTalk": "personnage2",
+                    "WhoDontTalk": "personnage1",
+                    "Sentance": "Yes, it's me. So.. what should i do ?"
+                },
+                {
+                    "WhoTalk": "personnage1",
+                    "WhoDontTalk": "personnage2",
+                    "Sentance": "You'll have to animate the evening with music, and the better you are, the more people will drink !"
+                },
+                {
+                    "WhoTalk": "personnage1",
+                    "WhoDontTalk": "personnage2",
+                    "Sentance": "so get the chords and notes right (by turning your phone) and avoid the drunks to win !"
+                },
+                {
+                    "WhoTalk": "personnage2",
+                    "WhoDontTalk": "personnage1",
+                    "Sentance": "Ok, i'll do it."
+                },
+                {
+                    "WhoTalk": "personnage1",
+                    "WhoDontTalk": "personnage2",
+                    "Sentance": "Thank you again ! Good luck."
                 }
             ]
         }
@@ -83,33 +108,20 @@
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Hello, do you know why i call you here ?"
+                    "Sentance": "Nice job, now, you can bring the barrels to the Tanner ! My cart is at  <<La cours des chaines>>."
                 }
             ]
         }
     ],
     "run": [
         {
-            "CharacterOne": "Barman",
+            "CharacterOne": "Lambda",
             "CharacterTwo": "Us",
             "Dialogues": [
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Hello, do you know why i call you here ?"
-                }
-            ]
-        }
-    ],
-    "Jeu2": [
-        {
-            "CharacterOne": "Barman",
-            "CharacterTwo": "Us",
-            "Dialogues": [
-                {
-                    "WhoTalk": "personnage1",
-                    "WhoDontTalk": "personnage2",
-                    "Sentance": "Hello, do you know why i call you here ?"
+                    "Sentance": "Hi, the cart's here, watch out for the enemies on your road."
                 }
             ]
         }
