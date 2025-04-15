@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>We catch - The golden road</title>
+    <meta name="theme-color" content="#8E4E16">
+    <link rel="manifest" href="manifest.json">
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-
-
     <link rel="stylesheet" href="styles/style.css">
 </head>
 
@@ -146,7 +147,6 @@
             <img src="img/personnages/Us.png" alt="image du deuxième personnage">
         </div>
         <div class="bulleDialogue">
-            During the year 1798, in the city of Mulhouse, tension is building between  two camps in the city, the first one who want to claim the indépendance of the city and the second one who want to form an alliance with France for economic reason.
         </div>
     </div>
 
@@ -159,8 +159,13 @@
     </div>
 
 
+    <script>
+        /* Le SW en premier pour éviter les problèmes */
+        if('serviceWorker' in navigator){
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
     <script src="js/script.js"></script>
-
 </body>
 
 </html>
