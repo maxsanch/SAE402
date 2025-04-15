@@ -26,20 +26,16 @@ self.addEventListener("install", function (event) {
 					'jeu/jeu2.html',
 					'jeu/jeu3.html',
 					'font/Daydream.ttf',
-					'audio/jeu3/Donkey Kong Country Music SNES - DK Island Swing',
-					'audio/jeu3/tremblements.mp3',
 					'img/arrow_back.svg',
 					'img/back-tonneau.png',
 					'img/fond-jeu-3.jpg',
 					'img/fond-jeu3-debut.jpg',
-					'img/fond-sans-ombres.png',
 					'img/fondbar.jpg',
 					'img/fondbarrel.jpg',
 					'img/fondintro.jpg',
 					'img/fondJeu3.jpg',
 					'img/fondrun.jpg',
 					'img/fondscene1.jpg',
-					'img/front-sans-ombres.png',
 					'img/front-tonneau.png',
 					'img/plaine.png',
 					'img/sky.jpg',
@@ -54,7 +50,7 @@ self.addEventListener("install", function (event) {
 					'img/iconeApp/icon-152x152.png',
 					'img/iconeApp/icon-192x192.png',
 					'img/iconeApp/icon-384x384.png',
-					'img/iconeApp/icon-512x512.png'
+					'img/iconeApp/icon-512x512.png',
 				]);
 			})
 	);

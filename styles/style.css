@@ -10,15 +10,16 @@ a {
 }
 
 #map {
-    height: 750px;
+    height: 80vh;
     padding: 10px;
 }
-#retourjeux{
+
+#retourjeux {
     width: 50px;
     padding-left: 10px;
 }
 
-#mapreturn{
+#mapreturn {
     position: absolute;
     width: 50px;
     height: 50px;
@@ -358,8 +359,19 @@ img {
     position: fixed;
     top: 0;
     bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
     width: 100%;
     z-index: -1;
+}
+
+
+.bgFixed>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* ❤️ magique */
 }
 
 .cache-black {
@@ -377,12 +389,12 @@ img {
     display: block;
 }
 
-.story-resume{
+.story-resume {
     background: #F1AE43;
     padding: 10px;
 }
 
-.histoire{
+.histoire {
     z-index: 1;
     position: fixed;
     left: 0;
@@ -393,7 +405,8 @@ img {
     bottom: 0;
 }
 
-.personnage1, .personnage2{
+.personnage1,
+.personnage2 {
     position: absolute;
     bottom: 15px;
     width: 400px;
@@ -401,14 +414,17 @@ img {
     filter: brightness(50%);
 }
 
-.personnage1{
-    left: 0;
-}
-.personnage2{
-    right: 0;
+.personnage1 {
+    left: -80px;
+    transition: 0.4s;
 }
 
-.bulleDialogue{
+.personnage2 {
+    right: -80px;
+    transition: 0.4s;
+}
+
+.bulleDialogue {
     z-index: 4;
     margin: auto;
     width: 90%;
@@ -420,16 +436,27 @@ img {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.parler{
+.parler {
     z-index: 2;
     filter: brightness(100%);
 }
 
-.leaflet-control-container{
+.personnage1.parler {
+    transform: translateX(80px);
+    transition-delay: 0.1s;
+}
+
+.personnage2.parler {
+    transform: translateX(-80px);
+    transition-delay: 0.1s;
+}
+
+
+.leaflet-control-container {
     display: none !important;
 }
 
-.cacheAppearDesapear{
+.cacheAppearDesapear {
     position: fixed;
     z-index: 5;
     background: #000000;
@@ -441,21 +468,24 @@ img {
     opacity: 0;
 }
 
-.AnimationCache{
+.AnimationCache {
     animation: transition 1s;
 }
 
-@keyframes transition{
-    0%{
+@keyframes transition {
+    0% {
         opacity: 0;
     }
-    40%{
+
+    40% {
         opacity: 1;
     }
-    60%{
+
+    60% {
         opacity: 1;
     }
-    100%{
+
+    100% {
         opacity: 0;
     }
 }
