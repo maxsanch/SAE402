@@ -32,7 +32,7 @@
                 {
                     "WhoTalk": "personnage2",
                     "WhoDontTalk": "personnage1",
-                    "Sentance": "Yes. You need my help to convince the people of the street of tanner to join uss."
+                    "Sentance": "Yes. You need my help to convince the people of the street of tanner to join us."
                 },
                 {
                     "WhoTalk": "personnage1",
@@ -108,7 +108,7 @@
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Nice job, now, you can bring the barrels to the Tanner ! My cart is at  <<La cours des chaines>>."
+                    "Sentance": "Nice job, now, you can bring the barrels to the Tanner ! My cart is at  «La cours des chaines»."
                 }
             ]
         }

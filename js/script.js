@@ -14,7 +14,7 @@ let progress = localStorage.getItem('progress') || "intro";
 let number = 0;
 let ecriture = false;
 
-var map = L.map('map').setView([0, 0], 12);
+var map = L.map('map').setView([0, 0], 18);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -28,7 +28,6 @@ switch (progress) {
         pts = [
             L.latLng(0, 0),
             L.latLng(47.7476668973079, 7.333935237261866),
-            L.latLng(47.74677388962272, 7.33549761035268),
         ]
         break;
     case "Jeu2":
@@ -46,10 +45,9 @@ switch (progress) {
         pts = [
             L.latLng(0, 0),
             L.latLng(47.74693247591911, 7.333608821941789),
-            L.latLng(47.7476668973079, 7.333935237261866),
-            L.latLng(47.74677388962272, 7.33549761035268),
         ]
 }
+
 const routingControl = L.Routing.control({
     waypoints: pts,
     draggableWaypoints: false,
@@ -61,7 +59,7 @@ if (navigator.geolocation) {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
 
-        map.setView([latitude, longitude], 15);
+        map.setView([latitude, longitude], 18);
 
         // Mise à jour du premier waypoint
         const placeActuelle = routingControl.getWaypoints();
@@ -90,8 +88,8 @@ if (navigator.geolocation) {
                     }
                 }
                 break;
-            case 'preBarrel':
-                if (latitude >= 47.74673 && latitude <= 47.74713 && longitude >= 7.33340 && longitude <= 7.33380) {
+            case 'Jeu2':
+                if (latitude >= 47.74657 && latitude <= 47.74697 && longitude >= 7.33529 && longitude <= 7.33569) {
                     if (pointAtteint === false) {
                         // faire l'action ici
                         localStorage.setItem('progress', 'barrel');
@@ -100,8 +98,6 @@ if (navigator.geolocation) {
                     }
                 }
                 break;
-            default:
-                console.log("pas d'impacte")
         }
 
     }, (error) => {
@@ -285,12 +281,14 @@ document.querySelector('.bouton-main-page').addEventListener('click', commencer)
 
 function commencer() {
     localStorage.setItem("started", "oui")
+    localStorage.setItem('progress', 'intro')
     document.querySelector('.startpart').style = "display: none;"
     gérerHistoire();
 }
 
 if (started == 'oui') {
-    commencer()
+    document.querySelector('.startpart').style = "display: none;"
+    gérerHistoire();
 }
 
 document.querySelector('.barres').addEventListener('click', ouvrirbarres)
@@ -301,7 +299,7 @@ function ouvrirbarres() {
     document.querySelector('.' + barres).classList.toggle('ouvert');
     document.querySelector('.cache-black').classList.toggle('ouvert')
     map.invalidateSize();
-    map.setView([latitude, longitude], 13);
+    map.setView([latitude, longitude], 18);
 }
 
 document.querySelector('.games').addEventListener('click', opencategorie)
@@ -319,7 +317,7 @@ function opencategorie() {
         document.querySelector('.mapo').classList.add('ouvert')
         document.querySelector('.categories').classList.remove('ouvert')
         map.invalidateSize();
-        map.setView([latitude, longitude], 13);
+        map.setView([latitude, longitude], 18);
     }
     if (this.className == "story") {
         localStorage.setItem('menu', 'story-resume');
@@ -365,7 +363,7 @@ function gérerHistoire() {
     if (ecriture) {
         return;
     }
-    
+
     progress = localStorage.getItem('progress');
 
     fetch('js/dialogues.json')
@@ -424,7 +422,7 @@ function gérerHistoire() {
                     document.querySelector('.categories').classList.remove('ouvert')
                     document.querySelector('.cache-black').classList.toggle('ouvert')
                     map.invalidateSize();
-                    map.setView([latitude, longitude], 13);
+                    map.setView([latitude, longitude], 18);
                     break;
                 case 'bar':
                     if (number == 0) {
@@ -457,7 +455,7 @@ function gérerHistoire() {
                     }
                     break;
                 case "startJeu1":
-
+                    window.location.href = "../jeu/jeu1.html";
                     break;
                 case "Jeu1":
                     if (number == 0) {
@@ -485,7 +483,7 @@ function gérerHistoire() {
                         number++;
                     }
                     if (number == rep[progress][0].Dialogues.length) {
-                        localStorage.setItem('progress', 'preBar');
+                        localStorage.setItem('progress', 'preRun');
                         number = 0;
                     }
                     break;
@@ -495,15 +493,113 @@ function gérerHistoire() {
                     document.querySelector('.categories').classList.remove('ouvert')
                     document.querySelector('.cache-black').classList.toggle('ouvert')
                     map.invalidateSize();
-                    map.setView([latitude, longitude], 13);
+                    map.setView([latitude, longitude], 18);
+                    break;
+                case 'run':
+                    if (number == 0) {
+                        document.querySelector('.cacheAppearDesapear').style = 'display: block;';
+                        document.querySelector('.cacheAppearDesapear').classList.add('AnimationCache')
+                        setTimeout(function () {
+                            document.querySelector('.cacheAppearDesapear').style = 'display: none;';
+                            document.querySelector('.cacheAppearDesapear').classList.remove('AnimationCache')
+                        }, 1000)
+
+                        setTimeout(function () {
+                            document.querySelector('.bgFixed>img').src = 'img/fond' + progress + '.jpg';
+
+                            document.querySelector('.personnage1').style = "display: block;";
+                            document.querySelector('.personnage2').style = "display: block;";
+                            document.querySelector('.personnage1>img').src = 'img/personnages/' + rep[progress][0].CharacterOne + '.png'
+                            document.querySelector('.personnage2>img').src = 'img/personnages/' + rep[progress][0].CharacterTwo + '.png'
+                        }, 500)
+                    }
+
+                    if (number < rep[progress][0].Dialogues.length) {
+                        document.querySelector('.' + rep[progress][0].Dialogues[number].WhoTalk).classList.add('parler')
+                        document.querySelector('.' + rep[progress][0].Dialogues[number].WhoDontTalk).classList.remove('parler')
+                        print(rep[progress][0].Dialogues[number].Sentance)
+                        number++;
+                    }
+                    if (number == rep[progress][0].Dialogues.length) {
+                        localStorage.setItem('progress', 'startJeu2');
+                        number = 0;
+                    }
+                    break;
+                case "startJeu2":
+                    window.location.href = "../jeu/jeu2.html";
                     break;
                 case 'Jeu2':
                     localStorage.setItem('menu', 'mapo');
+                    document.querySelector('.bulleDialogue').style = "display: none;"
+                    document.querySelector('.personnage1').style = "display: none;"
+                    document.querySelector('.personnage2').style = "display: none;"
                     document.querySelector('.mapo').classList.add('ouvert')
                     document.querySelector('.categories').classList.remove('ouvert')
                     document.querySelector('.cache-black').classList.toggle('ouvert')
                     map.invalidateSize();
-                    map.setView([latitude, longitude], 13);
+                    map.setView([latitude, longitude], 18);
+                    break;
+                case 'barrel':
+                    if (number == 0) {
+                        document.querySelector('.cacheAppearDesapear').style = 'display: block;';
+                        document.querySelector('.cacheAppearDesapear').classList.add('AnimationCache')
+                        setTimeout(function () {
+                            document.querySelector('.cacheAppearDesapear').style = 'display: none;';
+                            document.querySelector('.cacheAppearDesapear').classList.remove('AnimationCache')
+                        }, 1000)
+
+                        setTimeout(function () {
+                            document.querySelector('.bgFixed>img').src = 'img/fond' + progress + '.jpg';
+
+                            document.querySelector('.personnage1').style = "display: block;";
+                            document.querySelector('.personnage2').style = "display: block;";
+                            document.querySelector('.personnage1>img').src = 'img/personnages/' + rep[progress][0].CharacterOne + '.png'
+                            document.querySelector('.personnage2>img').src = 'img/personnages/' + rep[progress][0].CharacterTwo + '.png'
+                        }, 500)
+                    }
+
+                    if (number < rep[progress][0].Dialogues.length) {
+                        document.querySelector('.' + rep[progress][0].Dialogues[number].WhoTalk).classList.add('parler')
+                        document.querySelector('.' + rep[progress][0].Dialogues[number].WhoDontTalk).classList.remove('parler')
+                        print(rep[progress][0].Dialogues[number].Sentance)
+                        number++;
+                    }
+                    if (number == rep[progress][0].Dialogues.length) {
+                        localStorage.setItem('progress', 'startJeu3');
+                        number = 0;
+                    }
+                    break;
+                case "startJeu3":
+                    window.location.href = "../jeu/jeu3.html";
+                    break;
+                case "Jeu3":
+                    if (number == 0) {
+                        document.querySelector('.cacheAppearDesapear').style = 'display: block;';
+                        document.querySelector('.cacheAppearDesapear').classList.add('AnimationCache')
+                        setTimeout(function () {
+                            document.querySelector('.cacheAppearDesapear').style = 'display: none;';
+                            document.querySelector('.cacheAppearDesapear').classList.remove('AnimationCache')
+                        }, 1000)
+
+                        setTimeout(function () {
+                            document.querySelector('.bgFixed>img').src = 'img/fond' + progress + '.jpg';
+
+                            document.querySelector('.personnage1').style = "display: block;";
+                            document.querySelector('.personnage2').style = "display: none;";
+                            document.querySelector('.personnage1>img').src = 'img/personnages/' + rep[progress][0].CharacterOne + '.png'
+                            document.querySelector('.personnage2>img').src = 'img/personnages/' + rep[progress][0].CharacterTwo + '.png'
+                        }, 500)
+                    }
+
+                    if (number < rep[progress][0].Dialogues.length) {
+                        document.querySelector('.' + rep[progress][0].Dialogues[number].WhoTalk).classList.add('parler')
+                        document.querySelector('.' + rep[progress][0].Dialogues[number].WhoDontTalk).classList.remove('parler')
+                        print(rep[progress][0].Dialogues[number].Sentance)
+                        number++;
+                    }
+                    if (number == rep[progress][0].Dialogues.length) {
+                        document.querySelector('.bulleDialogue').innerHTML = "The end."
+                    }
                     break;
                 default:
                     console.log('une erreur est survenue.')
