@@ -44,6 +44,7 @@ let tailleY = 50; // taille du personnage à la verticale
 
 // initialisation des variables pour les obstacles & maisons
 let obstacleY = 0; // position Y de l'obstacle à la verticale
+let obstacle2Y = 0; // position Y de l'obstacle à la verticale
 let obstacleX = road[CurrentRoad]; // position X de l'obstacle à l'horizontale
 let obstacle2X = road[0]; // position X de l'obstacle 2 à l'horizontale
 let obstacleExist = true; // variable pour vérifier si l'obstacle existe ou non
@@ -115,10 +116,16 @@ function detectCollision() {
         obstacleX - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'obstacle atteint la droite du personnage
         ||
         // colision orange
-        obstacleY + tailleY > persoX - tailleX / 2 && // Bas de l'obstacle atteint le haut du personnage
-        obstacleY < persoX + tailleX / 2 &&          // Haut de l'obstacle atteint le bas du personnage
+        obstacle2Y + tailleY > persoX - tailleX / 2 && // Bas de l'obstacle atteint le haut du personnage
+        obstacle2Y < persoX + tailleX / 2 &&          // Haut de l'obstacle atteint le bas du personnage
         obstacle2X + tailleX / 2 > persoY - tailleY / 2 && // Droite de l'ennemi atteint la gauche du personnage
         obstacle2X - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'ennemi atteint la droite du personnage
+        ||
+        // colision verte
+        ennemiY + tailleY > persoX - tailleX / 2 && // Bas de l'ennemi atteint le haut du personnage
+        ennemiY < persoX + tailleX / 2 &&          // Haut de l'ennemi atteint le bas du personnage
+        ennemiX + tailleX / 2 > persoY - tailleY / 2 && // Droite de l'ennemi atteint la gauche du personnage
+        ennemiX - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'ennemi atteint la droite du personnage
     ) {
         // console.log("Collision");
         collision = true; // Met à jour la variable de collision
@@ -160,7 +167,7 @@ function updatePhase() {
 
 function Afficher() {
 
-    if (RedefineTime <= 20) {
+    if (tempsPhase <= 0) {
         Tnow = performance.now(); // Temps actuel
         Dtemp = (Tnow - Tstart) / 1000; // Différence de temps entre le temps de départ et le temps actuel
         Tstart = Tnow; // Met à jour le temps de départ
@@ -186,7 +193,7 @@ function Afficher() {
     // obstacle 2
     if (obstacle2Exist == true) {
         obstacles.fillStyle = "orange";
-        obstacles.fillRect(obstacle2X - (tailleX / 2), obstacleY, tailleY, tailleX);
+        obstacles.fillRect(obstacle2X - (tailleX / 2), obstacle2Y, tailleY, tailleX);
     }
     // ennemi
     if (ennemiExist == true) {
@@ -194,11 +201,21 @@ function Afficher() {
         obstacles.fillRect(ennemiX - (tailleX / 2), ennemiY, tailleY, tailleX);
     }
 
-    obstacleY += spdObstc; // Déplacement de l'obstacle vers le bas
-    if (obstacleY > hauteur + tailleY || ennemiY > hauteur + tailleY) { // Si l'obstacle sort de l'écran
+    if (obstacleExist == true) { // Si l'obstacle existe
+        obstacleY += spdObstc; // Déplacement de l'obstacle vers le bas
+    }
+    if (obstacle2Exist == true) { // Si l'obstacle 2 existe
+        obstacle2Y += spdObstc; // Déplacement de l'obstacle 2 vers le bas
+    }
+    if (ennemiExist == true) { // Si l'ennemi existe
+        ennemiY += spdEnmy; // Déplacement de l'ennemi vers le bas
+    }
+    
+    if (obstacleY > hauteur + tailleY || obstacle2Y > hauteur + tailleY || ennemiY > hauteur + tailleY) { // Si l'obstacle sort de l'écran
         // console.log("Dtemp", Dtemp, "| Tnow", Tnow, "| Tstart", Tstart);
         updatePhase(); // Met à jour la phase de jeu
         obstacleY = 0; // Réinitialise la position de l'obstacle
+        obstacle2Y = 0; // Réinitialise la position de l'obstacle
         ennemiY = 0; // Réinitialise la position de l'ennemi
         obstacleX = road[Math.floor(Math.random() * 3)]; // Change la position de l'obstacle aléatoirement
         obstacle2X = road[Math.floor(Math.random() * 3)]; // Change la position de l'obstacle aléatoirement
