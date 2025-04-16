@@ -7,6 +7,9 @@ let started = localStorage.getItem('started') || "non";
 let progress = localStorage.getItem('progress') || "intro";
 
 
+const audioMain = document.querySelector('.audioMain');
+audioMain.volume = 0.2
+
 // initialisation histoire 
 
 // la partie histoire
@@ -283,6 +286,7 @@ function commencer() {
     localStorage.setItem("started", "oui")
     localStorage.setItem('progress', 'intro')
     document.querySelector('.startpart').style = "display: none;"
+    audioMain.play();
     gérerHistoire();
 }
 
@@ -379,6 +383,9 @@ function gérerHistoire() {
 
                     if (number < rep.intro[0].Dialogues.length) {
                         print(rep.intro[0].Dialogues[number].Sentance)
+
+                        document.querySelector('.lecteur').innerHTML = rep.intro[0].Dialogues[number].Sentance
+
                         number++;
                     }
                     if (number == rep.intro[0].Dialogues.length) {
@@ -409,6 +416,9 @@ function gérerHistoire() {
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoTalk).classList.add('parler')
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoDontTalk).classList.remove('parler')
                         print(rep[progress][0].Dialogues[number].Sentance)
+                        
+                        document.querySelector('.lecteur').innerHTML = rep[progress][0].Dialogues[number].Sentance
+                        
                         number++;
                     }
                     if (number == rep[progress][0].Dialogues.length) {
@@ -447,6 +457,7 @@ function gérerHistoire() {
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoTalk).classList.add('parler')
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoDontTalk).classList.remove('parler')
                         print(rep[progress][0].Dialogues[number].Sentance)
+                        document.querySelector('.lecteur').innerHTML = rep[progress][0].Dialogues[number].Sentance
                         number++;
                     }
                     if (number == rep[progress][0].Dialogues.length) {
@@ -480,6 +491,7 @@ function gérerHistoire() {
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoTalk).classList.add('parler')
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoDontTalk).classList.remove('parler')
                         print(rep[progress][0].Dialogues[number].Sentance)
+                        document.querySelector('.lecteur').innerHTML = rep[progress][0].Dialogues[number].Sentance
                         number++;
                     }
                     if (number == rep[progress][0].Dialogues.length) {
@@ -518,6 +530,7 @@ function gérerHistoire() {
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoTalk).classList.add('parler')
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoDontTalk).classList.remove('parler')
                         print(rep[progress][0].Dialogues[number].Sentance)
+                        document.querySelector('.lecteur').innerHTML = rep[progress][0].Dialogues[number].Sentance
                         number++;
                     }
                     if (number == rep[progress][0].Dialogues.length) {
@@ -562,6 +575,7 @@ function gérerHistoire() {
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoTalk).classList.add('parler')
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoDontTalk).classList.remove('parler')
                         print(rep[progress][0].Dialogues[number].Sentance)
+                        document.querySelector('.lecteur').innerHTML = rep[progress][0].Dialogues[number].Sentance
                         number++;
                     }
                     if (number == rep[progress][0].Dialogues.length) {
@@ -595,6 +609,7 @@ function gérerHistoire() {
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoTalk).classList.add('parler')
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoDontTalk).classList.remove('parler')
                         print(rep[progress][0].Dialogues[number].Sentance)
+                        document.querySelector('.lecteur').innerHTML = rep[progress][0].Dialogues[number].Sentance
                         number++;
                     }
                     if (number == rep[progress][0].Dialogues.length) {

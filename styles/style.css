@@ -220,33 +220,67 @@ img {
     }
 }
 
-/* .clouds{
+.lecteur {
     position: absolute;
-    z-index: 8;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    opacity: 0;
+}
+
+.clouds {
+    position: absolute;
+    z-index: 108;
     top: 0;
     right: 0;
     left: 0;
     bottom: 0;
 }
 
-.cloud-right{
+.cloud-right {
     filter: drop-shadow(3px 5px 0px #00000050);
     position: absolute;
+    top: var(--top);
+    right: var(--right);
+    width: var(--taille);
+    transform: translate(100%);
     animation: entry-right 0.4s ease-in-out forwards;
+    animation-delay: var(--delai);
 }
 
-#last-cloud{
-    top: -150px;
-    width: 400px;
-    left: -100px;
+@keyframes entry-right {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
 }
 
-#prelast-cloud{
-    top: 500px;
-    
-    left: 10px;
+.cloud-left {
+    filter: drop-shadow(3px 5px 0px #00000050);
+    position: absolute;
+    top: var(--top);
+    left: var(--right);
+    width: var(--taille);
+    transform: translate(-100%);
+    animation: entry-left 0.4s ease-in-out forwards;
+    animation-delay: var(--delai);
+}
 
-} */
+@keyframes entry-left {
+    form {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
 
 .lueure {
     position: absolute;
@@ -371,7 +405,6 @@ img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* ❤️ magique */
 }
 
 .cache-black {
