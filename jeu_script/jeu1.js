@@ -176,68 +176,70 @@ function afficher() {
 }
 
 function calcul() {
-    temps = performance.now();
-    temps_difference = (temps - temps_avant) / 1000;
+    if (Jeu_en_cours == true) {
+        temps = performance.now();
+        temps_difference = (temps - temps_avant) / 1000;
 
-    let position = [1, 2, 3];
-    shuffle(position);
-
-
-    Object.entries(partition_ecran).forEach(([numero_entité, charactéristique]) => {
-        charactéristique.vY += gravite * temps_difference;
-        charactéristique.Y += charactéristique.vY * temps_difference;
-
-        if (charactéristique.Y >= H + 50) {
-            partition_ecran.splice(0, 1);
-        }
+        let position = [1, 2, 3];
+        shuffle(position);
 
 
+        Object.entries(partition_ecran).forEach(([numero_entité, charactéristique]) => {
+            charactéristique.vY += gravite * temps_difference;
+            charactéristique.Y += charactéristique.vY * temps_difference;
 
-        if (charactéristique.Y <= -50 || charactéristique.Y >= H) {
-            charactéristique.position_partition = position.pop();
-        }
-
-
-        if (charactéristique.position_partition == 1) {
-            charactéristique.X = (W * 0.25) - 20;
-        }
-        if (charactéristique.position_partition == 2) {
-            charactéristique.X = (W * 0.5) - 10;
-        }
-        if (charactéristique.position_partition == 3) {
-            charactéristique.X = W * 0.75;
-        }
-
-        // console.log(charactéristique.toucher)
-        if (charactéristique.Y >= 0 && charactéristique.Y <= H - 60) {
-            if (charactéristique.etat === "obstacle" && audioElementObstacle.paused) {
-                setAudioPan(charactéristique.position_partition, pannerObstacle);
-                audioElementObstacle.play();
+            if (charactéristique.Y >= H + 50) {
+                partition_ecran.splice(0, 1);
             }
-            if (charactéristique.etat === "note" && audioElementNote.paused) {
-                setAudioPan(charactéristique.position_partition, pannerNote);
-                audioElementNote.play();
-            }
-        }
 
-        if (charactéristique.Y >= H - 60 && charactéristique.Y <= H - 40 && xBille == charactéristique.X && charactéristique.toucher == false) {
-            // console.log("toucher")
-            if (charactéristique.etat == "note") {
-                charactéristique.toucher = true;
-                document.querySelector(".ecran_rouge").classList.add("vert");
-                setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("vert") }, 150);
-                score++;
+
+
+            if (charactéristique.Y <= -50 || charactéristique.Y >= H) {
+                charactéristique.position_partition = position.pop();
             }
-            if (charactéristique.etat == "obstacle") {
-                charactéristique.toucher = true;
-                document.querySelector(".ecran_rouge").classList.add("rouge");
-                setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
-                score = score - 0.5;
+
+
+            if (charactéristique.position_partition == 1) {
+                charactéristique.X = (W * 0.25) - 20;
             }
-        }
-    })
-    console.log(score)
-    temps_avant = temps;
+            if (charactéristique.position_partition == 2) {
+                charactéristique.X = (W * 0.5) - 10;
+            }
+            if (charactéristique.position_partition == 3) {
+                charactéristique.X = W * 0.75;
+            }
+
+            // console.log(charactéristique.toucher)
+            if (charactéristique.Y >= 0 && charactéristique.Y <= H - 60) {
+                if (charactéristique.etat === "obstacle" && audioElementObstacle.paused) {
+                    setAudioPan(charactéristique.position_partition, pannerObstacle);
+                    audioElementObstacle.play();
+                }
+                if (charactéristique.etat === "note" && audioElementNote.paused) {
+                    setAudioPan(charactéristique.position_partition, pannerNote);
+                    audioElementNote.play();
+                }
+            }
+
+            if (charactéristique.Y >= H - 60 && charactéristique.Y <= H - 40 && xBille == charactéristique.X && charactéristique.toucher == false) {
+                // console.log("toucher")
+                if (charactéristique.etat == "note") {
+                    charactéristique.toucher = true;
+                    document.querySelector(".ecran_rouge").classList.add("vert");
+                    setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("vert") }, 150);
+                    score++;
+                }
+                if (charactéristique.etat == "obstacle") {
+                    charactéristique.toucher = true;
+                    document.querySelector(".ecran_rouge").classList.add("rouge");
+                    setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
+                    score = score - 0.5;
+                }
+            }
+        })
+        // console.log(score)
+        temps_avant = temps;
+    }
 }
 
 function boucle() {
@@ -287,18 +289,18 @@ function shuffle(array) {
 
 function chrono_incrementage() {
     chrono++;
-
-    window.setTimeout(chrono_incrementage, 1);
-
-
     if (Jeu_en_cours == true) {
-
-        Object.entries(partition).forEach(([numero_entité, charactéristique]) => {
-            if (chrono == charactéristique.timeur) {
-                partition_ecran.push(charactéristique);
-            }
-        })
+        window.setTimeout(chrono_incrementage, 1);
     }
+
+
+
+    Object.entries(partition).forEach(([numero_entité, charactéristique]) => {
+        if (chrono == charactéristique.timeur) {
+            partition_ecran.push(charactéristique);
+        }
+    })
+
 }
 
 document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu)
@@ -328,6 +330,7 @@ screen.orientation.addEventListener("change", (event) => {
     console.log(`ScreenOrientation change: ${type}, ${angle} degrees.`);
     if (type.includes("portrait")) {
         Jeu_en_cours = true;
+        chrono_incrementage();
     }
     else {
         Jeu_en_cours = false;
