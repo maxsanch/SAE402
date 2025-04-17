@@ -193,6 +193,7 @@ function calcul() {
             }
 
 
+            document.querySelector(".position").innerHTML = "position : " + charactéristique.Y;
 
             if (charactéristique.Y <= -50 || charactéristique.Y >= H) {
                 charactéristique.position_partition = position.pop();
@@ -248,7 +249,6 @@ function boucle() {
         afficher();
         window.requestAnimationFrame(boucle);
     }
-    
     else{
         window.cancelAnimationFrame(boucle);
     }
@@ -297,6 +297,7 @@ function chrono_incrementage() {
         window.setTimeout(chrono_incrementage, 1);
     }
 
+    document.querySelector(".temps").innerHTML = "chrono : " + chrono;
 
 
     Object.entries(partition).forEach(([numero_entité, charactéristique]) => {
