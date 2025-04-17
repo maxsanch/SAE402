@@ -503,6 +503,7 @@ function startGame() {
 
     // if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
         document.querySelector('.first').classList.add('none')
+        lockOrientation();
         const audio = document.getElementById("audio");
 
         document.querySelector('.victoire').classList.remove('openEndGame')
@@ -548,12 +549,6 @@ function fermerVideo() {
     document.querySelector('.video').classList.remove('ouvrir');
     document.querySelector('.cache_Error').classList.remove('ouvrirCache');
     video.pause();
-}
-
-if (screen.orientation && screen.orientation.lock) {
-    screen.orientation.lock("landscape").catch(function (error) {
-        console.warn("Orientation lock failed:", error);
-    });
 }
 
 function chronoT() {
@@ -607,3 +602,17 @@ function retournerMap(){
     localStorage.setItem('progress', 'Jeu2');
     window.location.href = "../index.html";
 }
+
+function lockOrientation() {
+    const elem = document.documentElement; // tu peux aussi cibler un élément précis
+  
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen().then(() => {
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('portrait').catch((error) => {
+            console.error('Erreur lors du verrouillage de l\'orientation :', error);
+          });
+        }
+      });
+    }
+  }
