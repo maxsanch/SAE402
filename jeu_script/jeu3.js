@@ -7,6 +7,10 @@ document.querySelector('.sendingButton').addEventListener('click', cheater)
 document.querySelector('.cache_Error').addEventListener('click', closeAll)
 document.querySelector('.victoire>.button-victory').addEventListener('click', passerJeu)
 
+document.querySelectorAll('.mapagain').forEach(e=>{
+    e.addEventListener('click', retournerMap)
+})
+
 document.querySelector('.button-single-game').addEventListener('click', close)
 
 const audioTremblement = document.querySelector('.tremblementsAudio');
@@ -78,7 +82,7 @@ let VitesseUtilisateur = 0;
 
 let contenu = 100;
 
-let vitesse = 1;
+let vitesse = 4;
 
 let derniereLat = null;
 let derniereLong = null;
@@ -485,7 +489,7 @@ function startGame() {
     aRedressement = 0;
     VitesseUtilisateur = 0;
     contenu = 100;
-    vitesse = 1;
+    vitesse = 4;
     facteurVideAngle = 0;
     tremblements = 0;
     trembler = 0
@@ -596,5 +600,10 @@ function closeAll() {
 
 function passerJeu(){
     localStorage.setItem('progress', 'jeu3');
+    window.location.href = "../index.html";
+}
+
+function retournerMap(){
+    localStorage.setItem('progress', 'Jeu2');
     window.location.href = "../index.html";
 }
