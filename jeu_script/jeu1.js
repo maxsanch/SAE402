@@ -330,10 +330,12 @@ screen.orientation.addEventListener("change", (event) => {
     console.log(`ScreenOrientation change: ${type}, ${angle} degrees.`);
     if (type.includes("portrait")) {
         Jeu_en_cours = true;
+        boucle();
         chrono_incrementage();
     }
     else {
         Jeu_en_cours = false;
+        window.cancelAnimationFrame(boucle)
         ctx_notes.clearRect(0, 0, W, H);
         ctx_obstacles.clearRect(0, 0, W, H);
         ctx_personnage.clearRect(0, 0, W, H);
