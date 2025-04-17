@@ -386,7 +386,17 @@ function gérerHistoire() {
                     if (number < rep.intro[0].Dialogues.length) {
                         print(rep.intro[0].Dialogues[number].Sentance)
 
-                        document.querySelector('.lecteur').innerHTML = rep.intro[0].Dialogues[number].Sentance
+                        let lecture = document.querySelector('.lecteur').innerHTML
+
+                        lecture = rep.intro[0].Dialogues[number].Sentance
+
+                        let synthese = window.speechSynthesis
+                        let vocal = new SpeechSynthesisUtterance(lecture)
+
+                        vocal.lang = 'en-US';
+
+                        synthese.speak(vocal);
+
                         number++;
                     }
                     if (number == rep.intro[0].Dialogues.length) {
@@ -418,7 +428,17 @@ function gérerHistoire() {
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoDontTalk).classList.remove('parler')
                         print(rep[progress][0].Dialogues[number].Sentance)
                         
-                        document.querySelector('.lecteur').innerHTML = rep[progress][0].Dialogues[number].Sentance
+                        let lecture = document.querySelector('.lecteur').innerHTML
+
+                        lecture = rep[progress][0].Dialogues[number].Sentance
+
+                        let synthese = window.speechSynthesis
+                        let vocal = new SpeechSynthesisUtterance(lecture)
+
+                        vocal.lang = 'en-US';
+
+                        synthese.speak(vocal);
+
                         
                         number++;
                     }
