@@ -288,11 +288,13 @@ function commencer() {
     document.querySelector('.startpart').style = "display: none;"
     audioMain.play();
     gérerHistoire();
+    lockOrientation();
 }
 
 if (started == 'oui') {
     document.querySelector('.startpart').style = "display: none;"
     gérerHistoire();
+    lockOrientation();
 }
 
 document.querySelector('.barres').addEventListener('click', ouvrirbarres)
@@ -620,3 +622,17 @@ function gérerHistoire() {
             }
         })
 }
+
+function lockOrientation() {
+    const elem = document.documentElement; // tu peux aussi cibler un élément précis
+  
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen().then(() => {
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('portrait').catch((error) => {
+            console.error('Erreur lors du verrouillage de l\'orientation :', error);
+          });
+        }
+      });
+    }
+  }
