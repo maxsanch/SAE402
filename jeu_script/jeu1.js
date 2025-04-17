@@ -246,8 +246,12 @@ function boucle() {
     if (Jeu_en_cours == true) {
         calcul();
         afficher();
+        window.requestAnimationFrame(boucle);
     }
-    window.requestAnimationFrame(boucle);
+    
+    else{
+        window.cancelAnimationFrame(boucle);
+    }
 }
 
 window.addEventListener("deviceorientation", Inclinaison_Du_Telephone, true);
@@ -335,7 +339,6 @@ screen.orientation.addEventListener("change", (event) => {
     }
     else {
         Jeu_en_cours = false;
-        cancelAnimationFrame(boucle);
         ctx_notes.clearRect(0, 0, W, H);
         ctx_obstacles.clearRect(0, 0, W, H);
         ctx_personnage.clearRect(0, 0, W, H);
