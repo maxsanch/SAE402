@@ -284,7 +284,7 @@ document.querySelector('.bouton-main-page').addEventListener('click', commencer)
 
 function commencer() {
     localStorage.setItem("started", "oui")
-    localStorage.setItem('progress', 'Jeu1')
+    localStorage.setItem('progress', 'intro')
     document.querySelector('.startpart').style = "display: none;"
     audioMain.play();
     gérerHistoire();
