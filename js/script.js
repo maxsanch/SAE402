@@ -284,7 +284,7 @@ document.querySelector('.bouton-main-page').addEventListener('click', commencer)
 
 function commencer() {
     localStorage.setItem("started", "oui")
-    localStorage.setItem('progress', 'intro')
+    localStorage.setItem('progress', 'Jeu1')
     document.querySelector('.startpart').style = "display: none;"
     audioMain.play();
     gérerHistoire();
@@ -385,7 +385,6 @@ function gérerHistoire() {
                         print(rep.intro[0].Dialogues[number].Sentance)
 
                         document.querySelector('.lecteur').innerHTML = rep.intro[0].Dialogues[number].Sentance
-
                         number++;
                     }
                     if (number == rep.intro[0].Dialogues.length) {
