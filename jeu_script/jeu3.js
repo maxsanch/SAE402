@@ -489,7 +489,7 @@ function startGame() {
     aRedressement = 0;
     VitesseUtilisateur = 0;
     contenu = 100;
-    vitesse = 1;
+    vitesse = 4;
     facteurVideAngle = 0;
     tremblements = 0;
     trembler = 0
