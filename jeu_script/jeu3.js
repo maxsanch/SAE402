@@ -501,7 +501,7 @@ function startGame() {
     chro = 0
     start = Date.now();
 
-    if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
+    // if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
         document.querySelector('.first').classList.add('none')
         const audio = document.getElementById("audio");
 
@@ -519,12 +519,12 @@ function startGame() {
         }
 
         boucle();
-    }
-    else {
-        document.querySelector('.errorWindow').classList.remove('closerror');
-        document.querySelector('.errorWindow').classList.add('ouvrirerror')
-        document.querySelector('.cache_Error').classList.add('ouvrirCache');
-    }
+    // }
+    // else {
+    //     document.querySelector('.errorWindow').classList.remove('closerror');
+    //     document.querySelector('.errorWindow').classList.add('ouvrirerror')
+    //     document.querySelector('.cache_Error').classList.add('ouvrirCache');
+    // }
 }
 
 // fermer la pop up
