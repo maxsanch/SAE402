@@ -497,6 +497,8 @@ function startGame() {
     tremblersense = 0;
     victoire = false;
     finJeu = false;
+    H = window.innerHeight;
+    W = window.innerWidth;
 
     chro = 0
     start = Date.now();
