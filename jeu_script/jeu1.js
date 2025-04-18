@@ -311,6 +311,7 @@ function chrono_incrementage() {
 document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu)
 
 function lancement_du_jeu() {
+    lockOrientation();
     document.querySelector(".lancement").style = "display: none;";
     Jeu_en_cours = true;
     boucle();
@@ -347,7 +348,19 @@ screen.orientation.addEventListener("change", (event) => {
 });
 
 
-
+function lockOrientation() {
+    const elem = document.documentElement; // tu peux aussi cibler un élément précis
+  
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen().then(() => {
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('portrait').catch((error) => {
+            console.error('Erreur lors du verrouillage de l\'orientation :', error);
+          });
+        }
+      });
+    }
+  }
 //   // Lock button: Lock the screen to the other orientation (rotated by 90 degrees)
 // const rotate_btn = document.querySelector("#lock_button");
 // rotate_btn.addEventListener("click", () => {
