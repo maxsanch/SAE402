@@ -138,8 +138,7 @@ function detectCollisionEnnemi() {
         // colision verte
         ennemiY + tailleY > persoX - tailleX / 2 && // Bas de l'ennemi atteint le haut du personnage
         ennemiY < persoX + tailleX / 2 &&          // Haut de l'ennemi atteint le bas du personnage
-        ennemiX + tailleX / 2 > persoY - tailleY / 2 && // Droite de l'ennemi atteint la gauche du personnage
-        ennemiX - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'ennemi atteint la droite du personnage
+        CurrentRoad === 1 // Vérifie si le personnage est au milieu de la route
     ) {
         // console.log("CollisionEnnemy");
         collisionEnnemi = true; // Met à jour la variable de collision
@@ -148,8 +147,7 @@ function detectCollisionEnnemi() {
             if (
                 ennemiY + tailleY > persoX - tailleX / 2 &&
                 ennemiY < persoX + tailleX / 2 &&
-                ennemiX + tailleX / 2 > persoY - tailleY / 2 &&
-                ennemiX - tailleX / 2 < persoY + tailleY / 2
+                CurrentRoad === 1 // Vérifie si le personnage est au milieu de la route
             ) {
                 parade = true; // Le joueur a paré l'ennemi
                 console.log("Parade réussie !");
@@ -158,6 +156,16 @@ function detectCollisionEnnemi() {
             // Supprime l'écouteur après le clic
             document.removeEventListener("click", parer);
         });
+    }
+    else if (
+        // colision verte
+        ennemiY + tailleY > persoX - tailleX / 2 && // Bas de l'ennemi atteint le haut du personnage
+        ennemiY < persoX + tailleX / 2 &&          // Haut de l'ennemi atteint le bas du personnage
+        ennemiX + tailleX / 2 > persoY - tailleY / 2 && // Droite de l'ennemi atteint la gauche du personnage
+        ennemiX - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'ennemi atteint la droite du personnage
+    ) {
+        collision = true; // Met à jour la variable de collision
+        console.log("Parade échouée !"); // Le joueur n'a pas paré l'ennemi
     }
 }
 
@@ -184,7 +192,7 @@ function drawScore() {
 function updatePhase() {
     tempsPhase += 1; // Incrémente le temps de la phase actuelle
     if (tempsPhase > phasesJeux[phaseActuelle].tempsPhaseMax) { // Si le temps de la phase actuelle est écoulé
-        score--; // Diminue le score à chaque phase
+        score--; // Diminue le score à chaque phase vu qu'il augmente de 2 à chaque changement et je comprend pas pourquoi
         tempsPhase = 0; // Réinitialise le temps de la phase actuelle
         phaseActuelle += 1; // Passe à la phase suivante
         phaseMontrer += 1; // Passe à la phase suivante affichée à l'écran
@@ -287,8 +295,8 @@ function Afficher() {
                 score++; // Augmente le score
             }
             else { // Si le joueur n'a plus de vies
-            viePlayer--; // Diminue le nombre de vies
-            // console.log("Score actuelle", score, "vie restante", viePlayer);
+                viePlayer--; // Diminue le nombre de vies
+                // console.log("Score actuelle", score, "vie restante", viePlayer);
             }
         }
         collisionEnnemi = false; // Réinitialise la variable de collision avec l'ennemi
