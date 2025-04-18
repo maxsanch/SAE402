@@ -425,6 +425,7 @@ function calculer() {
 function afficher() {
     ctx.fillStyle = "#09C";
     ctx.drawImage(fondjeu, 0, 0, W + 350, H);
+    
     function dessinerRectangle(yDéplacement, color, taille, image) {
         // Store the current context state (i.e. rotation, translation etc..)
         ctx.save()
@@ -502,7 +503,7 @@ function startGame() {
 
     // if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
     document.querySelector('.first').classList.add('none')
-    
+
     lockOrientation();
 
     H = window.innerHeight;
