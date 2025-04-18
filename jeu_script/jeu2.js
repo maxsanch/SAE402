@@ -63,6 +63,7 @@ let viePlayer = 3; // Nombre de vies du joueur
 
 // Initialisation de variable que j'ai plus envie de définir
 let decideExist = 0; // Variable qui décide de qui va disparaître de notre réalité
+let RedefineVar = 0; // Variable pour redéfinir la variable vu que ça marche pas
 
 // Initialisation des variables pour faire en sorte que le le jeux ne dépende pas des frames mais du temps
 let Tstart = performance.now(); // Temps de départ
@@ -73,12 +74,13 @@ let RedefineTime = 0; // Variable pour redéfinir le temps vu que ça marche pas
 // Initialisation des phases de jeux
 let tempsPhaseMax = 0; // Durée de la phase actuelle
 let phasesJeux = [
-    {gravité: 5, spdObstc: 250, spdEnmy: 0, obstacleExist: true, obstacle2Exist: true, ennemiExist: false, tempsPhaseMax: 20}, // Phase 1
-    {gravité: 10, spdObstc: 0, spdEnmy: 250, obstacleExist: false, obstacle2Exist: false, ennemiExist: true, tempsPhaseMax: 15}, // Phase 2
-    {gravité: 5, spdObstc: 250, spdEnmy: 300, obstacleExist: true, obstacle2Exist: true, ennemiExist: true, tempsPhaseMax: Infinity} // Phase 3
+    { gravité: 5, spdObstc: 250, spdEnmy: 0, obstacleExist: true, obstacle2Exist: true, ennemiExist: false, tempsPhaseMax: 5 }, // Phase 1
+    { gravité: 10, spdObstc: 250, spdEnmy: 250, obstacleExist: false, obstacle2Exist: false, ennemiExist: true, tempsPhaseMax: 5 }, // Phase 2
+    { gravité: 5, spdObstc: 250, spdEnmy: 300, obstacleExist: true, obstacle2Exist: true, ennemiExist: true, tempsPhaseMax: Infinity } // Phase 3
 ];
 let phaseActuelle = 0; // Phase actuelle du jeu
-let tempsPhase = -1; // Temps écoulé dans la phase actuelle
+let phaseMontrer = 1; // Phase actuelle du jeu affichée à l'écran
+let tempsPhase = 0; // Temps écoulé dans la phase actuelle
 
 //////////////////////////////////////////////////////////
 
@@ -120,17 +122,42 @@ function detectCollision() {
         obstacle2Y < persoX + tailleX / 2 &&          // Haut de l'obstacle atteint le bas du personnage
         obstacle2X + tailleX / 2 > persoY - tailleY / 2 && // Droite de l'ennemi atteint la gauche du personnage
         obstacle2X - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'ennemi atteint la droite du personnage
-        ||
+    ) {
+        // console.log("Collision");
+        collision = true; // Met à jour la variable de collision
+        // Vous pouvez ajouter ici des actions à effectuer en cas de collision
+        // Par exemple : réinitialiser le jeu, réduire des points de vie, etc.
+    }
+}
+
+let collisionEnnemi = false; // Variable pour vérifier la collision avec l'ennemi
+let parade = false; // Variable pour vérifier si le joueur a paré l'ennemi
+
+function detectCollisionEnnemi() {
+    if (
         // colision verte
         ennemiY + tailleY > persoX - tailleX / 2 && // Bas de l'ennemi atteint le haut du personnage
         ennemiY < persoX + tailleX / 2 &&          // Haut de l'ennemi atteint le bas du personnage
         ennemiX + tailleX / 2 > persoY - tailleY / 2 && // Droite de l'ennemi atteint la gauche du personnage
         ennemiX - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'ennemi atteint la droite du personnage
     ) {
-        // console.log("Collision");
-        collision = true; // Met à jour la variable de collision
-        // Vous pouvez ajouter ici des actions à effectuer en cas de collision
-        // Par exemple : réinitialiser le jeu, réduire des points de vie, etc.
+        // console.log("CollisionEnnemy");
+        collisionEnnemi = true; // Met à jour la variable de collision
+        document.addEventListener("click", function parer(event) {
+            // Vérifie si le joueur est toujours dans la boîte de collision de l'ennemi
+            if (
+                ennemiY + tailleY > persoX - tailleX / 2 &&
+                ennemiY < persoX + tailleX / 2 &&
+                ennemiX + tailleX / 2 > persoY - tailleY / 2 &&
+                ennemiX - tailleX / 2 < persoY + tailleY / 2
+            ) {
+                parade = true; // Le joueur a paré l'ennemi
+                console.log("Parade réussie !");
+            }
+
+            // Supprime l'écouteur après le clic
+            document.removeEventListener("click", parer);
+        });
     }
 }
 
@@ -149,16 +176,47 @@ function drawScore() {
     perso.fillText("Score: " + score, 10, 20);
     perso.fillStyle = "red"; // Définit la couleur du texte
     perso.fillText("Vie: " + viePlayer, 10, 40);
+    perso.fillStyle = "green"; // Définit la couleur du texte
+    perso.fillText("Phase actuelle: " + phaseMontrer, 10, 60);
+
 }
 
 function updatePhase() {
     tempsPhase += 1; // Incrémente le temps de la phase actuelle
-
     if (tempsPhase > phasesJeux[phaseActuelle].tempsPhaseMax) { // Si le temps de la phase actuelle est écoulé
-        tempsPhase = -1; // Réinitialise le temps de la phase actuelle
+        score--; // Diminue le score à chaque phase
+        tempsPhase = 0; // Réinitialise le temps de la phase actuelle
         phaseActuelle += 1; // Passe à la phase suivante
+        phaseMontrer += 1; // Passe à la phase suivante affichée à l'écran
+        RedefineVar = 0; // Réinitialise la variable pour redéfinir les autres variables dans afficher
         if (phaseActuelle >= phasesJeux.length) { // Si toutes les phases sont écoulées
             phaseActuelle = phasesJeux.length - 1; // Réinitialise la phase actuelle
+        }
+    }
+}
+
+let decideEnemyLane = 0; // Voie de l'ennemi (0 = gauche, 2 = droite)
+
+function placeEnemyAndObstacle() {
+    // Place l'ennemi aléatoirement sur la voie de gauche ou de droite
+    decideEnemyLane = Math.random() < 0.5 ? 0 : 2; // 0 = gauche, 2 = droite
+    ennemiX = road[decideEnemyLane];
+
+    // Place un obstacle sur la voie restante
+    if (decideEnemyLane == 0) {
+        if (decideExist == 0) {
+            obstacle2X = road[2]; // Si l'ennemi est à gauche, place l'obstacle 2 à droite
+        }
+        else {
+            obstacleX = road[2]; // Si l'ennemi est à gauche, place l'obstacle à droite
+        }
+    }
+    else {
+        if (decideExist == 0) {
+            obstacle2X = road[0]; // Si l'ennemi est à gauche, place l'obstacle 2 à droite
+        }
+        else {
+            obstacleX = road[0]; // Si l'ennemi est à gauche, place l'obstacle à droite
         }
     }
 }
@@ -167,7 +225,7 @@ function updatePhase() {
 
 function Afficher() {
 
-    if (tempsPhase <= 0) {
+    if (RedefineVar <= 20) {
         Tnow = performance.now(); // Temps actuel
         Dtemp = (Tnow - Tstart) / 1000; // Différence de temps entre le temps de départ et le temps actuel
         Tstart = Tnow; // Met à jour le temps de départ
@@ -176,15 +234,18 @@ function Afficher() {
         spdEnmy = phasesJeux[phaseActuelle].spdEnmy * Dtemp; // Met à jour la vitesse de l'ennemi en fonction du temps écoulé
         RedefineTime += 1; // Met à jour la variable pour ne pas redéfinir le temps à chaque frame
         console.log("ça marche");
+        RedefineVar += 1; // Met à jour la variable pour ne pas redéfinir le temps à chaque frame
     }
 
     perso.clearRect(0, 0, largeur, hauteur);
     obstacles.clearRect(0, 0, largeur, hauteur);
     route.clearRect(0, 0, largeur, hauteur);
     maisons.clearRect(0, 0, largeur, hauteur);
+
     // joueur
     perso.fillStyle = "black";
     perso.fillRect(persoY - (tailleY / 2), persoX - (tailleX / 2), tailleY, tailleX);
+
     // obstacle 1
     if (obstacleExist == true) {
         obstacles.fillStyle = "red";
@@ -195,12 +256,14 @@ function Afficher() {
         obstacles.fillStyle = "orange";
         obstacles.fillRect(obstacle2X - (tailleX / 2), obstacle2Y, tailleY, tailleX);
     }
+
     // ennemi
     if (ennemiExist == true) {
         obstacles.fillStyle = "green";
         obstacles.fillRect(ennemiX - (tailleX / 2), ennemiY, tailleY, tailleX);
     }
 
+    // déplacement des éléments
     if (obstacleExist == true) { // Si l'obstacle existe
         obstacleY += spdObstc; // Déplacement de l'obstacle vers le bas
     }
@@ -210,8 +273,8 @@ function Afficher() {
     if (ennemiExist == true) { // Si l'ennemi existe
         ennemiY += spdEnmy; // Déplacement de l'ennemi vers le bas
     }
-    
-    if (obstacleY > hauteur + tailleY || obstacle2Y > hauteur + tailleY || ennemiY > hauteur + tailleY) { // Si l'obstacle sort de l'écran
+
+    if (obstacleY > hauteur + tailleY || obstacle2Y > hauteur + tailleY) { // Si l'obstacle sort de l'écran
         // console.log("Dtemp", Dtemp, "| Tnow", Tnow, "| Tstart", Tstart);
         updatePhase(); // Met à jour la phase de jeu
         obstacleY = 0; // Réinitialise la position de l'obstacle
@@ -219,7 +282,18 @@ function Afficher() {
         ennemiY = 0; // Réinitialise la position de l'ennemi
         obstacleX = road[Math.floor(Math.random() * 3)]; // Change la position de l'obstacle aléatoirement
         obstacle2X = road[Math.floor(Math.random() * 3)]; // Change la position de l'obstacle aléatoirement
-        if (collision === true) {
+        if (collisionEnnemi === true) {
+            if (parade === true) { // Si le joueur a paré l'ennemi
+                score++; // Augmente le score
+            }
+            else { // Si le joueur n'a plus de vies
+            viePlayer--; // Diminue le nombre de vies
+            // console.log("Score actuelle", score, "vie restante", viePlayer);
+            }
+        }
+        collisionEnnemi = false; // Réinitialise la variable de collision avec l'ennemi
+        parade = false; // Réinitialise la variable de parade
+        if (collision == true) { // Si le joueur a touché un obstacle
             viePlayer--; // Diminue le nombre de vies
             // console.log("Score actuelle", score, "vie restante", viePlayer);
         }
@@ -227,6 +301,7 @@ function Afficher() {
             score++; // Augmente le score
             // console.log("Score actuelle", score, "vie restante", viePlayer);
         }
+
         spdObstc += gravité; // Augmente la vitesse de l'obstacle
         spdEnmy += gravité; // Augmente la vitesse de l'ennemi
         // console.log("Vitesse de l'obstacle", spdObstc, "Vitesse de l'ennemi", spdEnmy);
@@ -235,6 +310,15 @@ function Afficher() {
         obstacleExist = phasesJeux[phaseActuelle].obstacleExist; // Réinitialise l'existence de l'obstacle
         obstacle2Exist = phasesJeux[phaseActuelle].obstacle2Exist; // Réinitialise l'existence de l'obstacle 2
         ennemiExist = phasesJeux[phaseActuelle].ennemiExist; // Réinitialise l'existence de l'ennemi
+        if (ennemiExist == true) {
+            placeEnemyAndObstacle(); // Place l'ennemi et l'obstacle
+            if (decideExist == 0) {
+                obstacle2Exist = true; // L'obstacle n'existe plus
+            }
+            else {
+                obstacleExist = true; // L'ennemi n'existe plus
+            }
+        }
         // score++; // Augmente le score
         // console.log(score);
     }
@@ -249,6 +333,7 @@ function Afficher() {
     }
 
     detectCollision(); // Vérifie les collisions
+    detectCollisionEnnemi(); // Vérifie les collisions avec l'ennemi
     drawScore(); // Affiche le score
 
 
