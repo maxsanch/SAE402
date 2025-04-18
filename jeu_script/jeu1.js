@@ -249,7 +249,7 @@ function boucle() {
         afficher();
         window.requestAnimationFrame(boucle);
     }
-    else{
+    else {
         window.cancelAnimationFrame(boucle);
     }
 }
@@ -306,11 +306,17 @@ function chrono_incrementage() {
         }
     })
 
+    if (chrono == 5000) {
+        Arreter_jeu();
+    }
+
 }
 
 document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu)
 
 function lancement_du_jeu() {
+    W = window.innerWidth;
+    H = window.innerHeight;
     lockOrientation();
     document.querySelector(".lancement").style = "display: none;";
     Jeu_en_cours = true;
@@ -340,27 +346,31 @@ screen.orientation.addEventListener("change", (event) => {
         chrono_incrementage();
     }
     else {
-        Jeu_en_cours = false;
-        ctx_notes.clearRect(0, 0, W, H);
-        ctx_obstacles.clearRect(0, 0, W, H);
-        ctx_personnage.clearRect(0, 0, W, H);
+        Arreter_jeu();
     }
 });
 
 
 function lockOrientation() {
     const elem = document.documentElement; // tu peux aussi cibler un élément précis
-  
+
     if (elem.requestFullscreen) {
-      elem.requestFullscreen().then(() => {
-        if (screen.orientation && screen.orientation.lock) {
-          screen.orientation.lock('portrait').catch((error) => {
-            console.error('Erreur lors du verrouillage de l\'orientation :', error);
-          });
-        }
-      });
+        elem.requestFullscreen().then(() => {
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('portrait').catch((error) => {
+                    console.error('Erreur lors du verrouillage de l\'orientation :', error);
+                });
+            }
+        });
     }
-  }
+}
+
+function Arreter_jeu() {
+    Jeu_en_cours = false;
+    ctx_notes.clearRect(0, 0, W, H);
+    ctx_obstacles.clearRect(0, 0, W, H);
+    ctx_personnage.clearRect(0, 0, W, H);
+}
 //   // Lock button: Lock the screen to the other orientation (rotated by 90 degrees)
 // const rotate_btn = document.querySelector("#lock_button");
 // rotate_btn.addEventListener("click", () => {
