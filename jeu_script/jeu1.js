@@ -1,4 +1,5 @@
 var canvas_personnage = document.querySelector("#canvas_personnage");
+lockOrientation();
 var ctx_personnage = canvas_personnage.getContext("2d");
 var canvas_notes = document.querySelector("#canvas_notes");
 var ctx_notes = canvas_notes.getContext("2d");
@@ -347,7 +348,19 @@ screen.orientation.addEventListener("change", (event) => {
 });
 
 
-
+function lockOrientation() {
+    const elem = document.documentElement; // tu peux aussi cibler un élément précis
+  
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen().then(() => {
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('portrait').catch((error) => {
+            console.error('Erreur lors du verrouillage de l\'orientation :', error);
+          });
+        }
+      });
+    }
+  }
 //   // Lock button: Lock the screen to the other orientation (rotated by 90 degrees)
 // const rotate_btn = document.querySelector("#lock_button");
 // rotate_btn.addEventListener("click", () => {
