@@ -7,7 +7,7 @@ document.querySelector('.sendingButton').addEventListener('click', cheater)
 document.querySelector('.cache_Error').addEventListener('click', closeAll)
 document.querySelector('.victoire>.button-victory').addEventListener('click', passerJeu)
 
-document.querySelectorAll('.mapagain').forEach(e=>{
+document.querySelectorAll('.mapagain').forEach(e => {
     e.addEventListener('click', retournerMap)
 })
 
@@ -164,7 +164,7 @@ if (navigator.geolocation) {
 
         map.setView([latVictoire, longVictoire], 18);
 
-        
+
 
         if (coordonnées.length <= 20) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
@@ -482,7 +482,6 @@ function boucle() {
 
 function startGame() {
     // Réinitialisation des valeures
-
     angle = 0;
     rotaleft = false;
     rotaright = false;
@@ -497,31 +496,34 @@ function startGame() {
     tremblersense = 0;
     victoire = false;
     finJeu = false;
-    H = window.innerHeight;
-    W = window.innerWidth;
 
     chro = 0
     start = Date.now();
 
     // if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
-        document.querySelector('.first').classList.add('none')
-        lockOrientation();
-        const audio = document.getElementById("audio");
+    document.querySelector('.first').classList.add('none')
+    
+    lockOrientation();
 
-        document.querySelector('.victoire').classList.remove('openEndGame')
-        document.querySelector('.defaite').classList.remove('openEndGame')
+    H = window.innerHeight;
+    W = window.innerWidth;
 
-        // Date.now ou performance.now
-        audio.play();
-        audio.volume = 0.4;
-        initialisation();
-        chronoT();
+    const audio = document.getElementById("audio");
 
-        if (this.className == "startGame") {
-            oscillator.start();
-        }
+    document.querySelector('.victoire').classList.remove('openEndGame')
+    document.querySelector('.defaite').classList.remove('openEndGame')
 
-        boucle();
+    // Date.now ou performance.now
+    audio.play();
+    audio.volume = 0.4;
+    initialisation();
+    chronoT();
+
+    if (this.className == "startGame") {
+        oscillator.start();
+    }
+
+    boucle();
     // }
     // else {
     //     document.querySelector('.errorWindow').classList.remove('closerror');
@@ -595,26 +597,26 @@ function closeAll() {
     document.querySelector('.cache_Error').classList.remove('ouvrirCache');
 }
 
-function passerJeu(){
+function passerJeu() {
     localStorage.setItem('progress', 'jeu3');
     window.location.href = "../index.html";
 }
 
-function retournerMap(){
+function retournerMap() {
     localStorage.setItem('progress', 'Jeu2');
     window.location.href = "../index.html";
 }
 
 function lockOrientation() {
     const elem = document.documentElement; // tu peux aussi cibler un élément précis
-  
+
     if (elem.requestFullscreen) {
-      elem.requestFullscreen().then(() => {
-        if (screen.orientation && screen.orientation.lock) {
-          screen.orientation.lock('portrait').catch((error) => {
-            console.error('Erreur lors du verrouillage de l\'orientation :', error);
-          });
-        }
-      });
+        elem.requestFullscreen().then(() => {
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('portrait').catch((error) => {
+                    console.error('Erreur lors du verrouillage de l\'orientation :', error);
+                });
+            }
+        });
     }
-  }
+}
