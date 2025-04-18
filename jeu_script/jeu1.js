@@ -215,12 +215,12 @@ function calcul() {
                 if (charactéristique.etat === "obstacle" && audioElementObstacle.paused) {
                     setAudioPan(charactéristique.position_partition, pannerObstacle);
                     audioElementObstacle.play();
-                    audioElementObstacle.volume = 0;
+                    audioElementObstacle.volume = ((H - charactéristique.Y) / H);
                 }
                 if (charactéristique.etat === "note" && audioElementNote.paused) {
                     setAudioPan(charactéristique.position_partition, pannerNote);
                     audioElementNote.play();
-                    audioElementNote.volume = 0.8;
+                    audioElementNote.volume = ((H - charactéristique.Y) / H);
                 }
             }
 
