@@ -1,5 +1,4 @@
 var canvas_personnage = document.querySelector("#canvas_personnage");
-lockOrientation();
 var ctx_personnage = canvas_personnage.getContext("2d");
 var canvas_notes = document.querySelector("#canvas_notes");
 var ctx_notes = canvas_notes.getContext("2d");
@@ -312,6 +311,7 @@ function chrono_incrementage() {
 document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu)
 
 function lancement_du_jeu() {
+    lockOrientation();
     document.querySelector(".lancement").style = "display: none;";
     Jeu_en_cours = true;
     boucle();
