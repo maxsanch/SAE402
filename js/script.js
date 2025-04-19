@@ -102,7 +102,6 @@ if (navigator.geolocation) {
                 }
                 break;
         }
-
     }, (error) => {
         console.log("Erreur de géolocalisation :", error);
     }, { enableHighAccuracy: true, timeout: 1000 });
@@ -427,7 +426,7 @@ function gérerHistoire() {
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoTalk).classList.add('parler')
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoDontTalk).classList.remove('parler')
                         print(rep[progress][0].Dialogues[number].Sentance)
-                        
+
                         let lecture = document.querySelector('.lecteur').innerHTML
 
                         lecture = rep[progress][0].Dialogues[number].Sentance
@@ -439,7 +438,7 @@ function gérerHistoire() {
 
                         synthese.speak(vocal);
 
-                        
+
                         number++;
                     }
                     if (number == rep[progress][0].Dialogues.length) {
@@ -449,6 +448,9 @@ function gérerHistoire() {
                     break;
                 case 'preBar':
                     localStorage.setItem('menu', 'mapo');
+                    document.querySelector('.bulleDialogue').style = "display: none;"
+                    document.querySelector('.personnage1').style = "display: none;"
+                    document.querySelector('.personnage2').style = "display: none;"
                     document.querySelector('.mapo').classList.add('ouvert')
                     document.querySelector('.categories').classList.remove('ouvert')
                     document.querySelector('.cache-black').classList.toggle('ouvert')
@@ -466,7 +468,7 @@ function gérerHistoire() {
 
                         setTimeout(function () {
                             document.querySelector('.bgFixed>img').src = 'img/fond' + progress + '.jpg';
-
+                            document.querySelector('.bulleDialogue').style = "display: block;"
                             document.querySelector('.personnage1').style = "display: block;";
                             document.querySelector('.personnage2').style = "display: block;";
                             document.querySelector('.personnage1>img').src = 'img/personnages/' + rep[progress][0].CharacterOne + '.png'
@@ -501,8 +503,6 @@ function gérerHistoire() {
                         setTimeout(function () {
                             document.querySelector('.bgFixed>img').src = 'img/fondbar.jpg';
 
-                            document.querySelector('.personnage1').style = "display: block;";
-                            document.querySelector('.personnage2').style = "display: block;";
                             document.querySelector('.personnage1>img').src = 'img/personnages/' + rep[progress][0].CharacterOne + '.png'
                             document.querySelector('.personnage2>img').src = 'img/personnages/' + rep[progress][0].CharacterTwo + '.png'
                         }, 500)
@@ -522,6 +522,9 @@ function gérerHistoire() {
                     break;
                 case 'preRun':
                     localStorage.setItem('menu', 'mapo');
+                    document.querySelector('.bulleDialogue').style = "display: none;"
+                    document.querySelector('.personnage1').style = "display: none;"
+                    document.querySelector('.personnage2').style = "display: none;"
                     document.querySelector('.mapo').classList.add('ouvert')
                     document.querySelector('.categories').classList.remove('ouvert')
                     document.querySelector('.cache-black').classList.toggle('ouvert')
@@ -539,7 +542,7 @@ function gérerHistoire() {
 
                         setTimeout(function () {
                             document.querySelector('.bgFixed>img').src = 'img/fond' + progress + '.jpg';
-
+                            document.querySelector('.bulleDialogue').style = "display: block;"
                             document.querySelector('.personnage1').style = "display: block;";
                             document.querySelector('.personnage2').style = "display: block;";
                             document.querySelector('.personnage1>img').src = 'img/personnages/' + rep[progress][0].CharacterOne + '.png'
@@ -576,7 +579,8 @@ function gérerHistoire() {
                 case 'barrel':
                     if (number == 0) {
                         document.querySelector('.cacheAppearDesapear').style = 'display: block;';
-                        document.querySelector('.cacheAppearDesapear').classList.add('AnimationCache')
+                        document.querySelector('.cacheAppearDesapear').classList.add('AnimationCache');
+
                         setTimeout(function () {
                             document.querySelector('.cacheAppearDesapear').style = 'display: none;';
                             document.querySelector('.cacheAppearDesapear').classList.remove('AnimationCache')
@@ -584,14 +588,13 @@ function gérerHistoire() {
 
                         setTimeout(function () {
                             document.querySelector('.bgFixed>img').src = 'img/fond' + progress + '.jpg';
-
+                            document.querySelector('.bulleDialogue').style = "display: block;"
                             document.querySelector('.personnage1').style = "display: block;";
                             document.querySelector('.personnage2').style = "display: block;";
                             document.querySelector('.personnage1>img').src = 'img/personnages/' + rep[progress][0].CharacterOne + '.png'
                             document.querySelector('.personnage2>img').src = 'img/personnages/' + rep[progress][0].CharacterTwo + '.png'
                         }, 500)
                     }
-
                     if (number < rep[progress][0].Dialogues.length) {
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoTalk).classList.add('parler')
                         document.querySelector('.' + rep[progress][0].Dialogues[number].WhoDontTalk).classList.remove('parler')
@@ -618,9 +621,6 @@ function gérerHistoire() {
 
                         setTimeout(function () {
                             document.querySelector('.bgFixed>img').src = 'img/fond' + progress + '.jpg';
-
-                            document.querySelector('.personnage1').style = "display: block;";
-                            document.querySelector('.personnage2').style = "display: none;";
                             document.querySelector('.personnage1>img').src = 'img/personnages/' + rep[progress][0].CharacterOne + '.png'
                             document.querySelector('.personnage2>img').src = 'img/personnages/' + rep[progress][0].CharacterTwo + '.png'
                         }, 500)
@@ -633,9 +633,6 @@ function gérerHistoire() {
                         document.querySelector('.lecteur').innerHTML = rep[progress][0].Dialogues[number].Sentance
                         number++;
                     }
-                    if (number == rep[progress][0].Dialogues.length) {
-                        document.querySelector('.bulleDialogue').innerHTML = "The end."
-                    }
                     break;
                 default:
                     console.log('une erreur est survenue.')
@@ -645,14 +642,36 @@ function gérerHistoire() {
 
 function lockOrientation() {
     const elem = document.documentElement; // tu peux aussi cibler un élément précis
-  
+
     if (elem.requestFullscreen) {
-      elem.requestFullscreen().then(() => {
-        if (screen.orientation && screen.orientation.lock) {
-          screen.orientation.lock('portrait').catch((error) => {
-            console.error('Erreur lors du verrouillage de l\'orientation :', error);
-          });
-        }
-      });
+        elem.requestFullscreen().then(() => {
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('portrait').catch((error) => {
+                    console.error('Erreur lors du verrouillage de l\'orientation :', error);
+                });
+            }
+        });
     }
-  }
+}
+
+
+// partie mot de passe pour acceder a un jeu a distance
+
+document.querySelectorAll('.jeux>a').forEach(e=>{
+    e.addEventListener('click', lancerJeu)
+})
+
+function lancerJeu(event){
+    event.preventDefault();
+
+    console.log(this.href)
+
+    let mdp = document.querySelector('.recupCodeJeu').value
+
+    if(mdp == 'MMI'){
+        window.location.href = this.href
+    }
+    else{
+        document.querySelector('.resultatJeu').innerHTML = 'Mot de passe incorrect'
+    }
+}

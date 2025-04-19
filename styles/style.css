@@ -448,12 +448,12 @@ img {
 }
 
 .personnage1 {
-    left: -80px;
+    left: -160px;
     transition: 0.4s;
 }
 
 .personnage2 {
-    right: -80px;
+    right: -120px;
     transition: 0.4s;
 }
 

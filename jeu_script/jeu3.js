@@ -489,7 +489,7 @@ function startGame() {
     aRedressement = 0;
     VitesseUtilisateur = 0;
     contenu = 100;
-    vitesse = 4;
+    vitesse = 0;
     facteurVideAngle = 0;
     tremblements = 0;
     trembler = 0
@@ -501,7 +501,7 @@ function startGame() {
     chro = 0
     start = Date.now();
 
-    // if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
+    if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
     document.querySelector('.first').classList.add('none')
 
     lockOrientation();
@@ -525,12 +525,12 @@ function startGame() {
     }
 
     boucle();
-    // }
-    // else {
-    //     document.querySelector('.errorWindow').classList.remove('closerror');
-    //     document.querySelector('.errorWindow').classList.add('ouvrirerror')
-    //     document.querySelector('.cache_Error').classList.add('ouvrirCache');
-    // }
+    }
+    else {
+        document.querySelector('.errorWindow').classList.remove('closerror');
+        document.querySelector('.errorWindow').classList.add('ouvrirerror')
+        document.querySelector('.cache_Error').classList.add('ouvrirCache');
+    }
 }
 
 // fermer la pop up
@@ -575,7 +575,7 @@ function cheater() {
 
 
     if (valeur == 'mmi') {
-        localStorage.setItem('progress', 'jeu3');
+        localStorage.setItem('progress', 'Jeu3');
         window.location.href = "../index.html";
     }
     else {
@@ -599,7 +599,7 @@ function closeAll() {
 }
 
 function passerJeu() {
-    localStorage.setItem('progress', 'jeu3');
+    localStorage.setItem('progress', 'Jeu3');
     window.location.href = "../index.html";
 }
 

@@ -31,37 +31,37 @@
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Hello, do you know why i call you here ? I am the chief of the tanner of our group."
+                    "Sentance": "Tanner : Hello, do you know why i call you here ? I am the chief of the tanner of our group."
                 },
                 {
                     "WhoTalk": "personnage2",
                     "WhoDontTalk": "personnage1",
-                    "Sentance": "Yes. You need my help to convince the tanners to join us."
+                    "Sentance": "You : Yes. You need my help to convince the tanners to join us."
                 },
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Exactly, your first mission is to go to the bar and help set the mood."
+                    "Sentance": "Tanner : Exactly, your first mission is to go to the bar and help set the mood."
                 },
                 {
                     "WhoTalk": "personnage2",
                     "WhoDontTalk": "personnage1",
-                    "Sentance": "Why do we need to set the mood in a bar, are we not suposed to help the tanner ?"
+                    "Sentance": "You : Why do we need to set the mood in a bar, are we not suposed to help the tanner ?"
                 },
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Yes, of course, but you know to treat their product they need urine so we are gonna search some at the bar, for the tanner this liquid is gold."
+                    "Sentance": "Tanenr : Yes, of course, but you know to treat their product they need urine so we are gonna search some at the bar, for the tanner this liquid is gold."
                 },
                 {
                     "WhoTalk": "personnage2",
                     "WhoDontTalk": "personnage1",
-                    "Sentance": "Ok, im going to the bar."
+                    "Sentance": "You : Ok, im going to the bar."
                 },
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Oh.. and be carefull, some bandit from the other camp hang around the bar."
+                    "Sentance": "Tanner : Oh.. and be carefull, some bandit from the other camp hang around the bar."
                 }
             ]
         }
@@ -74,32 +74,32 @@
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Hey ! Are you the one who's been called in to help me ?"
+                    "Sentance": "Barman : Hey ! Are you the one who's been called in to help me ?"
                 },
                 {
                     "WhoTalk": "personnage2",
                     "WhoDontTalk": "personnage1",
-                    "Sentance": "Yes, it's me. So.. what should i do ?"
+                    "Sentance": "You : Yes, it's me. So.. what should i do ?"
                 },
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "You'll have to animate the evening with music, and the better you are, the more people will drink !"
+                    "Sentance": "Barman : You'll have to animate the evening with music, and the better you are, the more people will drink !"
                 },
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "so get the chords and notes right (by turning your phone) and avoid the drunks to win !"
+                    "Sentance": "Barman : So get the chords and notes right (by turning your phone) and avoid the drunks to win !"
                 },
                 {
                     "WhoTalk": "personnage2",
                     "WhoDontTalk": "personnage1",
-                    "Sentance": "Ok, i'll do it."
+                    "Sentance": "You : Ok, i'll do it."
                 },
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Thank you again ! Good luck."
+                    "Sentance": "Barman : Thank you again ! Good luck."
                 }
             ]
         }
@@ -112,7 +112,7 @@
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Nice job, now, you can bring the barrels to the Tanner ! My cart is at  «La cours des chaines»."
+                    "Sentance": "Barman : Nice job, now, you can bring the barrels to the Tanner ! My cart is at  «La cours des chaines»."
                 }
             ]
         }
@@ -125,7 +125,7 @@
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Hi, the cart's here, take car for the enemies on your road. To avoid them, turn your phone as the last game"
+                    "Sentance": "Farmer : Hi, the cart's here, take car for the enemies on your road. To avoid them, turn your phone as the last game"
                 }
             ]
         }
@@ -138,7 +138,7 @@
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "You need to walk now.. bring the barrel to the tanner. keep your phone in front of you, straight, and move it so that the barrile is upright, don't move too fast, it could fall."
+                    "Sentance": "Farmer : You need to walk now. Bring the barrel to the tanner. keep your phone in front of you, straight, and move it so that the barrel is upright, don't move too fast, it could fall."
                 }
             ]
         }
@@ -151,12 +151,17 @@
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Well done, you've done it !"
+                    "Sentance": "Tanner : Well done, you've done it !"
                 },
                 {
                     "WhoTalk": "personnage1",
                     "WhoDontTalk": "personnage2",
-                    "Sentance": "Thanks to you, the town of Mulhouse will be much more likely to listen to our side! You've won !"
+                    "Sentance": "Tanner : Thanks to you, the town of Mulhouse will be much more likely to listen to our side! You've won !"
+                },
+                {
+                    "WhoTalk": "personnage1",
+                    "WhoDontTalk": "personnage2",
+                    "Sentance": "The end."
                 }
             ]
         }
