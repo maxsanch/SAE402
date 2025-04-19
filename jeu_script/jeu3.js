@@ -513,10 +513,10 @@ function startGame() {
     chro = 0
     start = Date.now();
 
-    // if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
-
+    if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
         BloquerPleinEcran();
 
+        // time out permettant de laisser le temsp à l'ecran de s'adapter (sinon le canvas ne s'adapte pas, et c'est moins joli.)
         setTimeout(()=>{
             H = window.innerHeight
             W = window.innerWidth
@@ -539,12 +539,12 @@ function startGame() {
             boucle();
             document.querySelector('.first').classList.add('none')
         }, 300);
-    // }
-    // else {
-    //     document.querySelector('.errorWindow').classList.remove('closerror');
-    //     document.querySelector('.errorWindow').classList.add('ouvrirerror')
-    //     document.querySelector('.cache_Error').classList.add('ouvrirCache');
-    // }
+    }
+    else {
+        document.querySelector('.errorWindow').classList.remove('closerror');
+        document.querySelector('.errorWindow').classList.add('ouvrirerror')
+        document.querySelector('.cache_Error').classList.add('ouvrirCache');
+    }
 }
 
 // fermer la pop up
