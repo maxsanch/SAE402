@@ -517,27 +517,28 @@ function startGame() {
 
         BloquerPleinEcran();
 
-        // mettre un setTimeout et voir si ca marche
-        H = window.innerHeight
-        W = window.innerWidth
-
-        const audio = document.getElementById("audio");
-
-        document.querySelector('.victoire').classList.remove('openEndGame')
-        document.querySelector('.defaite').classList.remove('openEndGame')
-
-        // Date.now ou performance.now
-        audio.play();
-        audio.volume = 0.4;
-        initialisation();
-        chronoT();
-
-        if (this.className == "startGame") {
-            oscillator.start();
-        }
-
-        boucle();
-        document.querySelector('.first').classList.add('none')
+        setTimeout(()=>{
+            H = window.innerHeight
+            W = window.innerWidth
+    
+            const audio = document.getElementById("audio");
+    
+            document.querySelector('.victoire').classList.remove('openEndGame')
+            document.querySelector('.defaite').classList.remove('openEndGame')
+    
+            // Date.now ou performance.now
+            audio.play();
+            audio.volume = 0.4;
+            initialisation();
+            chronoT();
+    
+            if (this.className == "startGame") {
+                oscillator.start();
+            }
+    
+            boucle();
+            document.querySelector('.first').classList.add('none')
+        }, 300);
     // }
     // else {
     //     document.querySelector('.errorWindow').classList.remove('closerror');
