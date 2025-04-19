@@ -11,6 +11,7 @@ let chrono = 0
 let temps = 0;
 let temps_avant = 0;
 let temps_difference = 0;
+const audioVibration = document.querySelector("#vibration");
 const audioElementObstacle = document.querySelector("#audio_obstacle");
 const audioElementNote = document.querySelector("#audio_note");
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -231,7 +232,15 @@ function calcul() {
                     document.querySelector(".ecran_rouge").classList.add("vert");
                     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("vert") }, 150);
                     score++;
-                    navigator.vibrate([800]); // fait vibrer le téléphone pendant 100 ms
+                    if ('vibrate' in navigator) {
+                        // Déclencher la vibration pendant 2 secondes
+                        navigator.vibrate(2000);
+                    }
+                    else {
+                        audioElementNote.pause();
+                        audioElementObstacle.pause();
+                        audioVibration.play();
+                    }
                     console.log("gfdgdfgdf")
                 }
                 if (charactéristique.etat == "obstacle") {
@@ -239,7 +248,15 @@ function calcul() {
                     document.querySelector(".ecran_rouge").classList.add("rouge");
                     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
                     score = score - 0.5;
-                    navigator.vibrate([300]); // fait vibrer le téléphone pendant 100 ms
+                    if ('vibrate' in navigator) {
+                        // Déclencher la vibration pendant 1 secondes
+                        navigator.vibrate(1000);
+                    }
+                    else {
+                        audioElementNote.pause();
+                        audioElementObstacle.pause();
+                        audioVibration.play();
+                    }
                     console.log("trerteter")
                 }
             }
@@ -373,6 +390,7 @@ function lockOrientation() {
 }
 
 function Arreter_jeu() {
+    document.querySelector(".score").classList.remove("score_present");
     Jeu_en_cours = false;
     ctx_notes.clearRect(0, 0, W, H);
     ctx_obstacles.clearRect(0, 0, W, H);
