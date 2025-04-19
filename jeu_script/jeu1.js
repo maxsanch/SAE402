@@ -231,12 +231,14 @@ function calcul() {
                     document.querySelector(".ecran_rouge").classList.add("vert");
                     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("vert") }, 150);
                     score++;
+                    navigator.vibrate(100); // fait vibrer le téléphone pendant 100 ms
                 }
                 if (charactéristique.etat == "obstacle") {
                     charactéristique.toucher = true;
                     document.querySelector(".ecran_rouge").classList.add("rouge");
                     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
                     score = score - 0.5;
+                    navigator.vibrate(100); // fait vibrer le téléphone pendant 100 ms
                 }
             }
         })
