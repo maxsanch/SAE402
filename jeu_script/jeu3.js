@@ -573,7 +573,7 @@ function cheater() {
     let valeur = document.querySelector('.CheatCode').value
 
 
-    if (valeur == 'mmi') {
+    if (valeur.toLowerCase() == 'mmi') {
         localStorage.setItem('progress', 'Jeu3');
         window.location.href = "../index.html";
     }

@@ -668,7 +668,7 @@ function lancerJeu(event){
 
     let mdp = document.querySelector('.recupCodeJeu').value
 
-    if(mdp == 'MMI'){
+    if(mdp.toLowerCase() == 'mmi'){
         window.location.href = this.href
     }
     else{
