@@ -231,7 +231,7 @@ function calcul() {
                     document.querySelector(".ecran_rouge").classList.add("vert");
                     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("vert") }, 150);
                     score++;
-                    navigator.vibrate(100); // fait vibrer le téléphone pendant 100 ms
+                    navigator.vibrate([800]); // fait vibrer le téléphone pendant 100 ms
                     console.log("gfdgdfgdf")
                 }
                 if (charactéristique.etat == "obstacle") {
@@ -239,7 +239,7 @@ function calcul() {
                     document.querySelector(".ecran_rouge").classList.add("rouge");
                     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
                     score = score - 0.5;
-                    navigator.vibrate(100); // fait vibrer le téléphone pendant 100 ms
+                    navigator.vibrate([300]); // fait vibrer le téléphone pendant 100 ms
                     console.log("trerteter")
                 }
             }
@@ -324,6 +324,7 @@ function lancement_du_jeu() {
     W = window.innerWidth;
     H = window.innerHeight;
     lockOrientation();
+    document.querySelector(".score").classList.add("score_present");
     document.querySelector(".lancement").style = "display: none;";
     Jeu_en_cours = true;
     boucle();
