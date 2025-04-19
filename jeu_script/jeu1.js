@@ -193,7 +193,7 @@ function calcul() {
             }
 
 
-            document.querySelector(".position").innerHTML = "position : " + charactéristique.Y;
+            // document.querySelector(".position").innerHTML = "position : " + charactéristique.Y;
 
             if (charactéristique.Y <= -50 || charactéristique.Y >= H) {
                 charactéristique.position_partition = position.pop();
@@ -232,6 +232,7 @@ function calcul() {
                     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("vert") }, 150);
                     score++;
                     navigator.vibrate(100); // fait vibrer le téléphone pendant 100 ms
+                    console.log("gfdgdfgdf")
                 }
                 if (charactéristique.etat == "obstacle") {
                     charactéristique.toucher = true;
@@ -239,6 +240,7 @@ function calcul() {
                     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
                     score = score - 0.5;
                     navigator.vibrate(100); // fait vibrer le téléphone pendant 100 ms
+                    console.log("trerteter")
                 }
             }
         })
@@ -301,7 +303,7 @@ function chrono_incrementage() {
         window.setTimeout(chrono_incrementage, 1);
     }
 
-    document.querySelector(".temps").innerHTML = "chrono : " + chrono;
+    // document.querySelector(".temps").innerHTML = "chrono : " + chrono;
 
 
     Object.entries(partition).forEach(([numero_entité, charactéristique]) => {
@@ -342,7 +344,7 @@ function setAudioPan(position_partition, panner) {
 screen.orientation.addEventListener("change", (event) => {
     const type = event.target.type;
     const angle = event.target.angle;
-    document.querySelector(".orientation").innerHTML = "type : " + type + " et angle : " + angle;
+    // document.querySelector(".orientation").innerHTML = "type : " + type + " et angle : " + angle;
     console.log(`ScreenOrientation change: ${type}, ${angle} degrees.`);
     if (type.includes("portrait")) {
         Jeu_en_cours = true;
