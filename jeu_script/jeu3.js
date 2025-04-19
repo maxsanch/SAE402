@@ -49,8 +49,8 @@ const draw = document.querySelector('#barile')
 
 const ctx = draw.getContext('2d')
 
-let H = window.innerHeight
-let W = window.innerWidth
+let H = 0
+let W = 0
 
 let front = document.querySelector('.avant-tonneau')
 let fondjeu = document.querySelector('.fond-jeu')
@@ -82,7 +82,7 @@ let VitesseUtilisateur = 0;
 
 let contenu = 100;
 
-let vitesse = 4;
+let vitesse = 0;
 
 let derniereLat = null;
 let derniereLong = null;
@@ -233,8 +233,10 @@ function calculeDistance(lastlat, lastlong, lat, long) {
 }
 
 function initialisation() {
-    draw.width = window.innerWidth
-    draw.height = window.innerHeight
+    draw.width = window.innerWidth;
+    draw.height = window.innerHeight;
+    H = window.innerHeight;
+    W = window.innerWidth;
 }
 
 window.addEventListener('deviceorientation', inclinaison_tel, true)
@@ -425,7 +427,7 @@ function calculer() {
 function afficher() {
     ctx.fillStyle = "#09C";
     ctx.drawImage(fondjeu, 0, 0, W + 350, H);
-    
+
     function dessinerRectangle(yDéplacement, color, taille, image) {
         // Store the current context state (i.e. rotation, translation etc..)
         ctx.save()
@@ -502,29 +504,26 @@ function startGame() {
     start = Date.now();
 
     if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
-    document.querySelector('.first').classList.add('none')
+        document.querySelector('.first').classList.add('none')
 
-    lockOrientation();
+        BloquerPleinEcran();
 
-    H = window.innerHeight;
-    W = window.innerWidth;
+        const audio = document.getElementById("audio");
 
-    const audio = document.getElementById("audio");
+        document.querySelector('.victoire').classList.remove('openEndGame')
+        document.querySelector('.defaite').classList.remove('openEndGame')
 
-    document.querySelector('.victoire').classList.remove('openEndGame')
-    document.querySelector('.defaite').classList.remove('openEndGame')
+        // Date.now ou performance.now
+        audio.play();
+        audio.volume = 0.4;
+        initialisation();
+        chronoT();
 
-    // Date.now ou performance.now
-    audio.play();
-    audio.volume = 0.4;
-    initialisation();
-    chronoT();
+        if (this.className == "startGame") {
+            oscillator.start();
+        }
 
-    if (this.className == "startGame") {
-        oscillator.start();
-    }
-
-    boucle();
+        boucle();
     }
     else {
         document.querySelector('.errorWindow').classList.remove('closerror');
@@ -608,16 +607,18 @@ function retournerMap() {
     window.location.href = "../index.html";
 }
 
-function lockOrientation() {
-    const elem = document.documentElement; // tu peux aussi cibler un élément précis
+function BloquerPleinEcran() {
+    const elem = window;
 
     if (elem.requestFullscreen) {
-        elem.requestFullscreen().then(() => {
-            if (screen.orientation && screen.orientation.lock) {
-                screen.orientation.lock('portrait').catch((error) => {
-                    console.error('Erreur lors du verrouillage de l\'orientation :', error);
-                });
-            }
-        });
+        elem.requestFullscreen()
+            .then(() => {
+                if (screen.orientation && screen.orientation.lock) {
+                    screen.orientation.lock('portrait')
+                        .catch((error) => {
+                            console.error('Erreur lors du verrouillage de l\'orientation :'+ error);
+                        });
+                }
+            });
     }
 }

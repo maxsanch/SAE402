@@ -367,8 +367,6 @@ img {
     margin-top: 20px;
     padding: 10px;
     margin-bottom: 20px;
-    padding-bottom: 10px;
-    padding-top: 10px;
 }
 
 .categories>div {
@@ -521,4 +519,18 @@ img {
     100% {
         opacity: 0;
     }
+}
+
+.inputRecup{
+    margin-top: 20px;
+    padding-inline: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.recupCodeJeu{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: none;
 }
