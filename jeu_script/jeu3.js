@@ -49,8 +49,8 @@ const draw = document.querySelector('#barile')
 
 const ctx = draw.getContext('2d')
 
-let H = 0
-let W = 0
+let H = window.innerHeight
+let W = window.innerWidth
 
 let front = document.querySelector('.avant-tonneau')
 let fondjeu = document.querySelector('.fond-jeu')
@@ -147,6 +147,10 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
+///////////////////////////////
+// Partie position du joueur //
+///////////////////////////////
+
 if (navigator.geolocation) {
     navigator.geolocation.watchPosition(position => {
         latVictoire = position.coords.latitude;
@@ -213,6 +217,9 @@ else {
     console.log('le navigateur ne supporte pas la geolocalisation')
 }
 
+/////////////////////////////////////////////
+// Partie calcule de la distance parcourue //
+////////////////////////////////////////////
 
 function calculeDistance(lastlat, lastlong, lat, long) {
     // transition des coordonnée données par la position de l'utulisateur en KM, aide de l'IA pour cela
@@ -232,12 +239,9 @@ function calculeDistance(lastlat, lastlong, lat, long) {
     // distance en km
 }
 
-function initialisation() {
-    draw.width = window.innerWidth;
-    draw.height = window.innerHeight;
-    H = window.innerHeight;
-    W = window.innerWidth;
-}
+//////////////////////////////
+// Orientation du téléphone //
+//////////////////////////////
 
 window.addEventListener('deviceorientation', inclinaison_tel, true)
 
@@ -248,8 +252,6 @@ function inclinaison_tel(event) {
 
     aRedressement = 0.0001 * -rotation
 }
-
-
 
 // pour transformer les angles en une matrice de rotation
 function getRotationMatrix(alpha, beta, gamma) {
@@ -301,6 +303,13 @@ function EulerAngle(matrix) {
 
     return retouraudegre * x;
 }
+
+function initialisation() {
+    draw.width = window.innerWidth;
+    draw.height = window.innerHeight;
+}
+
+// Calcules de la page
 
 function calculer() {
     if ((latVictoire >= 47.74682 && latVictoire <= 47.74722 && longVictoire >= 7.33584 && longVictoire <= 7.33624) || contenu <= 1) {
@@ -395,7 +404,6 @@ function calculer() {
         }
     }
 
-
     // si le tonneau est plus penché, ca se vide plus facilement.
 
     if (contenu >= 90) {
@@ -424,7 +432,9 @@ function calculer() {
     document.querySelector('.contenu').innerHTML = `Barrel's content : <div class='pourcents'>${Math.round(contenu * 100) / 100} %</div>`
 }
 
+
 function afficher() {
+    console.log(W);
     ctx.fillStyle = "#09C";
     ctx.drawImage(fondjeu, 0, 0, W + 350, H);
 
@@ -504,9 +514,12 @@ function startGame() {
     start = Date.now();
 
     // if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
-        document.querySelector('.first').classList.add('none')
 
         BloquerPleinEcran();
+
+        // mettre un setTimeout et voir si ca marche
+        H = window.innerHeight
+        W = window.innerWidth
 
         const audio = document.getElementById("audio");
 
@@ -524,6 +537,7 @@ function startGame() {
         }
 
         boucle();
+        document.querySelector('.first').classList.add('none')
     // }
     // else {
     //     document.querySelector('.errorWindow').classList.remove('closerror');
@@ -608,7 +622,7 @@ function retournerMap() {
 }
 
 function BloquerPleinEcran() {
-    const elem = window;
+    const elem = document.documentElement;
 
     if (elem.requestFullscreen) {
         elem.requestFullscreen()
