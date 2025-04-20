@@ -453,33 +453,6 @@ function afficher() {
     dessinerRectangle(0, 600, front); // Avant du baril
 }
 
-// dessiner les grouttes pour avoir le fluide 
-
-let gouttes = [
-    {
-        x: 0,	// Position en X.
-        y: 0 - 300,	// Position en Y.
-        vx: 0.5,	// Vitesse sur l’axe X.
-        vy: 0.8,	// Vitesse sur l’axe Y.
-        couleurGoutte: "#ffd33e"
-    },
-    {
-        x: 0,	// Position en X.
-        y: 0 - 300,	// Position en Y.
-        vx: 0.5,	// Vitesse sur l’axe X.
-        vy: 0.8,	// Vitesse sur l’axe Y.
-        couleurGoutte: "#ffd33e"
-    }
-]
-
-function drawGouttes() {
-    gouttes.forEach(e => {
-        ctx.fillStyle = e.couleurGoutte
-        ctx.fillRect(e.x, e.y, 5, 5); // on dessine une petite goutte ronde
-        ctx.fill();
-    })
-}
-
 function stopGame() {
     gainNode.gain.value = 0;
     document.querySelectorAll('.time').forEach(e => {
