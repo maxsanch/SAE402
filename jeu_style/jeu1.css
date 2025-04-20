@@ -8,6 +8,10 @@ body {
     overflow: hidden;
 }
 
+body>img{
+    display: none;
+}
+
 canvas {
     position: absolute;
 }

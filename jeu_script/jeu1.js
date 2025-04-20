@@ -21,6 +21,9 @@ const pannerObstacle = audioContext.createStereoPanner();
 const pannerNote = audioContext.createStereoPanner();
 let Jeu_en_cours = false;
 let partition_ecriture = {};
+var note_verte = document.querySelector(".note_verte")
+var homme = document.querySelector(".homme")
+var chaise = document.querySelector(".chaise")
 
 // Connexion des nodes audio
 sourceObstacle.connect(pannerObstacle);
@@ -49,17 +52,19 @@ let partition = [
         Y: -150,
         X: 0,
         toucher: false,
-        position_partition: 0
+        position_partition: 0,
+        type: "chaise"
     },
     {
         timeur: 1500,
-        etat: "note",
+        etat: "obstacle",
         numero: 1,
         vY: 0,
         Y: -150,
         X: 0,
         toucher: false,
-        position_partition: 0
+        position_partition: 0,
+        type: "homme"
     },
     {
         timeur: 4500,
@@ -69,7 +74,8 @@ let partition = [
         Y: -150,
         X: 0,
         toucher: false,
-        position_partition: 0
+        position_partition: 0,
+        type: "chaise"
     },
     {
         timeur: 2000,
@@ -79,7 +85,8 @@ let partition = [
         Y: -150,
         X: 0,
         toucher: false,
-        position_partition: 0
+        position_partition: 0,
+        type: "homme"
     },
     {
         timeur: 2500,
@@ -89,7 +96,8 @@ let partition = [
         Y: -150,
         X: 0,
         toucher: false,
-        position_partition: 0
+        position_partition: 0,
+        type: "chaise"
     },
     {
         timeur: 3000,
@@ -99,7 +107,8 @@ let partition = [
         Y: -150,
         X: 0,
         toucher: false,
-        position_partition: 0
+        position_partition: 0,
+        type: "homme"
     },
     {
         timeur: 3500,
@@ -109,7 +118,8 @@ let partition = [
         Y: -150,
         X: 0,
         toucher: false,
-        position_partition: 0
+        position_partition: 0,
+        type: "chaise"
     },
     {
         timeur: 4000,
@@ -119,7 +129,8 @@ let partition = [
         Y: -150,
         X: 0,
         toucher: false,
-        position_partition: 0
+        position_partition: 0,
+        type: "homme"
     },
     {
         timeur: 4500,
@@ -129,7 +140,8 @@ let partition = [
         Y: -150,
         X: 0,
         toucher: false,
-        position_partition: 0
+        position_partition: 0,
+        type: "chaise"
     },
 ];
 
@@ -167,11 +179,21 @@ function afficher() {
 
         if (charactéristique.etat == "note") {
             ctx_notes.fillStyle = "red";
-            ctx_notes.fillRect(charactéristique.X, charactéristique.Y, 20, 20)
+            ctx_notes.drawImage(note_verte, charactéristique.X, charactéristique.Y, 100, 100)
         }
         if (charactéristique.etat == "obstacle") {
             ctx_notes.fillStyle = "green";
-            ctx_notes.fillRect(charactéristique.X, charactéristique.Y, 20, 20)
+            switch (charactéristique.type) {
+                case "homme":
+                    ctx_notes.drawImage(homme, charactéristique.X, charactéristique.Y, 100, 100);
+                    break;
+                case "chaise":
+                    ctx_notes.drawImage(chaise, charactéristique.X, charactéristique.Y, 100, 100);
+                    break;
+                default:
+                    ctx_notes.drawImage(note_verte, charactéristique.X, charactéristique.Y, 100, 100);
+            }
+
         }
     })
 }
@@ -202,13 +224,13 @@ function calcul() {
 
 
             if (charactéristique.position_partition == 1) {
-                charactéristique.X = (W * 0.25) - 20;
+                charactéristique.X = (W * 0.25) - 60;
             }
             if (charactéristique.position_partition == 2) {
-                charactéristique.X = (W * 0.5) - 10;
+                charactéristique.X = (W * 0.5) - 50;
             }
             if (charactéristique.position_partition == 3) {
-                charactéristique.X = W * 0.75;
+                charactéristique.X = W * 0.75 - 40;
             }
 
             // console.log(charactéristique.toucher)
@@ -340,7 +362,7 @@ document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu
 function lancement_du_jeu() {
     W = window.innerWidth;
     H = window.innerHeight;
-    lockOrientation();
+    window.setTimeout(lockOrientation, 300);
     document.querySelector(".score").classList.add("score_present");
     document.querySelector(".lancement").style = "display: none;";
     Jeu_en_cours = true;
