@@ -82,7 +82,7 @@ let VitesseUtilisateur = 0;
 
 let contenu = 100;
 
-let vitesse = 0;
+let vitesse = 1;
 
 let derniereLat = null;
 let derniereLong = null;
@@ -434,7 +434,6 @@ function calculer() {
 
 
 function afficher() {
-    console.log(W);
     ctx.fillStyle = "#09C";
     ctx.drawImage(fondjeu, 0, 0, W + 350, H);
 
@@ -446,40 +445,12 @@ function afficher() {
         ctx.rotate(angle * Math.PI / 180);
         ctx.drawImage(image, -500 / 2, (yDéplacement - taille / 2) + trembler, 500, taille);
 
-        drawGouttes();
-
-        // restorer l'image de base
-        ctx.restore();
+        ctx.restore(); // <<< Très important : remettre le contexte normal AVANT de dessiner les carrés
     }
 
     dessinerRectangle(0, 600, back);  // Baril
-    dessinerRectangle(0, 600, back);
-    dessinerRectangle(0, 600, front); // Avant du baril
-}
-
-// dessiner les grouttes pour avoir le fluide 
-
-let gouttes = [
-    {
-        x: xBarile,	// Position en X.
-        y: yBarile,	// Position en Y.
-        vx: 0.5,	// Vitesse sur l’axe X.
-        vy: 0.8,	// Vitesse sur l’axe Y.
-        couleurGoutte: "#"
-    },
-    {
-        x: 450,	// Position en X.
-        y: 700,	// Position en Y.
-        vx: 0.5,	// Vitesse sur l’axe X.
-        vy: 0.8	// Vitesse sur l’axe Y.
-    }
-]
-
-function drawGouttes(){
     
-    gouttes.forEach(e=>{
-        ctx.fillStyle = e.couleurGoutte
-    })
+    dessinerRectangle(0, 600, front); // Avant du baril
 }
 
 function stopGame() {
@@ -526,9 +497,9 @@ function startGame() {
     rotaleft = false;
     rotaright = false;
     aRedressement = 0;
-    VitesseUtilisateur = 0;
+    VitesseUtilisateur = 1;
     contenu = 100;
-    vitesse = 0;
+    vitesse = 1;
     facteurVideAngle = 0;
     tremblements = 0;
     trembler = 0
@@ -544,25 +515,25 @@ function startGame() {
         BloquerPleinEcran();
 
         // time out permettant de laisser le temsp à l'ecran de s'adapter (sinon le canvas ne s'adapte pas, et c'est moins joli.)
-        setTimeout(()=>{
+        setTimeout(() => {
             H = window.innerHeight
             W = window.innerWidth
-    
+
             const audio = document.getElementById("audio");
-    
+
             document.querySelector('.victoire').classList.remove('openEndGame')
             document.querySelector('.defaite').classList.remove('openEndGame')
-    
+
             // Date.now ou performance.now
             audio.play();
             audio.volume = 0.4;
             initialisation();
             chronoT();
-    
+
             if (this.className == "startGame") {
                 oscillator.start();
             }
-    
+
             boucle();
             document.querySelector('.first').classList.add('none')
         }, 300);
@@ -658,7 +629,7 @@ function BloquerPleinEcran() {
                 if (screen.orientation && screen.orientation.lock) {
                     screen.orientation.lock('portrait')
                         .catch((error) => {
-                            console.error('Erreur lors du verrouillage de l\'orientation :'+ error);
+                            console.error('Erreur lors du verrouillage de l\'orientation :' + error);
                         });
                 }
             });
