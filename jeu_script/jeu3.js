@@ -438,21 +438,48 @@ function afficher() {
     ctx.fillStyle = "#09C";
     ctx.drawImage(fondjeu, 0, 0, W + 350, H);
 
-    function dessinerRectangle(yDéplacement, color, taille, image) {
+    function dessinerRectangle(yDéplacement, taille, image) {
         // Store the current context state (i.e. rotation, translation etc..)
         ctx.save()
         ctx.translate(xCentre, yCentre + trembler);
-        //Rotate the canvas around the origin
+        // tourner le canvas.
         ctx.rotate(angle * Math.PI / 180);
-        ctx.fillStyle = color;
         ctx.drawImage(image, -500 / 2, (yDéplacement - taille / 2) + trembler, 500, taille);
-        // Restore canvas state as saved from above
+
+        drawGouttes();
+
+        // restorer l'image de base
         ctx.restore();
     }
 
-    dessinerRectangle(0, "#5b3c11", 600, back);  // Baril
-    dessinerRectangle(0, "#FFFFF0", 600, back);
-    dessinerRectangle(0, "#6b4c21", 600, front); // Avant du baril
+    dessinerRectangle(0, 600, back);  // Baril
+    dessinerRectangle(0, 600, back);
+    dessinerRectangle(0, 600, front); // Avant du baril
+}
+
+// dessiner les grouttes pour avoir le fluide 
+
+let gouttes = [
+    {
+        x: xBarile,	// Position en X.
+        y: yBarile,	// Position en Y.
+        vx: 0.5,	// Vitesse sur l’axe X.
+        vy: 0.8,	// Vitesse sur l’axe Y.
+        couleurGoutte: "#"
+    },
+    {
+        x: 450,	// Position en X.
+        y: 700,	// Position en Y.
+        vx: 0.5,	// Vitesse sur l’axe X.
+        vy: 0.8	// Vitesse sur l’axe Y.
+    }
+]
+
+function drawGouttes(){
+    
+    gouttes.forEach(e=>{
+        ctx.fillStyle = e.couleurGoutte
+    })
 }
 
 function stopGame() {
