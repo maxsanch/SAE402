@@ -171,7 +171,7 @@ function afficher() {
     ctx_personnage.fillRect(W * 0.75, 0, 20, H)
 
     ctx_personnage.fillStyle = "black";
-    ctx_personnage.fillRect(xBille, H - 50, 20, 20)
+    ctx_personnage.fillRect(xBille, H - 130, 100, 100)
 
     ctx_notes.clearRect(0, 0, W, H)
 
@@ -247,7 +247,9 @@ function calcul() {
                 }
             }
 
-            if (charactéristique.Y >= H - 60 && charactéristique.Y <= H - 40 && xBille == charactéristique.X && charactéristique.toucher == false) {
+            // console.log(charactéristique.Y + "        " + (H - 50))
+
+            if (charactéristique.Y >= H - 180 && charactéristique.Y <= H - 80 && xBille == charactéristique.X && charactéristique.toucher == false) {
                 // console.log("toucher")
                 if (charactéristique.etat == "note") {
                     charactéristique.toucher = true;
@@ -279,7 +281,7 @@ function calcul() {
                         audioElementObstacle.pause();
                         audioVibration.play();
                     }
-                    console.log("trerteter")
+                    // console.log("trerteter")
                 }
             }
         })
@@ -304,13 +306,13 @@ window.addEventListener("deviceorientation", Inclinaison_Du_Telephone, true);
 function Inclinaison_Du_Telephone(event) {
     const gamma = event.gamma;
     if (gamma >= 20) {
-        xBille = W * 0.75;
+        xBille = (W * 0.75) - 40;
     }
     if (gamma <= -20) {
-        xBille = (W * 0.25) - 20;
+        xBille = (W * 0.25) - 60;
     }
     if (gamma <= 20 && gamma >= -20) {
-        xBille = (W * 0.5) - 10;
+        xBille = (W * 0.5) - 50;
     }
 }
 
