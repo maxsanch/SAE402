@@ -534,3 +534,9 @@ img {
     padding: 10px;
     border: none;
 }
+
+.resultatJeu{
+    margin-top: 20px;
+    color: rgb(182, 0, 0);
+    font-weight: 900;
+}

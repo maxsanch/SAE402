@@ -453,7 +453,7 @@ function afficher() {
 
     dessinerRectangle(0, 600, back);  // Baril
     if(contenu >= 90 && angle <= 5 && angle >= -5){
-        dessinerRectangle(-40, 600, tonneauanimation);
+        dessinerRectangle(-33, 600, tonneauanimation);
     }
     else{
         if(contenu >= 90){
@@ -492,7 +492,7 @@ function afficher() {
                 }
             }
             else{
-                // mettre un fond vide ici
+                tonneauTomber.src = '../img/vide.png'
             }
         } else if(contenu >= 50){
             if(angle >= 40 || angle <= -40){
@@ -512,20 +512,60 @@ function afficher() {
                 }
             }
             else{
-                // image vide
+                tonneauTomber.src = '../img/vide.png';
             }
         } else if(contenu >= 30){
-
+            if(angle >= 70 || angle <= -70){
+                if(angle >= 70){
+                    tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-5.png'
+                }
+                else{
+                    tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-5.png'
+                }
+            }
+            else{
+                tonneauTomber.src = '../img/vide.png';
+            }
         } else if(contenu >= 20){
-        
+            if(angle >= 80 || angle <= -80){
+                if(angle >= 80){
+                    tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-6.png'
+                }
+                else{
+                    tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-6.png'
+                }
+            }
+            else{
+                tonneauTomber.src = '../img/vide.png';
+            }
         } else if(contenu >= 10){
-
+            if(angle >= 85 || angle <= -85){
+                if(angle >= 85){
+                    tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-7.png'
+                }
+                else{
+                    tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-7.png'
+                }
+            }
+            else{
+                tonneauTomber.src = '../img/vide.png';
+            }
         }
         else if(contenu > 1){
-
+            if(angle >= 88 || angle <= -88){
+                if(angle >= 88){
+                    tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-8.png'
+                }
+                else{
+                    tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-8.png'
+                }
+            }
+            else{
+                tonneauTomber.src = '../img/vide.png';
+            }
         }
         else{
-            // mettre une image vide ici
+            tonneauTomber.src = '../img/vide.png';
         }
 
         dessinerRectangle(-40, 600, tonneauTomber);
