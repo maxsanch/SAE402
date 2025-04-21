@@ -434,6 +434,9 @@ function calculer() {
 
 
 function afficher() {
+    let tonneauanimation = document.querySelector('.tonneauAnim');
+    let tonneauTomber = document.querySelector('.tonneauTomber')
+
     ctx.fillStyle = "#09C";
     ctx.drawImage(fondjeu, 0, 0, W + 350, H);
 
@@ -445,13 +448,103 @@ function afficher() {
         ctx.rotate(angle * Math.PI / 180);
         ctx.drawImage(image, -500 / 2, (yDéplacement - taille / 2) + trembler, 500, taille);
 
-        ctx.restore(); // <<< Très important : remettre le contexte normal AVANT de dessiner les carrés
+        ctx.restore(); // restorer le context 
     }
 
     dessinerRectangle(0, 600, back);  // Baril
-    
+    if(contenu >= 90 && angle <= 5 && angle >= -5){
+        dessinerRectangle(-40, 600, tonneauanimation);
+    }
+    else{
+        if(contenu >= 90){
+            if(angle > 5 || angle < - 5){
+                if(angle > 5){
+                    tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-1.png'
+                }
+                else{
+                    tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-1.png'
+                }
+            }
+            if(angle >= 10 || angle <= -10){
+                if(angle >= 10){
+                    tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-2.png'
+                }
+                else{
+                    tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-2.png'
+                }
+            }
+        }
+        else if(contenu >= 70){
+            if(angle >= 10 || angle <= -10){
+                if(angle >= 10){
+                    tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-2.png'
+                }
+                else{
+                    tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-2.png'
+                }
+                if(angle >= 40 || angle <= -40){
+                    if(angle >= 40){
+                        tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-3.png'
+                    }
+                    else{
+                        tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-3.png'
+                    }
+                }
+            }
+            else{
+                // mettre un fond vide ici
+            }
+        } else if(contenu >= 50){
+            if(angle >= 40 || angle <= -40){
+                if(angle >= 40){
+                    tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-3.png'
+                }
+                else{
+                    tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-3.png'
+                }
+                if(angle >= 70 || angle <= -70){
+                    if(angle >= 70){
+                        tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-4.png'
+                    }
+                    else{
+                        tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-4.png'
+                    }
+                }
+            }
+            else{
+                // image vide
+            }
+        } else if(contenu >= 30){
+
+        } else if(contenu >= 20){
+        
+        } else if(contenu >= 10){
+
+        }
+        else if(contenu > 1){
+
+        }
+        else{
+            // mettre une image vide ici
+        }
+
+        dessinerRectangle(-40, 600, tonneauTomber);
+    }
     dessinerRectangle(0, 600, front); // Avant du baril
 }
+
+// pour changer l'image du tonneau, permet de créer l'animation (car le gif ne fonctionnais pas)
+let int = 1;
+
+setInterval(() => {
+    if (int <= 12) {
+        document.querySelector('.tonneauAnim').src = '../img/tonneauAnimation/t' + int + '.png';
+        int++;
+    }
+    else {
+        int = 1;
+    }
+}, 83)
 
 function stopGame() {
     gainNode.gain.value = 0;
