@@ -255,8 +255,6 @@ document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu
 
 function lancement_du_jeu() {
     chargement_des_notes();
-    W = window.innerWidth;
-    H = window.innerHeight;
     lockOrientation();
     document.querySelector(".score").classList.add("score_present");
     document.querySelector(".lancement").style = "display: none;";
@@ -302,6 +300,8 @@ screen.orientation.addEventListener("change", (event) => {
 
 
 function lockOrientation() {
+    W = window.innerWidth;
+    H = window.innerHeight;
     const elem = document.documentElement; // tu peux aussi cibler un élément précis
 
     if (elem.requestFullscreen) {
