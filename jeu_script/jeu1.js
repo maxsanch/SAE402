@@ -256,13 +256,22 @@ function lancement_du_jeu() {
     chargement_des_notes();
     W = window.innerWidth;
     H = window.innerHeight;
-    window.setTimeout(lockOrientation, 2000);
+    lockOrientation();
     document.querySelector(".score").classList.add("score_present");
     document.querySelector(".lancement").style = "display: none;";
     Jeu_en_cours = true;
     boucle();
     chrono_incrementage();
 }
+
+window.addEventListener("resize", RedimentionPage);
+
+function RedimentionPage() {
+    W = window.innerWidth;
+    H = window.innerHeight;
+}
+
+
 
 // Fonction pour définir la balance du son
 function setAudioPan(position_partition, panner) {
