@@ -129,14 +129,15 @@ function calcul() {
                 if (charactéristique.etat === "obstacle" && audioElementObstacle.paused) {
                     setAudioPan(charactéristique.position_partition, pannerObstacle);
                     audioElementObstacle.play();
-                    audioElementObstacle.volume = (charactéristique.Y / H);
                 }
                 if (charactéristique.etat === "note" && audioElementNote.paused) {
                     setAudioPan(charactéristique.position_partition, pannerNote);
                     audioElementNote.play();
-                    audioElementNote.volume = (charactéristique.Y / H);
                 }
+                audioElementObstacle.volume = (charactéristique.Y / H);
+                audioElementNote.volume = (charactéristique.Y / H);
             }
+
 
             // console.log(charactéristique.Y + "        " + (H - 50))
 
@@ -254,15 +255,28 @@ document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu
 
 function lancement_du_jeu() {
     chargement_des_notes();
-    W = window.innerWidth;
-    H = window.innerHeight;
-    window.setTimeout(lockOrientation, 2000);
+    lockOrientation();
     document.querySelector(".score").classList.add("score_present");
     document.querySelector(".lancement").style = "display: none;";
     Jeu_en_cours = true;
     boucle();
     chrono_incrementage();
 }
+
+window.addEventListener("resize", RedimentionPage);
+
+function RedimentionPage() {
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas_personnage.height = window.innerHeight;
+    canvas_personnage.width = window.innerWidth;
+    canvas_notes.height = window.innerHeight;
+    canvas_notes.width = window.innerWidth;
+    canvas_obstacles.height = window.innerHeight;
+    canvas_obstacles.width = window.innerWidth;
+}
+
+
 
 // Fonction pour définir la balance du son
 function setAudioPan(position_partition, panner) {
@@ -292,6 +306,8 @@ screen.orientation.addEventListener("change", (event) => {
 
 
 function lockOrientation() {
+    W = window.innerWidth;
+    H = window.innerHeight;
     const elem = document.documentElement; // tu peux aussi cibler un élément précis
 
     if (elem.requestFullscreen) {
@@ -345,7 +361,7 @@ function rejouer() {
 
 function suite_du_jeu() {
     localStorage.setItem('progress', 'Jeu1');
-    window.location.href= "../index.html"
+    window.location.href = "../index.html"
 }
 
 function cheatcode() {
