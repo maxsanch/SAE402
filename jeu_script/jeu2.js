@@ -184,9 +184,11 @@ function drawScore() {
     perso.fillText("Vie: " + viePlayer, 10, 40);
     perso.fillStyle = "green"; // Définit la couleur du texte
     perso.fillText("Phase actuelle: " + phaseMontrer, 10, 60);
-    // perso.font = "30px pixel"; // Définit la police et la taille du texte
-    // perso.fillStyle = "red"; // Définit la couleur du texte
-    // perso.fillText("Parry", (ecrW / 2) - 80, ecrH / 2)
+    if (parade == true) { // Si le joueur a paré l'ennemi
+        perso.font = "30px pixel"; // Définit la police et la taille du texte
+        perso.fillStyle = "red"; // Définit la couleur du texte
+        perso.fillText("Parry", (ecrW / 2) - 80, ecrH / 2);
+    }
 }
 
 function updatePhase() {
