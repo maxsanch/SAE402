@@ -184,6 +184,9 @@ function drawScore() {
     perso.fillText("Vie: " + viePlayer, 10, 40);
     perso.fillStyle = "green"; // Définit la couleur du texte
     perso.fillText("Phase actuelle: " + phaseMontrer, 10, 60);
+    // perso.font = "30px pixel"; // Définit la police et la taille du texte
+    // perso.fillStyle = "red"; // Définit la couleur du texte
+    // perso.fillText("Parry", (ecrW / 2) - 80, ecrH / 2)
 }
 
 function updatePhase() {
@@ -428,6 +431,7 @@ function Afficher() {
         clearScreen(); // retire les canvass en les passant en display none
         if (score >= 30) {
             // console.log("Vous avez gagné, Votre score est de " + score + " !"); // Affiche le message de victoire dans la console
+            localStorage.setItem('progress', 'Jeu2');
             document.getElementsByClassName("écran_win")[0].style.display = "block"; // Affiche l'écran de victoire
             document.getElementsByClassName("écran_win")[0].innerHTML = "<h1>Vous avez gagné !</h1><p>Votre score est de " + score + "</p><div onclick=\"location.reload()\">Rejouer</div>"; // Affiche le message de victoire
         }
