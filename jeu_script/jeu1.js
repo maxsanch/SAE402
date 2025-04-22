@@ -24,6 +24,7 @@ let partition_ecriture = {};
 var note_verte = document.querySelector(".note_verte")
 var homme = document.querySelector(".homme")
 var chaise = document.querySelector(".chaise")
+let cheat = document.querySelector(".cheatcode").value
 
 // Connexion des nodes audio
 sourceObstacle.connect(pannerObstacle);
@@ -310,6 +311,9 @@ function Arreter_jeu() {
     if (score >= 0) {
         document.querySelector(".suite").classList.add("apparition");
     }
+    else {
+        document.querySelector(".fin>.cheatcode").classList.add("apparition");
+    }
     Jeu_en_cours = false;
     ctx_notes.clearRect(0, 0, W, H);
     ctx_obstacles.clearRect(0, 0, W, H);
@@ -319,6 +323,9 @@ function Arreter_jeu() {
 
 document.querySelector(".rejouer").addEventListener("click", rejouer)
 document.querySelector(".suite").addEventListener("click", suite_du_jeu)
+document.querySelector(".cheatcode").addEventListener("click", cheatcode)
+document.querySelector(".sombre").addEventListener("click", retour)
+document.querySelector(".valider").addEventListener("click", lancer_cheat)
 
 
 function rejouer() {
@@ -339,6 +346,22 @@ function rejouer() {
 function suite_du_jeu() {
     localStorage.setItem('progress', 'Jeu1');
     window.location.href= "../index.html"
+}
+
+function cheatcode() {
+    document.querySelector(".cheat").classList.add("apparition")
+    document.querySelector(".sombre").classList.add("apparition")
+}
+
+function retour() {
+    document.querySelector(".cheat").classList.remove("apparition")
+    document.querySelector(".sombre").classList.remove("apparition")
+}
+
+function lancer_cheat() {
+    if (document.querySelector(".cheatcode_mdp").value.toLowerCase() === "mmi") {
+        suite_du_jeu();
+    }
 }
 //   // Lock button: Lock the screen to the other orientation (rotated by 90 degrees)
 // const rotate_btn = document.querySelector("#lock_button");

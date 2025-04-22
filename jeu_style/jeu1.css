@@ -82,6 +82,7 @@ canvas {
 .cheat {
     background-color: rgb(197, 149, 47);
     position: fixed;
+    display: none;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -90,6 +91,21 @@ canvas {
     justify-content: center;
     gap: 32px;
     font-family: pixel;
+    border: 1px black solid;
+    padding: 32px;
+    z-index: 2;
+    width: 60%;
+}
+
+input{
+    padding: 8px;
+}
+
+.valider {
+    background-image: linear-gradient(rgb(238, 238, 76), rgb(233, 173, 42));
+    text-align: center;
+    padding: 16px 8px;
+    border-radius: 8px;
 }
 
 .lancement>div {
@@ -126,5 +142,19 @@ canvas {
 }
 
 .suite {
+    display: none;
+}
+
+.sombre{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.500);
+    display: none;
+}
+
+.fin>.cheatcode{
     display: none;
 }
