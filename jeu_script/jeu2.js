@@ -74,8 +74,8 @@ let RedefineTime = 0; // Variable pour redéfinir le temps vu que ça marche pas
 // Initialisation des phases de jeux
 let tempsPhaseMax = 0; // Durée de la phase actuelle
 let phasesJeux = [
-    { gravité: 5, spdObstc: 250, spdEnmy: 0, obstacleExist: true, obstacle2Exist: true, ennemiExist: false, tempsPhaseMax: 20 }, // Phase 1
-    { gravité: 10, spdObstc: 250, spdEnmy: 250, obstacleExist: false, obstacle2Exist: false, ennemiExist: true, tempsPhaseMax: 15 }, // Phase 2
+    { gravité: 5, spdObstc: 250, spdEnmy: 0, obstacleExist: true, obstacle2Exist: true, ennemiExist: false, tempsPhaseMax: 3 - 1 }, // Phase 1 (le -1 c'est parce que le jeux fait que la première phase est plus longue de 1 et j'ai la flemme de chercher à le résoudre autrement)
+    { gravité: 10, spdObstc: 250, spdEnmy: 250, obstacleExist: false, obstacle2Exist: false, ennemiExist: true, tempsPhaseMax: 3 }, // Phase 2
     { gravité: 5, spdObstc: 250, spdEnmy: 300, obstacleExist: true, obstacle2Exist: true, ennemiExist: true, tempsPhaseMax: Infinity } // Phase 3
 ];
 let phaseActuelle = 0; // Phase actuelle du jeu
@@ -205,6 +205,8 @@ let obstacleCentralY = 0; // Position Y de l'obstacle central
 let obstacleCentralX = road[1]; // Position X de l'obstacle central
 let spdObstcCentral = 0; // Vitesse de l'obstacle central
 let obstacleCentralExist = false; // Variable pour vérifier si l'obstacle central existe ou non
+let decidePatern = Math.floor(Math.random() * 3); // permet de mettre un patern aléatoire pour les obstacles et l'ennemi
+let conditionObstCentral = false; // Variable pour vérifier si l'obstacle est en bas pour la boucle dans Afficher
 
 function placeEnemyAndObstacle() {
     // Place l'ennemi aléatoirement sur la voie de gauche ou de droite
@@ -229,7 +231,7 @@ function placeEnemyAndObstacle() {
         }
     }
 
-    if (phaseActuelle === 2) {
+    if (phaseActuelle === 2 && decidePatern == 2) { // Si on est en phase 3 et que le patern est 2, on place l'obstacle central
         obstacleCentralY = 0; // Réinitialise la position Y de l'obstacle central
         spdObstcCentral += gravité; // Augmente la vitesse de l'obstacle central
         obstacleCentralExist = true; // L'obstacle central existe
@@ -302,8 +304,18 @@ function Afficher() {
         obstacleCentralY += spdObstcCentral; // Déplacement de l'obstacle central vers le bas
     }
 
-    if (obstacleY > hauteur + tailleY || obstacle2Y > hauteur + tailleY) { // Si l'obstacle sort de l'écran
+    if (obstacleCentralExist == false) {
+        conditionObstCentral = true; // Si l'obstacle central n'existe pas, on met la condition à true
+    }
+    else {
+        if (obstacleCentralY > hauteur + tailleY) { // Si l'obstacle central sort de l'écran
+            conditionObstCentral = true; // On remet la condition à true
+        }
+    }
+
+    if (obstacleY > hauteur + tailleY || obstacle2Y > hauteur + tailleY && conditionObstCentral == true) { // Si l'obstacle sort de l'écran
         // console.log("Dtemp", Dtemp, "| Tnow", Tnow, "| Tstart", Tstart);
+        conditionObstCentral = false; // On remet la condition à false
         updatePhase(); // Met à jour la phase de jeu
         obstacleY = 0; // Réinitialise la position de l'obstacle
         obstacle2Y = 0; // Réinitialise la position de l'obstacle
@@ -338,7 +350,9 @@ function Afficher() {
         obstacleExist = phasesJeux[phaseActuelle].obstacleExist; // Réinitialise l'existence de l'obstacle
         obstacle2Exist = phasesJeux[phaseActuelle].obstacle2Exist; // Réinitialise l'existence de l'obstacle 2
         ennemiExist = phasesJeux[phaseActuelle].ennemiExist; // Réinitialise l'existence de l'ennemi
-        if (ennemiExist == true) {
+
+        // Phase 2
+        if (ennemiExist == true && phaseActuelle == 1) {
             placeEnemyAndObstacle(); // Place l'ennemi et l'obstacle
             if (decideExist == 0) {
                 obstacle2Exist = true; // L'obstacle 2 n'existe plus
@@ -346,6 +360,43 @@ function Afficher() {
             else {
                 obstacleExist = true; // L'obstacle n'existe plus
             }
+        }
+
+        // Phase 3
+        if (ennemiExist == true && phaseActuelle == 2) {
+            if (decidePatern == 0) { // Si le patern est 0, on place les obstacles
+                obstacleExist = true; // L'obstacle existe
+                obstacle2Exist = true; // L'obstacle 2 existe
+                obstacleCentralExist = false; // L'obstacle central n'existe pas
+                ennemiExist = false; // L'ennemi n'existe pas
+            }
+            if (decidePatern == 1) { // Si le patern est 1, on place l'obstacle 2
+                obstacleExist = false; // L'obstacle n'existe pas
+                obstacle2Exist = false; // L'obstacle 2 n'existe pas
+                ennemiExist = true; // L'ennemi existe
+                obstacleCentralExist = false
+                placeEnemyAndObstacle(); // Place l'ennemi et l'obstacle
+                if (decideExist == 0) {
+                    obstacle2Exist = true; // L'obstacle 2 n'existe plus
+                }
+                else {
+                    obstacleExist = true; // L'obstacle n'existe plus
+                }
+            }
+            if (decidePatern == 2) { // Si le patern est 2, on place l'obstacle 2
+                obstacleExist = false; // L'obstacle n'existe pas
+                obstacle2Exist = false; // L'obstacle 2 n'existe pas
+                ennemiExist = true; // L'ennemi existe
+                obstacleCentralExist = true; // L'obstacle central existe
+                placeEnemyAndObstacle(); // Place l'ennemi et l'obstacle
+                if (decideExist == 0) {
+                    obstacle2Exist = true; // L'obstacle 2 n'existe plus
+                }
+                else {
+                    obstacleExist = true; // L'obstacle n'existe plus
+                }
+            }
+            decidePatern = Math.floor(Math.random() * 3); // Change le patern aléatoirement
         }
         // score++; // Augmente le score
         // console.log(score);
