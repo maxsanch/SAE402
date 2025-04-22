@@ -292,9 +292,11 @@ boucle();
 document.querySelector('.bouton-main-page').addEventListener('click', commencer)
 
 function commencer() {
-    localStorage.setItem("started", "oui")
-    localStorage.setItem('progress', 'intro')
-    document.querySelector('.startpart').style = "display: none;"
+    localStorage.setItem("started", "oui");
+    localStorage.setItem('progress', 'intro');
+
+    document.querySelector('.startpart').classList.add('removeStart');
+
     audioMain.play();
     gérerHistoire();
     lockOrientation();
@@ -680,7 +682,6 @@ function lockOrientation() {
     }
 }
 
-
 // partie mot de passe pour acceder a un jeu a distance
 
 document.querySelectorAll('.jeux>a').forEach(e => {
@@ -691,9 +692,6 @@ document.querySelectorAll('.jeux>a').forEach(e => {
 
 function lancerJeu(event) {
     event.preventDefault();
-
-    console.log(this.href)
-
     let mdp = document.querySelector('.recupCodeJeu').value
 
     if (mdp.toLowerCase() == 'mmi') {
