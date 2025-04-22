@@ -129,14 +129,15 @@ function calcul() {
                 if (charactéristique.etat === "obstacle" && audioElementObstacle.paused) {
                     setAudioPan(charactéristique.position_partition, pannerObstacle);
                     audioElementObstacle.play();
-                    audioElementObstacle.volume = (charactéristique.Y / H);
                 }
                 if (charactéristique.etat === "note" && audioElementNote.paused) {
                     setAudioPan(charactéristique.position_partition, pannerNote);
                     audioElementNote.play();
-                    audioElementNote.volume = (charactéristique.Y / H);
                 }
+                audioElementObstacle.volume = (charactéristique.Y / H);
+                audioElementNote.volume = (charactéristique.Y / H);
             }
+
 
             // console.log(charactéristique.Y + "        " + (H - 50))
 
@@ -354,7 +355,7 @@ function rejouer() {
 
 function suite_du_jeu() {
     localStorage.setItem('progress', 'Jeu1');
-    window.location.href= "../index.html"
+    window.location.href = "../index.html"
 }
 
 function cheatcode() {
