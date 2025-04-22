@@ -268,6 +268,12 @@ window.addEventListener("resize", RedimentionPage);
 function RedimentionPage() {
     W = window.innerWidth;
     H = window.innerHeight;
+    canvas_personnage.height = window.innerHeight;
+    canvas_personnage.width = window.innerWidth;
+    canvas_notes.height = window.innerHeight;
+    canvas_notes.width = window.innerWidth;
+    canvas_obstacles.height = window.innerHeight;
+    canvas_obstacles.width = window.innerWidth;
 }
 
 
