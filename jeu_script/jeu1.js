@@ -33,117 +33,7 @@ sourceNote.connect(pannerNote);
 pannerNote.connect(audioContext.destination);
 
 let partition_ecran = [];
-let partition = [
-    {
-        timeur: 5,
-        etat: "note",
-        numero: 1,
-        vY: 0,
-        Y: -150,
-        X: 0,
-        toucher: false,
-        position_partition: 0
-    },
-    {
-        timeur: 5,
-        etat: "obstacle",
-        numero: 1,
-        vY: 0,
-        Y: -150,
-        X: 0,
-        toucher: false,
-        position_partition: 0,
-        type: "chaise"
-    },
-    {
-        timeur: 1500,
-        etat: "obstacle",
-        numero: 1,
-        vY: 0,
-        Y: -150,
-        X: 0,
-        toucher: false,
-        position_partition: 0,
-        type: "homme"
-    },
-    {
-        timeur: 4500,
-        etat: "note",
-        numero: 1,
-        vY: 0,
-        Y: -150,
-        X: 0,
-        toucher: false,
-        position_partition: 0,
-        type: "chaise"
-    },
-    {
-        timeur: 2000,
-        etat: "obstacle",
-        numero: 2,
-        vY: 0,
-        Y: -150,
-        X: 0,
-        toucher: false,
-        position_partition: 0,
-        type: "homme"
-    },
-    {
-        timeur: 2500,
-        etat: "obstacle",
-        numero: 2,
-        vY: 0,
-        Y: -150,
-        X: 0,
-        toucher: false,
-        position_partition: 0,
-        type: "chaise"
-    },
-    {
-        timeur: 3000,
-        etat: "obstacle",
-        numero: 2,
-        vY: 0,
-        Y: -150,
-        X: 0,
-        toucher: false,
-        position_partition: 0,
-        type: "homme"
-    },
-    {
-        timeur: 3500,
-        etat: "obstacle",
-        numero: 3,
-        vY: 0,
-        Y: -150,
-        X: 0,
-        toucher: false,
-        position_partition: 0,
-        type: "chaise"
-    },
-    {
-        timeur: 4000,
-        etat: "obstacle",
-        numero: 3,
-        vY: 0,
-        Y: -150,
-        X: 0,
-        toucher: false,
-        position_partition: 0,
-        type: "homme"
-    },
-    {
-        timeur: 4500,
-        etat: "obstacle",
-        numero: 3,
-        vY: 0,
-        Y: -150,
-        X: 0,
-        toucher: false,
-        position_partition: 0,
-        type: "chaise"
-    },
-];
+let partition = [];
 
 var gravite = 100;
 
@@ -362,9 +252,10 @@ function chrono_incrementage() {
 document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu)
 
 function lancement_du_jeu() {
+    chargement_des_notes();
     W = window.innerWidth;
     H = window.innerHeight;
-    window.setTimeout(lockOrientation, 300);
+    window.setTimeout(lockOrientation, 500);
     document.querySelector(".score").classList.add("score_present");
     document.querySelector(".lancement").style = "display: none;";
     Jeu_en_cours = true;
@@ -437,3 +328,116 @@ function Arreter_jeu() {
 //       log.textContent += `${error}\n`;
 //     });
 // });
+
+function chargement_des_notes() {
+    partition.push(
+        {
+            timeur: 5,
+            etat: "note",
+            numero: 1,
+            vY: 0,
+            Y: -150,
+            X: 0,
+            toucher: false,
+            position_partition: 0
+        },
+        {
+            timeur: 5,
+            etat: "obstacle",
+            numero: 1,
+            vY: 0,
+            Y: -150,
+            X: 0,
+            toucher: false,
+            position_partition: 0,
+            type: "chaise"
+        },
+        {
+            timeur: 1500,
+            etat: "obstacle",
+            numero: 1,
+            vY: 0,
+            Y: -150,
+            X: 0,
+            toucher: false,
+            position_partition: 0,
+            type: "homme"
+        },
+        {
+            timeur: 4500,
+            etat: "note",
+            numero: 1,
+            vY: 0,
+            Y: -150,
+            X: 0,
+            toucher: false,
+            position_partition: 0,
+            type: "chaise"
+        },
+        {
+            timeur: 2000,
+            etat: "obstacle",
+            numero: 2,
+            vY: 0,
+            Y: -150,
+            X: 0,
+            toucher: false,
+            position_partition: 0,
+            type: "homme"
+        },
+        {
+            timeur: 2500,
+            etat: "obstacle",
+            numero: 2,
+            vY: 0,
+            Y: -150,
+            X: 0,
+            toucher: false,
+            position_partition: 0,
+            type: "chaise"
+        },
+        {
+            timeur: 3000,
+            etat: "obstacle",
+            numero: 2,
+            vY: 0,
+            Y: -150,
+            X: 0,
+            toucher: false,
+            position_partition: 0,
+            type: "homme"
+        },
+        {
+            timeur: 3500,
+            etat: "obstacle",
+            numero: 3,
+            vY: 0,
+            Y: -150,
+            X: 0,
+            toucher: false,
+            position_partition: 0,
+            type: "chaise"
+        },
+        {
+            timeur: 4000,
+            etat: "obstacle",
+            numero: 3,
+            vY: 0,
+            Y: -150,
+            X: 0,
+            toucher: false,
+            position_partition: 0,
+            type: "homme"
+        },
+        {
+            timeur: 4500,
+            etat: "obstacle",
+            numero: 3,
+            vY: 0,
+            Y: -150,
+            X: 0,
+            toucher: false,
+            position_partition: 0,
+            type: "chaise"
+        },)
+}
