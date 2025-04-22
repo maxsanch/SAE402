@@ -14,6 +14,11 @@
 </head>
 
 <body>
+
+    <!---------------------->
+    <!-- fenetre d'erreur -->
+    <!---------------------->
+
     <div class="errorWindow">
         <div class="info-user">
             <b>You're in the wrong place.</b>
@@ -27,12 +32,22 @@
             </div>
         </div>
     </div>
+
+    <!---------------->
+    <!-- error Pwd  -->
+    <!---------------->
+
     <div class="errorElse">
         Wrong PassWord.
     </div>
     <div class="cache_Error">
 
     </div>
+
+    <!-------------------->
+    <!-- Vidéo Tutoriel -->
+    <!-------------------->
+
     <div class="video">
         <div class="global">
             <video src="../videos/tutoriel-jeu-3.mp4"></video>
@@ -41,6 +56,11 @@
             </div>
         </div>
     </div>
+
+    <!------------------->
+    <!-- Page du début -->
+    <!------------------->
+
     <div class="first">
         <div class="histoire">
         </div>
@@ -50,7 +70,7 @@
             </div>
             <div class="cheatCode">
                 <input type="text" placeholder="Enter a cheatCode." class="CheatCode">
-                <div class='sendingButton'  role="button" tabindex="0">
+                <div class='sendingButton' role="button" tabindex="0">
                     Valider
                 </div>
             </div>
@@ -61,6 +81,11 @@
         <div class="cache">
         </div>
     </div>
+
+    <!--------------------------->
+    <!-- fenetre de fin de jeu -->
+    <!--------------------------->
+
     <div class="victoire">
         <div class="message">
             You won !
@@ -106,6 +131,10 @@
         </div>
     </div>
 
+    <!------------------------->
+    <!-- informations player -->
+    <!------------------------->
+
     <div class="global2">
         <div class="grid">
             <div class="info1">
@@ -122,15 +151,30 @@
             </div>
         </div>
     </div>
+
+    <!------------------->
+    <!-- canvas du jeu -->
+    <!------------------->
+
     <canvas id="barile">
     </canvas>
+
+    <!-- images pour le tonneau -->
+
     <img src="../img/front-tonneau.png" alt="" class="avant-tonneau invisibleImage">
     <img src="../img/back-tonneau.png" alt="" class="arrière-tonneau invisibleImage">
     <img src="../img/tonneauAnimation/t1.png" alt="" class="tonneauAnim invisibleImage">
     <img src="../img/tonneau-tomber-gauche/New Piskel-2.png" alt="" class="tonneauTomber invisibleImage">
+
+
+    <!-- fond du jeu et sons ambiants -->
+
     <img src="../img/fond-jeu-3.jpg" alt="" class="fond-jeu invisibleImage">
     <audio loop id="audio" src="../audio/jeu3/Donkey Kong Country Music SNES - DK Island Swing.mp3"></audio>
     <audio class="tremblementsAudio" src="../audio/jeu3/tremblement.mp3"></audio>
+
+    <!-- scripts -->
+
     <script src="../jeu_script/jeu3.js">
     </script>
 </body>
