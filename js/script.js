@@ -17,6 +17,8 @@ audioMain.volume = 0.2
 let number = 0;
 let ecriture = false;
 
+// carte du monde
+
 var map = L.map('map').setView([0, 0], 18);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -27,6 +29,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 let pointAtteint = false;
 
 switch (progress) {
+    // vérifier la progression du joueur
     case "Jeu1":
         pts = [
             L.latLng(0, 0),
@@ -51,6 +54,8 @@ switch (progress) {
         ]
 }
 
+// changer les routings controls
+
 const routingControl = L.Routing.control({
     waypoints: pts,
     draggableWaypoints: false,
@@ -58,6 +63,7 @@ const routingControl = L.Routing.control({
 }).addTo(map);
 
 if (navigator.geolocation) {
+    // regarder la position du joueur
     navigator.geolocation.watchPosition(position => {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
@@ -119,6 +125,8 @@ const ctx = canvaparti.getContext('2d')
 
 let H = 0;
 let W = 0;
+
+// tableau de particules
 
 let tab = [
     {
@@ -235,6 +243,8 @@ let tab = [
     },
 ]
 
+// initialisation
+
 function initialisation() {
     H = window.innerHeight
     W = window.innerWidth
@@ -242,6 +252,8 @@ function initialisation() {
     canvaparti.width = window.innerWidth
     canvaparti.height = window.innerHeight
 }
+
+// boucle pour les particules du début
 
 function boucle() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
@@ -272,12 +284,10 @@ function boucle() {
     window.requestAnimationFrame(boucle)
 }
 
-function transition() {
-    console.log('pending')
-}
-
 initialisation();
 boucle();
+
+// commencer la partie
 
 document.querySelector('.bouton-main-page').addEventListener('click', commencer)
 
@@ -290,11 +300,15 @@ function commencer() {
     lockOrientation();
 }
 
+// si c'est déja commencé, alors on a pas besoin de restart
+
 if (started == 'oui') {
     document.querySelector('.startpart').style = "display: none;"
     gérerHistoire();
     lockOrientation();
 }
+
+// ouvrir le menu
 
 document.querySelector('.barres').addEventListener('click', ouvrirbarres)
 document.querySelector('.cache-black').addEventListener('click', ouvrirbarres)
@@ -306,6 +320,8 @@ function ouvrirbarres() {
     map.invalidateSize();
     map.setView([latitude, longitude], 18);
 }
+
+// ouvrir une catégorie
 
 document.querySelector('.games').addEventListener('click', opencategorie)
 document.querySelector('.story').addEventListener('click', opencategorie)
@@ -336,6 +352,7 @@ document.querySelectorAll('.retour').forEach(e => {
 })
 
 
+// retour en arrière
 
 function retour() {
     localStorage.setItem('menu', 'categories');
@@ -346,6 +363,8 @@ function retour() {
 }
 
 document.querySelector('.histoire').addEventListener('click', gérerHistoire)
+
+// écrire ligne par lignes les dialogues
 
 function print(dialogue) {
     let n = 0;
@@ -364,6 +383,8 @@ function print(dialogue) {
     }, 16)
 }
 
+// gérer TOUTE l'histoire
+
 function gérerHistoire() {
     if (ecriture) {
         return;
@@ -377,6 +398,7 @@ function gérerHistoire() {
         })
         .then(function (rep) {
             switch (progress) {
+                // une fois les dialogues cherchés, on a une fonction qui ajoute, poru chaque scene, les bons texts, même processus partout
                 case "intro":
                     document.querySelector('.bgFixed>img').src = 'img/fond' + progress + '.jpg';
                     document.querySelector('.personnage1').style = "display: none;";
@@ -447,6 +469,7 @@ function gérerHistoire() {
                     }
                     break;
                 case 'preBar':
+                    // ouvrir la map quand on doit aller quelque part
                     localStorage.setItem('menu', 'mapo');
                     document.querySelector('.bulleDialogue').style = "display: none;"
                     document.querySelector('.personnage1').style = "display: none;"
@@ -521,6 +544,7 @@ function gérerHistoire() {
                     }
                     break;
                 case 'preRun':
+                    // ouvrir la map quand on doit aller quelque part
                     localStorage.setItem('menu', 'mapo');
                     document.querySelector('.bulleDialogue').style = "display: none;"
                     document.querySelector('.personnage1').style = "display: none;"
@@ -640,6 +664,8 @@ function gérerHistoire() {
         })
 }
 
+// bloquer l'orientation
+
 function lockOrientation() {
     const elem = document.documentElement; // tu peux aussi cibler un élément précis
 
@@ -657,21 +683,23 @@ function lockOrientation() {
 
 // partie mot de passe pour acceder a un jeu a distance
 
-document.querySelectorAll('.jeux>a').forEach(e=>{
+document.querySelectorAll('.jeux>a').forEach(e => {
     e.addEventListener('click', lancerJeu)
 })
 
-function lancerJeu(event){
+// lancer le jeu
+
+function lancerJeu(event) {
     event.preventDefault();
 
     console.log(this.href)
 
     let mdp = document.querySelector('.recupCodeJeu').value
 
-    if(mdp.toLowerCase() == 'mmi'){
+    if (mdp.toLowerCase() == 'mmi') {
         window.location.href = this.href
     }
-    else{
+    else {
         document.querySelector('.resultatJeu').innerHTML = 'Mot de passe incorrect'
     }
 }

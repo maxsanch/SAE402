@@ -15,12 +15,303 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+    <link rel="preload" href="styles/style.css" as="style">
     <link rel="stylesheet" href="styles/style.css">
+
+    <style>
+        /* initialisation styles */
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #8E4E16;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        /* partie du début */
+
+        .startpart {
+            position: fixed;
+            display: flex;
+            z-index: 99;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .black-bg {
+            background: black;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            right: 0;
+        }
+
+        /* fond */
+
+        #sky {
+            background-image: url(../img/sky.jpg);
+            background-size: cover;
+            z-index: 101;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            opacity: 0;
+            animation: forwards ease-in-out 0.2s entrance;
+        }
+
+        #plaine {
+            background-image: url(../img/plaine.png);
+            background-size: 100%;
+            background-position: 50% 100%;
+            background-repeat: no-repeat;
+            z-index: 103;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transform: translateY(100%);
+            animation-delay: 0.2s;
+            animation: forwards ease-in-out 0.4s entrance-bottom;
+        }
+
+        @keyframes entrance {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes entrance-bottom {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* ombres */
+
+        .lueure-orange {
+            background: linear-gradient(370deg, #ed9f216d, transparent);
+            position: absolute;
+            top: 0;
+            animation: forwards ease-in-out 0.4s entrance-bottom;
+            animation-delay: 0.3s;
+            bottom: 0;
+            left: 0;
+            transform: translateY(100%);
+            z-index: 102;
+            right: 0;
+        }
+
+
+        .rectangle-shadow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 105;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.308);
+        }
+
+        .rectangle-nuit {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 104;
+            bottom: 0;
+            background: linear-gradient(200deg, #00012770, transparent);
+        }
+
+        @font-face {
+            font-family: pixel;
+            src: url(../font/Daydream.ttf);
+        }
+
+        /* infos */
+
+        .informations {
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 50px;
+            position: relative;
+            justify-content: center;
+            color: #EB9100;
+            font-family: pixel;
+            -webkit-text-stroke: 2px #5C2B00;
+            font-size: 30px;
+            width: 100%;
+        }
+
+        /* titre */
+
+        .title-main-page {
+            text-align: center;
+        }
+
+        .title-main-page>span {
+            display: inline-block;
+            opacity: 0;
+            animation: 0.2s entreehaute ease-in-out forwards;
+            animation-delay: var(--delais);
+        }
+
+        .title-main-page>p>span {
+            display: inline-block;
+            opacity: 0;
+            animation: 0.2s entreehaute ease-in-out forwards;
+            animation-delay: var(--delais);
+        }
+
+        @keyframes entreehaute {
+            from {
+                opacity: 0;
+                transform: translateY(-200%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(0);
+            }
+        }
+
+        /* bouton start */
+
+        .bouton-main-page {
+            background: linear-gradient(45deg, #FFB515, #8E4E16);
+            padding: 8px;
+            box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 0.25);
+            padding-inline: 20px;
+            color: #000004;
+            -webkit-text-stroke: 2px #FFF1B8;
+            transform: scale(0);
+            animation: popbutton 0.3s ease-in-out forwards;
+            animation-delay: 1.20s;
+            z-index: 1000;
+        }
+
+        @keyframes popbutton {
+            from {
+                transform: scale(0);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        /* nuages */
+
+        .clouds {
+            position: absolute;
+            z-index: 108;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+        }
+
+        .cloud-right {
+            filter: drop-shadow(3px 5px 0px #00000050);
+            position: absolute;
+            top: var(--top);
+            right: var(--right);
+            width: var(--taille);
+            transform: translate(100%);
+            animation: entry-right 0.4s ease-in-out forwards;
+            animation-delay: var(--delai);
+        }
+
+        @keyframes entry-right {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .cloud-left {
+            filter: drop-shadow(3px 5px 0px #00000050);
+            position: absolute;
+            top: var(--top);
+            left: var(--right);
+            width: var(--taille);
+            transform: translate(-100%);
+            animation: entry-left 0.4s ease-in-out forwards;
+            animation-delay: var(--delai);
+        }
+
+        @keyframes entry-left {
+            form {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        /* lueure fond */
+
+        .lueure {
+            position: absolute;
+            z-index: 107;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transform: translateY(100%);
+            animation: forwards ease-in-out 0.4s entrance-bottom;
+            animation-delay: 0.3s;
+            background: linear-gradient(45deg, #FB7D24 -50%, transparent 40%);
+        }
+
+        /* canvas particules */
+
+        #particules {
+            position: absolute;
+            z-index: 108;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transform: translateY(100%);
+            animation: forwards ease-in-out 0.4s entrance-bottom;
+            animation-delay: 0.5s;
+        }
+    </style>
 </head>
 
 <body>
     <!-- menu hamburger -->
-    <header class="menu-hamburger" >
+    <header class="menu-hamburger">
         <!-- barres -->
         <div role="button" tabindex="0" class="barres" aria-label="Main menu in top left of the page.">
             <div class="barre">
@@ -78,14 +369,18 @@
         </div>
         <!-- résumé story -->
         <div class="story-resume">
-            <p>During approximately the years 1800 (1798), there are tensions between the two camps forming in the city of Mulhouse. One side wants to claim independence for the city while the other wants to unite with France for economic reasons.</p>
-            <p>To avoid a civil war, the two chiefs of the both sides take a decision, create a competition between fields of activity. You are a member of the group to help the tanner.</p>
+            <p>During approximately the years 1800 (1798), there are tensions between the two camps forming in the city
+                of Mulhouse. One side wants to claim independence for the city while the other wants to unite with
+                France for economic reasons.</p>
+            <p>To avoid a civil war, the two chiefs of the both sides take a decision, create a competition between
+                fields of activity. You are a member of the group to help the tanner.</p>
             <p>At the end, the best team will be able to take the final decision of the Mulhouse’s city.</p>
-            <div role="button" tabindex="0"  class="retour" id="retourjeux">
+            <div role="button" tabindex="0" class="retour" id="retourjeux">
                 <img src="img/arrow_back.svg" alt="Back on the bottom left">
             </div>
         </div>
     </header>
+    <!-- partie d'accueil pour donner envie -->
     <div class="startpart">
         <div class="informations">
             <div class="title-main-page">
@@ -101,6 +396,7 @@
                 Start
             </div>
         </div>
+        <!-- nuages -->
         <div class="clouds">
             <div id="back-cloud" class="cloud-right"
                 style="--delai: 0.2s; --taille: 350px; --right: -80px; --top: -80px;"><img src="img/nuage-droite-2.png"
@@ -122,6 +418,7 @@
             <div class="cloud-left" style="--delai: 0.6s; --taille: 400px; --right: -170px; --top: -180px;"><img
                     src="img/nuage-droite-2.png" alt=""></div>
         </div>
+        <!-- particules -->
         <div class="particles">
             <canvas id="particules">
 
@@ -134,6 +431,7 @@
         <div class="rectangle-nuit">
 
         </div>
+        <!-- bakground -->
         <div class="bg">
             <div class="image-plaine-bg" id="plaine">
 
@@ -151,6 +449,7 @@
     </div>
     <div class="cacheAppearDesapear">
     </div>
+    <!-- histoire -->
     <div class="histoire">
         <div class="personnage1">
             <img class="tanner" src="img/personnages/Tanner.png" alt="">
@@ -167,6 +466,7 @@
 
     </div>
 
+    <!-- fond de scène -->
     <div class="bgFixed">
         <img src="img/fondintro.jpg" alt="">
     </div>
