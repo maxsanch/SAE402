@@ -1,3 +1,7 @@
+// coo start : 47.74677388962272, 7.33549761035268
+// co victoire :
+// 47.747022602578845, 7.336040920713743
+
 // selecteurs sur les différents éléments
 
 document.querySelector('.startGame').addEventListener('click', startGame)
@@ -13,19 +17,16 @@ document.querySelectorAll('.mapagain').forEach(e => {
 
 document.querySelector('.button-single-game').addEventListener('click', close)
 
-const audioTremblement = document.querySelector('.tremblementsAudio');
-audioTremblement.volume = 0.2
+/////////////////
+////// son //////
+/////////////////
 
-// coo start : 47.74677388962272, 7.33549761035268
-// co victoire :
-// 47.747022602578845, 7.336040920713743
+// constantes pour le son
 
-// constantes
 const approachSound = new AudioContext();
 const oscillator = approachSound.createOscillator();
 const gainNode = approachSound.createGain();
 const panner = approachSound.createStereoPanner();
-console.log(panner);
 
 // initialisation volume a 0 de base
 
@@ -34,45 +35,63 @@ gainNode.connect(panner);
 panner.connect(approachSound.destination);
 gainNode.gain.value = 0;
 
+///////////////////////////////
+////// vidéo de tutoriel //////
+///////////////////////////////
 
 const video = document.querySelector('.video>.global>video');
 
 document.querySelector('.croix-video').addEventListener('click', fermerVideo);
 video.addEventListener('ended', fermerVideo);
 
+document.querySelector('.tutorial').addEventListener('click', ouvrirVideo);
 
-document.querySelector('.tutorial').addEventListener('click', ouvrirVideo)
+// ouvrir la video
 
-// variables pour le jeu (initialisation)
+function ouvrirVideo() {
+    document.querySelector('.video').classList.add('ouvrir');
+    document.querySelector('.video').classList.remove('closevid');
+    document.querySelector('.cache_Error').classList.add('ouvrirCache');
+    video.play();
+}
+
+// fermer la video
+
+function fermerVideo() {
+    document.querySelector('.video').classList.add('closevid');
+    document.querySelector('.video').classList.remove('ouvrir');
+    document.querySelector('.cache_Error').classList.remove('ouvrirCache');
+    video.pause();
+}
+
+////////////////////////////////////////////////////
+////// variables pour le jeu (initialisation) //////
+////////////////////////////////////////////////////
 
 const draw = document.querySelector('#barile')
-
 const ctx = draw.getContext('2d')
 
 let H = window.innerHeight
 let W = window.innerWidth
 
-let front = document.querySelector('.avant-tonneau')
-let fondjeu = document.querySelector('.fond-jeu')
-let back = document.querySelector('.arrière-tonneau')
+const front = document.querySelector('.avant-tonneau');
+const fondjeu = document.querySelector('.fond-jeu');
+const back = document.querySelector('.arrière-tonneau');
 
 // le barile
 
 let xBarile = (window.innerWidth / 2) - 175
-let yBarile = 120
-let yflotte = 160
-let yBarileFront = 170
 
 let xCentre = W / 2
 let yCentre = 600
 
-let aBarile = 0.001
+let aBarile = 0.001;
 let vBarile = 0;
+
+// sens de rotation
 
 let rotaleft = false;
 let rotaright = false;
-
-// le alpha on s'en fou
 
 let angle = 0;
 
@@ -84,9 +103,14 @@ let contenu = 100;
 
 let vitesse = 1;
 
+// longitude du joueur
+
 let derniereLat = null;
 let derniereLong = null;
 let derniertemps = null;
+
+// variables pour le calcule de la vitesse 
+
 let distance = 0;
 let temps = 0;
 let coordonnées = [];
@@ -105,6 +129,11 @@ let trembler = 0;
 let tempsTremble = 0;
 let tremblersense = false;
 
+// audios pour els tremblements du tonneau
+
+const audioTremblement = document.querySelector('.tremblementsAudio');
+audioTremblement.volume = 0.2
+
 // pour les matrices : 
 
 let x = 0;
@@ -117,6 +146,7 @@ let victoire = false;
 let finJeu = false;
 
 // pour le timer
+
 let start = 0;
 let chro = -1;
 
@@ -130,15 +160,18 @@ let mili = timing % 1000;
 
 let map = L.map('map').setView([47.742293124114774, 7.335626139614205], 18);
 
-// Marqueur mobile (au départ à [0, 0], il sera mis à jour ensuite)
-let marker = L.marker([0, 0]).addTo(map);
+// Marqueur mobile (au départ à [41.303921, -81.901693], il sera mis à jour ensuite)
+
+let marker = L.marker([41.303921, -81.901693]).addTo(map);
 
 // Marqueur fixe
+
 let marker2 = L.marker([47.747022602578845, 7.336040920713743]).addTo(map);
 
 // Polygon mobile (au départ avec des coordonnées de base)
+
 let polygon = L.polygon([
-    [0, 0],
+    [41.303921, -81.901693],
     [47.747022602578845, 7.336040920713743],
 ]).addTo(map);
 
@@ -166,9 +199,9 @@ if (navigator.geolocation) {
             [47.747022602578845, 7.336040920713743]
         ]);
 
+        // mettre à jour le setview de la carte
+
         map.setView([latVictoire, longVictoire], 18);
-
-
 
         if (coordonnées.length <= 20) {
             coordonnées.push([position.coords.latitude, position.coords.longitude]);
@@ -253,7 +286,10 @@ function inclinaison_tel(event) {
     aRedressement = 0.0001 * -rotation
 }
 
-// pour transformer les angles en une matrice de rotation
+////////////////////////////////////////////////////////////
+// pour transformer les angles en une matrice de rotation //
+////////////////////////////////////////////////////////////
+
 function getRotationMatrix(alpha, beta, gamma) {
     const radiants = Math.PI / 180
 
@@ -283,13 +319,13 @@ function getRotationMatrix(alpha, beta, gamma) {
     ];
 }
 
-// fonction pour transformer les valeurs de la matrice en un angle
+// fonction pour transformer les valeurs de la matrice en un angle //
 
 function EulerAngle(matrix) {
-    var retouraudegre = 180 / Math.PI; // Radian-to-Degree conversion
+    var retouraudegre = 180 / Math.PI;
     let sy = Math.sqrt(matrix[0] * matrix[0] + matrix[3] * matrix[3]);
 
-    let singular = sy < 1e-6; // If
+    let singular = sy < 1e-6;
 
     if (!singular) {
         x = Math.atan2(matrix[7], matrix[8]);
@@ -304,19 +340,31 @@ function EulerAngle(matrix) {
     return retouraudegre * x;
 }
 
+////////////////////////////////////
+///// intialisation de la page /////
+////////////////////////////////////
+
 function initialisation() {
     draw.width = window.innerWidth;
     draw.height = window.innerHeight;
 }
 
-// Calcules de la page
+/////////////////////////////////
+////// Calcules de la page //////
+/////////////////////////////////
 
 function calculer() {
+
+    // regarder si le joueur a atteind la fin du jeu ou non
+
     if ((latVictoire >= 47.74682 && latVictoire <= 47.74722 && longVictoire >= 7.33584 && longVictoire <= 7.33624) || contenu <= 1) {
         finJeu = true;
     }
+
     VitesseUtilisateur = 1 / vitesse * 1000;
+
     // faire trembler le tonneau
+
     if (vitesse >= 3) {
         if (contenu >= 1) {
             tremblements = (vitesse * 0.0002) * (contenu / 70);
@@ -350,6 +398,7 @@ function calculer() {
     }
 
     contenu -= tremblements;
+
     // random pour la rotation du tonneau
 
     let Random = parseInt(Math.random() * VitesseUtilisateur)
@@ -427,35 +476,50 @@ function calculer() {
             facteurVideAngle = 0
         }
     }
+
     contenu += facteurVideAngle;
+
+    // mettre les informations dans les bonnes catégories
+
     document.querySelector('.info1').innerHTML = `Speed : <div class='vitesse'>${Math.floor(vitesse * 100) / 100} km/h</div>`;
     document.querySelector('.contenu').innerHTML = `Barrel's content : <div class='pourcents'>${Math.round(contenu * 100) / 100} %</div>`
 }
 
 
 function afficher() {
+    // initialiser les images du tonneau a chaque frames pour les mettre a jour.
+
     let tonneauanimation = document.querySelector('.tonneauAnim');
     let tonneauTomber = document.querySelector('.tonneauTomber')
+
+    // fond du jeu
 
     ctx.fillStyle = "#09C";
     ctx.drawImage(fondjeu, 0, 0, W + 350, H);
 
     function dessinerRectangle(yDéplacement, taille, image) {
-        // Store the current context state (i.e. rotation, translation etc..)
+        // save le canvas
         ctx.save()
+
+        // translate le canvas pour le mettre au centre du tonneau
         ctx.translate(xCentre, yCentre + trembler);
+
         // tourner le canvas.
         ctx.rotate(angle * Math.PI / 180);
-        ctx.drawImage(image, -500 / 2, (yDéplacement - taille / 2) + trembler, 500, taille);
 
+        // dessiner l'image avec la position en x et y, qui correspond au dimensions divisées par deux en prenant en compte les tremblements
+        ctx.drawImage(image, -500 / 2, (yDéplacement - taille / 2) + trembler, 500, taille);
         ctx.restore(); // restorer le context 
     }
 
-    dessinerRectangle(0, 600, back);  // Baril
+    dessinerRectangle(0, 600, back);  // Baril fond
+
+    // dessiner le contenu du baril
     if(contenu >= 90 && angle <= 5 && angle >= -5){
         dessinerRectangle(-33, 600, tonneauanimation);
     }
     else{
+        // si le contenu est superieur a 90, on met pas la même image
         if(contenu >= 90){
             if(angle > 5 || angle < - 5){
                 if(angle > 5){
@@ -475,6 +539,7 @@ function afficher() {
             }
         }
         else if(contenu >= 70){
+            // SVGAnimationElement, une autre image
             if(angle >= 10 || angle <= -10){
                 if(angle >= 10){
                     tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-2.png'
@@ -570,6 +635,7 @@ function afficher() {
 
         dessinerRectangle(-40, 600, tonneauTomber);
     }
+
     dessinerRectangle(0, 600, front); // Avant du baril
 }
 
@@ -586,27 +652,43 @@ setInterval(() => {
     }
 }, 83)
 
+//////////////////////////////
+/////// stopper le jeu ///////
+//////////////////////////////
+
 function stopGame() {
+
+    // remmettre le volume a 0
     gainNode.gain.value = 0;
+
+    // mettre dans la bulle de victoire les informations //
+
     document.querySelectorAll('.time').forEach(e => {
         e.innerHTML = 'Your Time = ' + minutes + 'm : ' + secondes + 's : ' + mili + "ms";
     })
+
     document.querySelectorAll('.content-barel-end').forEach(e => {
         e.innerHTML = 'Content of the barrel : ' + Math.floor(contenu * 100) / 100;
     })
+
+    ///////////////////////////////////////////////////////
+
+    // ouvrir la bulle de victoire, ou de défaite en fonction de si le joueur a gagné ou perdu
     if (victoire) {
         document.querySelector('.victoire').classList.add('openEndGame')
     }
     else {
         document.querySelector('.defaite').classList.add('openEndGame')
     }
+
     clearTimeout(chro);
-    chro = minutes + 'm : ' + secondes + 's : ' + mili + "ms";
 }
+
+// bouce d'affichage
 
 function boucle() {
     if (finJeu) {
-        if (contenu >= 50) {
+        if (contenu >= 50 && minutes < 2) {
             victoire = true;
         }
         else {
@@ -641,7 +723,7 @@ function startGame() {
     victoire = false;
     finJeu = false;
 
-    chro = 0
+    chro = -1
     start = Date.now();
 
     if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
@@ -685,21 +767,7 @@ function close() {
     document.querySelector('.cache_Error').classList.remove('ouvrirCache');
 }
 
-// ouvrir la video
-function ouvrirVideo() {
-    document.querySelector('.video').classList.add('ouvrir');
-    document.querySelector('.video').classList.remove('closevid');
-    document.querySelector('.cache_Error').classList.add('ouvrirCache');
-    video.play();
-}
-
-// fermer la video
-function fermerVideo() {
-    document.querySelector('.video').classList.add('closevid');
-    document.querySelector('.video').classList.remove('ouvrir');
-    document.querySelector('.cache_Error').classList.remove('ouvrirCache');
-    video.pause();
-}
+// chrono du jeu
 
 function chronoT() {
     chro = setInterval(function () {
@@ -715,6 +783,8 @@ function chronoT() {
     }, 16);
 }
 
+// fonction pour le code de triche
+
 function cheater() {
     let valeur = document.querySelector('.CheatCode').value
 
@@ -729,11 +799,15 @@ function cheater() {
     }
 }
 
+// fermer les erreurs
+
 function fermerError() {
     document.querySelector('.errorWindow').classList.add('closerror');
     document.querySelector('.errorElse').classList.remove('ouvrirerror');
     document.querySelector('.cache_Error').classList.remove('ouvrirCache');
 }
+
+// tout fermer
 
 function closeAll() {
     document.querySelector('.errorWindow').classList.remove('ouvrirerror');
@@ -743,15 +817,21 @@ function closeAll() {
     document.querySelector('.cache_Error').classList.remove('ouvrirCache');
 }
 
+// passer a la suite
+
 function passerJeu() {
     localStorage.setItem('progress', 'Jeu3');
     window.location.href = "../index.html";
 }
 
+// retourner a la carte
+
 function retournerMap() {
     localStorage.setItem('progress', 'Jeu2');
     window.location.href = "../index.html";
 }
+
+// bloquer le plein ecran
 
 function BloquerPleinEcran() {
     const elem = document.documentElement;

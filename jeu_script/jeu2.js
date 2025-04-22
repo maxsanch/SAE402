@@ -83,6 +83,8 @@ let phaseMontrer = 1; // Phase actuelle du jeu affichée à l'écran
 let tempsPhase = 0; // Temps écoulé dans la phase actuelle
 
 //////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 
 // Fonction pour controler le personnage
 function moveCharacter(direction) {
@@ -122,6 +124,12 @@ function detectCollision() {
         obstacle2Y < persoX + tailleX / 2 &&          // Haut de l'obstacle atteint le bas du personnage
         obstacle2X + tailleX / 2 > persoY - tailleY / 2 && // Droite de l'ennemi atteint la gauche du personnage
         obstacle2X - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'ennemi atteint la droite du personnage
+        ||
+        // colision bleu
+        obstacleCentralY + tailleY > persoX - tailleX / 2 && // Bas de l'obstacle atteint le haut du personnage
+        obstacleCentralY < persoX + tailleX / 2 &&          // Haut de l'obstacle atteint le bas du personnage
+        obstacleCentralX + tailleX / 2 > persoY - tailleY / 2 && // Droite de l'obstacle atteint la gauche du personnage
+        obstacleCentralX - tailleX / 2 < persoY + tailleY / 2    // Gauche de l'obstacle atteint la droite du personnage
     ) {
         // console.log("Collision");
         collision = true; // Met à jour la variable de collision
@@ -247,6 +255,8 @@ function placeEnemyAndObstacle() {
 }
 
 /////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
 
 function Afficher() {
 
@@ -318,7 +328,7 @@ function Afficher() {
         }
     }
 
-    if (obstacleY > hauteur + tailleY || obstacle2Y > hauteur + tailleY && conditionObstCentral == true) { // Si l'obstacle sort de l'écran
+    if (conditionObstCentral == true && obstacleY > hauteur + tailleY || conditionObstCentral == true && obstacle2Y > hauteur + tailleY) { // Si l'obstacle sort de l'écran
         // console.log("Dtemp", Dtemp, "| Tnow", Tnow, "| Tstart", Tstart);
         conditionObstCentral = false; // On remet la condition à false
         updatePhase(); // Met à jour la phase de jeu
@@ -435,7 +445,7 @@ function Afficher() {
             // console.log("Vous avez gagné, Votre score est de " + score + " !"); // Affiche le message de victoire dans la console
             localStorage.setItem('progress', 'Jeu2');
             document.getElementsByClassName("écran_win")[0].style.display = "block"; // Affiche l'écran de victoire
-            document.getElementsByClassName("écran_win")[0].innerHTML = "<h1>Vous avez gagné !</h1><p>Votre score est de " + score + "</p><div onclick=\"location.reload()\">Rejouer</div>"; // Affiche le message de victoire
+            document.getElementsByClassName("écran_win")[0].innerHTML = "<h1>Vous avez gagne !</h1><p>Votre score est de " + score + "</p><div onclick=\"location.reload()\">Rejouer</div>"; // Affiche le message de victoire
         }
         else {
             // console.log("Vous avez perdu, Votre score est de " + score + " ! Vous devez faire un score supérieur à 30 pour gagner."); // Affiche le message de défaite dans la console
