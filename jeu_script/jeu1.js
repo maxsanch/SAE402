@@ -305,11 +305,40 @@ function lockOrientation() {
 }
 
 function Arreter_jeu() {
+    partition = []
     document.querySelector(".score").classList.remove("score_present");
+    if (score >= 0) {
+        document.querySelector(".suite").classList.add("apparition");
+    }
     Jeu_en_cours = false;
     ctx_notes.clearRect(0, 0, W, H);
     ctx_obstacles.clearRect(0, 0, W, H);
     ctx_personnage.clearRect(0, 0, W, H);
+    document.querySelector(".fin").classList.add("apparition");
+}
+
+document.querySelector(".rejouer").addEventListener("click", rejouer)
+document.querySelector(".suite").addEventListener("click", suite_du_jeu)
+
+
+function rejouer() {
+    score = 0;
+    chrono = 0;
+    document.querySelector(".fin").classList.remove("apparition");
+    chargement_des_notes();
+    W = window.innerWidth;
+    H = window.innerHeight;
+    document.querySelector(".score").classList.add("score_present");
+    document.querySelector(".lancement").style = "display: none;";
+    Jeu_en_cours = true;
+    boucle();
+    chrono_incrementage();
+}
+
+
+function suite_du_jeu() {
+    localStorage.setItem('progress', 'Jeu1');
+    window.location.href= "../index.html"
 }
 //   // Lock button: Lock the screen to the other orientation (rotated by 90 degrees)
 // const rotate_btn = document.querySelector("#lock_button");

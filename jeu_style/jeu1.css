@@ -8,7 +8,7 @@ body {
     overflow: hidden;
 }
 
-body>img{
+body>img {
     display: none;
 }
 
@@ -79,6 +79,19 @@ canvas {
     gap: 150px;
 }
 
+.cheat {
+    background-color: rgb(197, 149, 47);
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    font-family: pixel;
+}
+
 .lancement>div {
     background-image: linear-gradient(rgb(238, 238, 76), rgb(233, 173, 42));
     font-family: pixel;
@@ -86,4 +99,32 @@ canvas {
     text-align: center;
     padding: 16px 8px;
     border-radius: 8px;
+}
+
+.fin {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 64px;
+    height: 100vh;
+    width: 100vw;
+    font-family: pixel;
+    background-image: url("../img/jeu1/gambri.jpg");
+    background-size: cover;
+    background-position: right;
+}
+
+.apparition {
+    display: flex !important;
+}
+
+.fin>div {
+    background-image: linear-gradient(rgb(238, 238, 76), rgb(233, 173, 42));
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.suite {
+    display: none;
 }
