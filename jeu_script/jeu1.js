@@ -255,7 +255,7 @@ function lancement_du_jeu() {
     chargement_des_notes();
     W = window.innerWidth;
     H = window.innerHeight;
-    window.setTimeout(lockOrientation, 500);
+    window.setTimeout(lockOrientation, 2000);
     document.querySelector(".score").classList.add("score_present");
     document.querySelector(".lancement").style = "display: none;";
     Jeu_en_cours = true;
