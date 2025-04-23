@@ -12,6 +12,7 @@ let temps = 0;
 let temps_avant = 0;
 let temps_difference = 0;
 const audioVibration = document.querySelector("#vibration");
+const audioMusique = document.querySelector("#musique");
 const audioElementObstacle = document.querySelector("#audio_obstacle");
 const audioElementNote = document.querySelector("#audio_note");
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -24,7 +25,9 @@ let partition_ecriture = {};
 var note_verte = document.querySelector(".note_verte")
 var homme = document.querySelector(".homme")
 var chaise = document.querySelector(".chaise")
+var guitariste = document.querySelector(".guitariste")
 let cheat = document.querySelector(".cheatcode").value
+let gagner = false;
 
 // Connexion des nodes audio
 sourceObstacle.connect(pannerObstacle);
@@ -53,16 +56,18 @@ var xBille = W / 2;
 
 function afficher() {
     document.querySelector(".score").innerHTML = "Score : " + (score * 100) + "";
-    ctx_personnage.fillStyle = "pink";
-    ctx_personnage.fillRect(0, 0, W, H);
+    // ctx_personnage.fillStyle = "pink";
+    // ctx_personnage.fillRect(0, 0, W, H);
 
+    ctx_personnage.clearRect(0, 0, W, H)
     ctx_personnage.fillStyle = "purple";
     ctx_personnage.fillRect((W * 0.25) - 20, 0, 20, H)
     ctx_personnage.fillRect((W * 0.5) - 10, 0, 20, H)
     ctx_personnage.fillRect(W * 0.75, 0, 20, H)
 
     ctx_personnage.fillStyle = "black";
-    ctx_personnage.fillRect(xBille, H - 130, 100, 100)
+    ctx_personnage.drawImage(guitariste, xBille, H - 130, 100, 100);
+    // ctx_personnage.fillRect(xBille, H - 130, 100, 100)
 
     ctx_notes.clearRect(0, 0, W, H)
 
@@ -246,6 +251,9 @@ function chrono_incrementage() {
     })
 
     if (chrono == 5000) {
+        if (score >= 0) {
+            gagner = true;
+        }
         Arreter_jeu();
     }
 
@@ -254,6 +262,8 @@ function chrono_incrementage() {
 document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu)
 
 function lancement_du_jeu() {
+    document.querySelector(".fond_jeu").classList.add("apparition");
+    audioMusique.play()
     chargement_des_notes();
     lockOrientation();
     document.querySelector(".score").classList.add("score_present");
@@ -322,9 +332,10 @@ function lockOrientation() {
 }
 
 function Arreter_jeu() {
+    document.querySelector(".fond_jeu").classList.remove("apparition");
     partition = []
     document.querySelector(".score").classList.remove("score_present");
-    if (score >= 0) {
+    if (gagner == true) {
         document.querySelector(".suite").classList.add("apparition");
     }
     else {
@@ -339,15 +350,18 @@ function Arreter_jeu() {
 
 document.querySelector(".rejouer").addEventListener("click", rejouer)
 document.querySelector(".suite").addEventListener("click", suite_du_jeu)
-document.querySelector(".cheatcode").addEventListener("click", cheatcode)
 document.querySelector(".sombre").addEventListener("click", retour)
 document.querySelector(".valider").addEventListener("click", lancer_cheat)
-
+document.querySelectorAll('.cheatcode').forEach(e => {
+    e.addEventListener("click", cheatcode)
+})
 
 function rejouer() {
+    document.querySelector(".fond_jeu").classList.add("apparition");
     score = 0;
     chrono = 0;
     document.querySelector(".fin").classList.remove("apparition");
+    document.querySelector(".fin>.cheatcode").classList.remove("apparition")
     chargement_des_notes();
     W = window.innerWidth;
     H = window.innerHeight;
@@ -372,11 +386,15 @@ function cheatcode() {
 function retour() {
     document.querySelector(".cheat").classList.remove("apparition")
     document.querySelector(".sombre").classList.remove("apparition")
+    document.querySelector(".mauvais_cheat").classList.remove("apparition")
 }
 
 function lancer_cheat() {
     if (document.querySelector(".cheatcode_mdp").value.toLowerCase() === "mmi") {
         suite_du_jeu();
+    }
+    else{
+        document.querySelector(".mauvais_cheat").classList.add("apparition")
     }
 }
 //   // Lock button: Lock the screen to the other orientation (rotated by 90 degrees)

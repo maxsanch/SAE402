@@ -14,6 +14,7 @@ body>img {
 
 canvas {
     position: absolute;
+    z-index: 488;
 }
 
 #canvas_notes {
@@ -34,6 +35,7 @@ canvas {
     margin-left: 8px;
     font-family: pixel;
     font-size: 10px;
+    color: rgb(196, 166, 0);
 }
 
 .score_present {
@@ -97,7 +99,15 @@ canvas {
     width: 60%;
 }
 
-input{
+.mauvais_cheat{
+    display: none;
+    margin-top: 8px;
+    font-family: pixel;
+    color: rgb(150, 12, 35);
+    font-size: 10px;
+}
+
+input {
     padding: 8px;
 }
 
@@ -145,7 +155,7 @@ input{
     display: none;
 }
 
-.sombre{
+.sombre {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -155,6 +165,28 @@ input{
     display: none;
 }
 
-.fin>.cheatcode{
+.fin>.cheatcode {
     display: none;
+}
+
+.fond_jeu {
+    display: none;
+}
+
+.fond_image {
+    height: 100vh;
+    width: 100vw;
+    background-image: url("../img/jeu1/bar.jpg");
+    background-size: cover;
+    background-position: bottom;
+}
+
+.fond_sombre {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.500);
+    z-index: 1;
 }

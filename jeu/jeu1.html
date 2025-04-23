@@ -10,12 +10,15 @@
 
 <body>
     <div class="cheat">
-        <input class="cheatcode_mdp" type="text" placeholder="Cheatcode">
+        <div class="cheat_groupe">
+            <input class="cheatcode_mdp" type="text" placeholder="Cheatcode">
+            <div class="mauvais_cheat">Cheatcode incorrect</div>
+        </div>
         <div class="valider">Valider</div>
     </div>
 
     <div class="sombre"></div>
-    
+
     <div class="lancement">
         <div class="cheatcode">Cheatcode</div>
         <div class="lancer_jeu">Jouer</div>
@@ -23,8 +26,11 @@
     <img class="note_verte" src="../img/jeu1/note_verte.png" alt="note verte">
     <img class="homme" src="../img/jeu1/homme.png" alt="un homme a terre car il est bourré">
     <img class="chaise" src="../img/jeu1/chaise.png" alt="une chaise">
+    <img class="guitariste" src="../img/jeu1/guitariste.png" alt="une guitariste">
+
 
     <audio id="audio_note" src="../audio/jeu1/monkey.mp3"></audio>
+    <audio id="musique" src="../audio/jeu1/musique.mp3"></audio>
     <audio id="audio_obstacle" src="../audio/jeu1/metal_pipe.mp3"></audio>
     <audio id="vibration" src="../audio/jeu1/metal_pipe.mp3"></audio>
 
@@ -52,6 +58,10 @@
     <canvas id="canvas_notes"></canvas>
     <canvas id="canvas_obstacles"></canvas>
     <canvas id="canvas_personnage"></canvas>
+    <div class="fond_jeu">
+        <div class="fond_sombre"></div>
+        <div class="fond_image"></div>
+    </div>
     <script src="../jeu_script/jeu1.js"></script>
 </body>
 
