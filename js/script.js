@@ -73,7 +73,11 @@ if (navigator.geolocation) {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
 
-        map.setView([latitude, longitude], 18);
+        let distance = map.distance(map.getCenter(), L.latLng(latitude, longitude));
+
+        if (distance > 20) { // 20 mètres de tolérance pour bouger la map (palier au probleme qu'on ne eut pas zoomer, car c'était chiantos)
+            map.setView([latitude, longitude], 18);
+        }
 
         // Mise à jour du premier waypoint
         const placeActuelle = routingControl.getWaypoints();
