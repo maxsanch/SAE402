@@ -73,6 +73,9 @@ self.addEventListener("install", function (event) {
 					'img/iconeApp/icon-192x192.png',
 					'img/iconeApp/icon-384x384.png',
 					'img/iconeApp/icon-512x512.png',
+					'audio/jeu3/Donkey Kong Country Music SNES - DK Island Swing.mp3',
+					'audio/jeu3/tremblement.mp3',
+					'audio/main_theme.mp3'
 				]);
 			})
 	);
