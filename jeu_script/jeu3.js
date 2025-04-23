@@ -729,25 +729,28 @@ function startGame() {
     start = Date.now();
 
     // if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
-        BloquerPleinEcran();
+    BloquerPleinEcran();
 
+    window.addEventListener('resize', function () {
         H = window.innerHeight
         W = window.innerWidth
-        
-        const audio = document.getElementById("audio");
-        document.querySelector('.victoire').classList.remove('openEndGame')
-        document.querySelector('.defaite').classList.remove('openEndGame')
-        // Date.now ou performance.now
-        audio.play();
-        audio.volume = 0.4;
-        initialisation();
-        chronoT();
 
-        if (this.className == "startGame") {
-            oscillator.start();
-        }
-        boucle();
-        document.querySelector('.first').classList.add('none')
+        initialisation();
+    })
+
+    const audio = document.getElementById("audio");
+    document.querySelector('.victoire').classList.remove('openEndGame')
+    document.querySelector('.defaite').classList.remove('openEndGame')
+    // Date.now ou performance.now
+    audio.play();
+    audio.volume = 0.4;
+    chronoT();
+
+    if (this.className == "startGame") {
+        oscillator.start();
+    }
+    boucle();
+    document.querySelector('.first').classList.add('none')
     // }
     // else {
     //     document.querySelector('.errorWindow').classList.remove('closerror');
@@ -756,14 +759,7 @@ function startGame() {
     // }
 }
 
-window.addEventListener('resize', majContext)
 
-function majcontext(){
-    H = window.innerHeight
-    W = window.innerWidth
-
-    initialisation();
-}
 
 // fermer la pop up
 function close() {
