@@ -88,12 +88,15 @@ if (navigator.geolocation) {
         switch (progress) {
             // vérifier la progression du joueur
             case "Jeu1":
+            case "preRun":
+            case "run":
                 polygon.setLatLngs([
                     [latitude, longitude],
                     [47.7476668973079, 7.333935237261866]
                 ]);
                 break;
             case "Jeu2":
+            case "barrel":
                 polygon.setLatLngs([
                     [latitude, longitude],
                     [47.74677388962272, 7.33549761035268]
