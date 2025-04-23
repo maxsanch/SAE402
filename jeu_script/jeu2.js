@@ -485,7 +485,14 @@ function Afficher() {
             // console.log("Vous avez gagné, Votre score est de " + score + " !"); // Affiche le message de victoire dans la console
             localStorage.setItem('progress', 'Jeu2');
             document.getElementsByClassName("écran_win")[0].style.display = "block"; // Affiche l'écran de victoire
-            document.getElementsByClassName("écran_win")[0].innerHTML = "<h1>Vous avez gagne !</h1><p>Votre score est de " + score + "</p><div onclick=\"location.reload()\">Rejouer</div>"; // Affiche le message de victoire
+            document.getElementsByClassName("écran_win")[0].innerHTML = `
+        <h1>Vous avez gagne !</h1>
+        <p>Votre score est de ${score}</p>
+        <div>
+            <button onclick="location.reload()">Rejouer</button>
+            <button onclick="window.location.href='../index.html'">Retour à l'index</button>
+        </div>
+    `; // Affiche le message de victoire
         }
         else {
             // console.log("Vous avez perdu, Votre score est de " + score + " ! Vous devez faire un score supérieur à 30 pour gagner."); // Affiche le message de défaite dans la console
@@ -516,17 +523,24 @@ document.getElementById("cheatCodeInput").addEventListener("input", function (ev
         // Gagne directement la partie
         document.getElementById("cheatCodeInput").value = ""; // Réinitialise le champ de saisie
         document.getElementById("start-Screen").style.display = "none"; // Cache le champ de saisie
-        winGame(); // Appelle la fonction pour gagner
+        Cheater(); // Appelle la fonction pour gagner
     }
 });
 
 // Fonction pour gagner directement
-function winGame() {
+function Cheater() {
     window.cancelAnimationFrame(Afficher); // Arrête l'animation
     clearScreen(); // Cache les canvas
     localStorage.setItem('progress', 'Jeu2'); // Sauvegarde la progression
     document.getElementsByClassName("écran_win")[0].style.display = "block"; // Affiche l'écran de victoire
-    document.getElementsByClassName("écran_win")[0].innerHTML = "<h1>Vous avez gagne !</h1><p>Cheat code active</p><div onclick=\"location.reload()\">Rejouer</div>";
+    document.getElementsByClassName("écran_win")[0].innerHTML = `
+        <h1>Vous avez gagne !</h1>
+        <p>Cheat code active</p>
+        <div>
+            <button onclick="location.reload()">Rejouer</button>
+            <button onclick="window.location.href='../index.html'">Retour à l'index</button>
+        </div>
+    `;
 }
 
 // Fonction pour afficher l'écran de lancement
