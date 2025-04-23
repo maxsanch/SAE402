@@ -324,7 +324,7 @@ document.querySelector('.bouton-main-page').addEventListener('click', commencer)
 
 function commencer() {
     localStorage.setItem("started", "oui");
-    localStorage.setItem('progress', 'intro');
+    localStorage.setItem('progress', 'Jeu2');
 
     document.querySelector('.startpart').classList.add('removeStart');
 
