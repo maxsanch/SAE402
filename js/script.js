@@ -75,7 +75,7 @@ if (navigator.geolocation) {
 
         let distance = map.distance(map.getCenter(), L.latLng(latitude, longitude));
 
-        if (distance > 20) { // 20 mètres de tolérance pour bouger la map (palier au probleme qu'on ne eut pas zoomer, car c'était chiantos)
+        if (distance > 50) { // 50 mètres de tolérance pour bouger la map (palier au probleme qu'on ne eut pas zoomer, car c'était chiantos)
             map.setView([latitude, longitude], 18);
         }
 
