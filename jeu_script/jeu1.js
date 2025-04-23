@@ -264,6 +264,7 @@ document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu
 function lancement_du_jeu() {
     document.querySelector(".fond_jeu").classList.add("apparition");
     audioMusique.play()
+    audioMusique.volume = 0.5
     chargement_des_notes();
     lockOrientation();
     document.querySelector(".score").classList.add("score_present");
@@ -440,7 +441,7 @@ function chargement_des_notes() {
         },
         {
             timeur: 1500,
-            etat: "obstacle",
+            etat: "note",
             numero: 1,
             vY: 0,
             Y: -150,
@@ -462,7 +463,7 @@ function chargement_des_notes() {
         },
         {
             timeur: 2000,
-            etat: "obstacle",
+            etat: "note",
             numero: 2,
             vY: 0,
             Y: -150,
