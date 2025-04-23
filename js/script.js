@@ -545,7 +545,7 @@ function gérerHistoire() {
                     }
                     break;
                 case "startJeu1":
-                    window.location.href = "../jeu/jeu1.html";
+                    window.location.href = "jeu/jeu1.html";
                     break;
                 case "Jeu1":
                     if (number == 0) {
@@ -620,7 +620,7 @@ function gérerHistoire() {
                     }
                     break;
                 case "startJeu2":
-                    window.location.href = "../jeu/jeu2.html";
+                    window.location.href = "jeu/jeu2.html";
                     break;
                 case 'Jeu2':
                     localStorage.setItem('menu', 'mapo');
@@ -665,7 +665,7 @@ function gérerHistoire() {
                     }
                     break;
                 case "startJeu3":
-                    window.location.href = "../jeu/jeu3.html";
+                    window.location.href = "jeu/jeu3.html";
                     break;
                 case "Jeu3":
                     if (number == 0) {

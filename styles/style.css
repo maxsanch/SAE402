@@ -1,3 +1,9 @@
+
+@font-face {
+    font-family: pixel;
+    src: url(../font/Daydream.ttf);
+}
+
 /* carte et menu hamburger */
 
 #map {
