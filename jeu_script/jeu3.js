@@ -35,6 +35,8 @@ gainNode.connect(panner);
 panner.connect(approachSound.destination);
 gainNode.gain.value = 0;
 
+bloquerEcr = false
+
 ///////////////////////////////
 ////// vidéo de tutoriel //////
 ///////////////////////////////
@@ -515,125 +517,125 @@ function afficher() {
     dessinerRectangle(0, 600, back);  // Baril fond
 
     // dessiner le contenu du baril
-    if(contenu >= 90 && angle <= 5 && angle >= -5){
+    if (contenu >= 90 && angle <= 5 && angle >= -5) {
         dessinerRectangle(-33, 600, tonneauanimation);
     }
-    else{
+    else {
         // si le contenu est superieur a 90, on met pas la même image
-        if(contenu >= 90){
-            if(angle > 5 || angle < - 5){
-                if(angle > 5){
+        if (contenu >= 90) {
+            if (angle > 5 || angle < - 5) {
+                if (angle > 5) {
                     tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-1.png'
                 }
-                else{
+                else {
                     tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-1.png'
                 }
             }
-            if(angle >= 10 || angle <= -10){
-                if(angle >= 10){
+            if (angle >= 10 || angle <= -10) {
+                if (angle >= 10) {
                     tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-2.png'
                 }
-                else{
+                else {
                     tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-2.png'
                 }
             }
         }
-        else if(contenu >= 70){
+        else if (contenu >= 70) {
             // SVGAnimationElement, une autre image
-            if(angle >= 10 || angle <= -10){
-                if(angle >= 10){
+            if (angle >= 10 || angle <= -10) {
+                if (angle >= 10) {
                     tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-2.png'
                 }
-                else{
+                else {
                     tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-2.png'
                 }
-                if(angle >= 40 || angle <= -40){
-                    if(angle >= 40){
+                if (angle >= 40 || angle <= -40) {
+                    if (angle >= 40) {
                         tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-3.png'
                     }
-                    else{
+                    else {
                         tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-3.png'
                     }
                 }
             }
-            else{
+            else {
                 tonneauTomber.src = '../img/vide.png'
             }
-        } else if(contenu >= 50){
-            if(angle >= 40 || angle <= -40){
-                if(angle >= 40){
+        } else if (contenu >= 50) {
+            if (angle >= 40 || angle <= -40) {
+                if (angle >= 40) {
                     tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-3.png'
                 }
-                else{
+                else {
                     tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-3.png'
                 }
-                if(angle >= 70 || angle <= -70){
-                    if(angle >= 70){
+                if (angle >= 70 || angle <= -70) {
+                    if (angle >= 70) {
                         tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-4.png'
                     }
-                    else{
+                    else {
                         tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-4.png'
                     }
                 }
             }
-            else{
+            else {
                 tonneauTomber.src = '../img/vide.png';
             }
-        } else if(contenu >= 30){
-            if(angle >= 70 || angle <= -70){
-                if(angle >= 70){
+        } else if (contenu >= 30) {
+            if (angle >= 70 || angle <= -70) {
+                if (angle >= 70) {
                     tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-5.png'
                 }
-                else{
+                else {
                     tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-5.png'
                 }
             }
-            else{
+            else {
                 tonneauTomber.src = '../img/vide.png';
             }
-        } else if(contenu >= 20){
-            if(angle >= 80 || angle <= -80){
-                if(angle >= 80){
+        } else if (contenu >= 20) {
+            if (angle >= 80 || angle <= -80) {
+                if (angle >= 80) {
                     tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-6.png'
                 }
-                else{
+                else {
                     tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-6.png'
                 }
             }
-            else{
+            else {
                 tonneauTomber.src = '../img/vide.png';
             }
-        } else if(contenu >= 10){
-            if(angle >= 85 || angle <= -85){
-                if(angle >= 85){
+        } else if (contenu >= 10) {
+            if (angle >= 85 || angle <= -85) {
+                if (angle >= 85) {
                     tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-7.png'
                 }
-                else{
+                else {
                     tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-7.png'
                 }
             }
-            else{
+            else {
                 tonneauTomber.src = '../img/vide.png';
             }
         }
-        else if(contenu > 1){
-            if(angle >= 88 || angle <= -88){
-                if(angle >= 88){
+        else if (contenu > 1) {
+            if (angle >= 88 || angle <= -88) {
+                if (angle >= 88) {
                     tonneauTomber.src = '../img/tonneau-tomber-droite/New Piskel-8.png'
                 }
-                else{
+                else {
                     tonneauTomber.src = '../img/tonneau-tomber-gauche/New Piskel-8.png'
                 }
             }
-            else{
+            else {
                 tonneauTomber.src = '../img/vide.png';
             }
         }
-        else{
+        else {
             tonneauTomber.src = '../img/vide.png';
         }
 
-        dessinerRectangle(-40, 600, tonneauTomber);
+        dessinerRectangle(-33, 600, tonneauTomber);
     }
 
     dessinerRectangle(0, 600, front); // Avant du baril
@@ -727,31 +729,54 @@ function startGame() {
     start = Date.now();
 
     if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
-        BloquerPleinEcran();
-
-        // time out permettant de laisser le temsp à l'ecran de s'adapter (sinon le canvas ne s'adapte pas, et c'est moins joli.)
-        setTimeout(() => {
+        if(bloquerEcr){
             H = window.innerHeight
             W = window.innerWidth
-
+    
             const audio = document.getElementById("audio");
-
+    
             document.querySelector('.victoire').classList.remove('openEndGame')
             document.querySelector('.defaite').classList.remove('openEndGame')
-
+    
             // Date.now ou performance.now
             audio.play();
             audio.volume = 0.4;
             initialisation();
             chronoT();
-
+    
             if (this.className == "startGame") {
                 oscillator.start();
             }
 
             boucle();
             document.querySelector('.first').classList.add('none')
-        }, 300);
+        }
+        else{
+            BloquerPleinEcran();
+
+            window.addEventListener('resize', ()=>{
+                H = window.innerHeight
+                W = window.innerWidth
+        
+                const audio = document.getElementById("audio");
+        
+                document.querySelector('.victoire').classList.remove('openEndGame')
+                document.querySelector('.defaite').classList.remove('openEndGame')
+        
+                // Date.now ou performance.now
+                audio.play();
+                audio.volume = 0.4;
+                initialisation();
+                chronoT();
+        
+                if (this.className == "startGame") {
+                    oscillator.start();
+                }
+    
+                boucle();
+                document.querySelector('.first').classList.add('none')
+            })
+        }
     }
     else {
         document.querySelector('.errorWindow').classList.remove('closerror');
@@ -847,4 +872,6 @@ function BloquerPleinEcran() {
                 }
             });
     }
+
+    bloquerEcr = true;
 }

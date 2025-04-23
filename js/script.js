@@ -28,6 +28,11 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 let pointAtteint = false;
 
+let polygon = L.polygon([
+    [0, 0],
+    [47.7476668973079, 7.333935237261866],
+]).addTo(map);
+
 switch (progress) {
     // vérifier la progression du joueur
     case "Jeu1":
@@ -75,6 +80,32 @@ if (navigator.geolocation) {
         placeActuelle[0] = L.Routing.waypoint(L.latLng(latitude, longitude));
 
         routingControl.setWaypoints(placeActuelle);
+
+        switch (progress) {
+            // vérifier la progression du joueur
+            case "Jeu1":
+                polygon.setLatLngs([
+                    [latitude, longitude],
+                    [47.7476668973079, 7.333935237261866]
+                ]);
+                break;
+            case "Jeu2":
+                polygon.setLatLngs([
+                    [latitude, longitude],
+                    [47.74677388962272, 7.33549761035268]
+                ]);
+                break;
+            case "Jeu3":
+                polygon.setLatLngs([
+                    [latitude, longitude]
+                ]);
+                break;
+            default:
+                polygon.setLatLngs([
+                    [latitude, longitude],
+                    [47.74693247591911, 7.333608821941789]
+                ]);
+        }
 
         switch (progress) {
             case 'preBar':
