@@ -85,7 +85,15 @@ let tempsPhase = 0; // Temps écoulé dans la phase actuelle
 // Initialisation de variables pour que le déplacement avec le senseur soit agréable
 let lastMoveTime = 0; // Dernier temps de mouvement
 let moveDelay = 200; // Délai entre les mouvements (en millisecondes)
-let currentTime = 0; // Temps actuel
+let currentMoveTime = 0; // Temps actuel
+
+// Initialisation des différents sons jouées dans le jeux
+// let sonCollision = new Audio("../audio/jeu2/Collision.mp3"); // Son de collision
+// let sonParade = new Audio("../audio/jeu2/Parade.mp3"); // Son de parade
+// let sonMusiqueJeux = new Audio("../audio/jeu2/Jeux.mp3"); // Son du jeu
+// let sonCheval = new Audio("../audio/jeu2/Cheval.mp3"); // Son du cheval
+// let sonChèvre = new Audio("../audio/jeu2/Chèvre.mp3"); // Son de la chèvre
+// let sonMeme = new Audio("../audio/jeu2/Meme.mp3"); // Son d'un meme
 
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
@@ -101,6 +109,12 @@ function moveCharacter(direction) {
         // console.log(CurrentRoad);
     }
     persoY = road[CurrentRoad]; // Met à jour la position horizontale du personnage
+
+    // Vérifie si un obstacle ou un ennemi est présent
+    if (obstacleExist || obstacle2Exist || ennemiExist) {
+        moveSound.currentTime = 0; // Réinitialise le son pour qu'il puisse être rejoué
+        moveSound.play(); // Joue le son
+    }
 }
 
 // Gestion des événements du clavier (pour la correction ou le teste sur pc vu que controler avec le senseur c'est pas évident)
@@ -115,20 +129,20 @@ document.addEventListener("keydown", function (event) {
 // Gestion des événements de l'accéléromètre (pour le mobile)
 window.addEventListener("deviceorientation", function (event) {
     const gamma = event.gamma; // Inclinaison gauche-droite (en degrés)
-    currentTime = this.performance.now(); // Temps actuel
+    currentMoveTime = this.performance.now(); // Temps actuel
 
     // Vérifie si le délai minimal est respecté
-    if (currentTime - lastMoveTime > moveDelay) {
+    if (currentMoveTime - lastMoveTime > moveDelay) {
         // Déplace le personnage à gauche si l'inclinaison est inférieure à -20 degrés
         if (gamma < -20 && CurrentRoad > 0) {
             moveCharacter("left");
-            lastMoveTime = currentTime; // Met à jour le temps du dernier déplacement
+            lastMoveTime = currentMoveTime; // Met à jour le temps du dernier déplacement
         }
 
         // Déplace le personnage à droite si l'inclinaison est supérieure à 20 degrés
         if (gamma > 20 && CurrentRoad < 2) {
             moveCharacter("right");
-            lastMoveTime = currentTime; // Met à jour le temps du dernier déplacement
+            lastMoveTime = currentMoveTime; // Met à jour le temps du dernier déplacement
         }
     }
 });
@@ -485,4 +499,41 @@ function Afficher() {
 }
 
 // Appel de la fonction pour l'afficher sur le site
-Afficher();
+// Afficher();
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+// Cheat code pour gagner directement
+const cheatCode = "MMI"; // Définissez le cheat code ici (EN MAJUSCULES)
+
+// Écouteur pour détecter l'entrée du cheat code
+document.getElementById("cheatCodeInput").addEventListener("input", function (event) {
+    const input = event.target.value.toUpperCase(); // Convertit l'entrée en majuscules pour éviter les erreurs de casse
+
+    if (input === cheatCode) {
+        // Gagne directement la partie
+        document.getElementById("cheatCodeInput").value = ""; // Réinitialise le champ de saisie
+        document.getElementById("start-Screen").style.display = "none"; // Cache le champ de saisie
+        winGame(); // Appelle la fonction pour gagner
+    }
+});
+
+// Fonction pour gagner directement
+function winGame() {
+    window.cancelAnimationFrame(Afficher); // Arrête l'animation
+    clearScreen(); // Cache les canvas
+    localStorage.setItem('progress', 'Jeu2'); // Sauvegarde la progression
+    document.getElementsByClassName("écran_win")[0].style.display = "block"; // Affiche l'écran de victoire
+    document.getElementsByClassName("écran_win")[0].innerHTML = "<h1>Vous avez gagne !</h1><p>Cheat code active</p><div onclick=\"location.reload()\">Rejouer</div>";
+}
+
+// Fonction pour afficher l'écran de lancement
+
+let startScreen = document.getElementById("start-Screen"); // Écran de lancement
+let startButton = document.getElementById("startGame"); // Bouton de démarrage
+startGame.addEventListener("click", function () {
+    startScreen.style.display = "none"; // Cache l'écran de lancement
+    Afficher(); // Démarre le jeu
+});
