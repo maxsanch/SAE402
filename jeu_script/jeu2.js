@@ -82,6 +82,11 @@ let phaseActuelle = 0; // Phase actuelle du jeu
 let phaseMontrer = 1; // Phase actuelle du jeu affichée à l'écran
 let tempsPhase = 0; // Temps écoulé dans la phase actuelle
 
+// Initialisation de variables pour que le déplacement avec le senseur soit agréable
+let lastMoveTime = 0; // Dernier temps de mouvement
+let moveDelay = 200; // Délai entre les mouvements (en millisecondes)
+let currentTime = 0; // Temps actuel
+
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
@@ -98,12 +103,33 @@ function moveCharacter(direction) {
     persoY = road[CurrentRoad]; // Met à jour la position horizontale du personnage
 }
 
-// Gestion des événements du clavier (pour la correction ou le texte)
+// Gestion des événements du clavier (pour la correction ou le teste sur pc vu que controler avec le senseur c'est pas évident)
 document.addEventListener("keydown", function (event) {
     if (event.key === "q" || event.key === "Q" || event.key === "ArrowLeft") {
         moveCharacter("left"); // Déplacement à gauche
     } else if (event.key === "d" || event.key === "D" || event.key === "ArrowRight") {
         moveCharacter("right"); // Déplacement à droite
+    }
+});
+
+// Gestion des événements de l'accéléromètre (pour le mobile)
+window.addEventListener("deviceorientation", function (event) {
+    const gamma = event.gamma; // Inclinaison gauche-droite (en degrés)
+    currentTime = this.performance.now(); // Temps actuel
+
+    // Vérifie si le délai minimal est respecté
+    if (currentTime - lastMoveTime > moveDelay) {
+        // Déplace le personnage à gauche si l'inclinaison est inférieure à -20 degrés
+        if (gamma < -20 && CurrentRoad > 0) {
+            moveCharacter("left");
+            lastMoveTime = currentTime; // Met à jour le temps du dernier déplacement
+        }
+
+        // Déplace le personnage à droite si l'inclinaison est supérieure à 20 degrés
+        if (gamma > 20 && CurrentRoad < 2) {
+            moveCharacter("right");
+            lastMoveTime = currentTime; // Met à jour le temps du dernier déplacement
+        }
     }
 });
 
