@@ -279,7 +279,7 @@ function chrono_incrementage() {
     // if (chrono == 5000) {
     if (audioMusique.paused) {
         audioMusique.currentTime = 0;
-        if (score >= 0) {
+        if (score >= 1600) {
             gagner = true;
         }
         Arreter_jeu();
