@@ -21,6 +21,28 @@ canvas_maisons.height = ecrH;
 canvas_route.width = ecrW;
 canvas_route.height = ecrH;
 
+// Chargement des sprites
+let persoSprite = new Image();
+persoSprite.src = "../img/jeu2/Player.png"; // Remplacez par le chemin de votre sprite pour le personnage
+
+let obstacleSprite = new Image();
+obstacleSprite.src = "../img/jeu2/Obstacle1.png"; // Remplacez par le chemin de votre sprite pour l'obstacle
+
+let obstacle2Sprite = new Image();
+obstacle2Sprite.src = "../img/jeu2/Obstacle2.png"; // Remplacez par le chemin de votre sprite pour l'obstacle 2
+
+let ennemiSprite = new Image();
+ennemiSprite.src = "../img/jeu2/Ennemy.png"; // Remplacez par le chemin de votre sprite pour l'ennemi
+
+let obstacleCentralSprite = new Image();
+obstacleCentralSprite.src = "../img/jeu2/ObstacleCentral.png"; // Remplacez par le chemin de votre sprite pour l'obstacle central
+
+let maisonSprite = new Image();
+maisonSprite.src = "../img/jeu2/Maison.png"; // Remplacez par le chemin de votre sprite pour les maisons
+
+const routeImage = new Image();
+routeImage.src = "../img/jeu2/Route.png"; // Remplacez par le chemin de votre image pour la route
+
 // initialisation des variables globales
 let largeur = ecrW;
 let hauteur = ecrH;
@@ -74,9 +96,9 @@ let RedefineTime = 0; // Variable pour redéfinir le temps vu que ça marche pas
 // Initialisation des phases de jeux
 let tempsPhaseMax = 0; // Durée de la phase actuelle
 let phasesJeux = [
-    { gravité: 5, spdObstc: 250, spdEnmy: 0, obstacleExist: true, obstacle2Exist: true, ennemiExist: false, tempsPhaseMax: 3 - 1 }, // Phase 1 (le -1 c'est parce que le jeux fait que la première phase est plus longue de 1 et j'ai la flemme de chercher à le résoudre autrement)
-    { gravité: 10, spdObstc: 250, spdEnmy: 250, obstacleExist: false, obstacle2Exist: false, ennemiExist: true, tempsPhaseMax: 3 }, // Phase 2
-    { gravité: 5, spdObstc: 250, spdEnmy: 300, obstacleExist: true, obstacle2Exist: true, ennemiExist: true, tempsPhaseMax: Infinity } // Phase 3
+    { gravité: 5, spdObstc: 250, spdEnmy: 0, spdMaisons: 260, obstacleExist: true, obstacle2Exist: true, ennemiExist: false, tempsPhaseMax: 7 - 1 }, // Phase 1 (le -1 c'est parce que le jeux fait que la première phase est plus longue de 1 et j'ai la flemme de chercher à le résoudre autrement)
+    { gravité: 10, spdObstc: 250, spdEnmy: 250, spdMaisons: 260, obstacleExist: false, obstacle2Exist: false, ennemiExist: true, tempsPhaseMax: 3 }, // Phase 2
+    { gravité: 5, spdObstc: 250, spdEnmy: 300, spdMaisons: 310, obstacleExist: true, obstacle2Exist: true, ennemiExist: true, tempsPhaseMax: Infinity } // Phase 3
 ];
 let phaseActuelle = 0; // Phase actuelle du jeu
 let phaseMontrer = 1; // Phase actuelle du jeu affichée à l'écran
@@ -86,6 +108,18 @@ let tempsPhase = 0; // Temps écoulé dans la phase actuelle
 let lastMoveTime = 0; // Dernier temps de mouvement
 let moveDelay = 200; // Délai entre les mouvements (en millisecondes)
 let currentMoveTime = 0; // Temps actuel
+
+// Initialisation des variables pour les maisons
+const nbMaisons = 6; // Nombre de maisons de chaque côté
+const maisonsGauche = []; // Positions des maisons à gauche
+const maisonsDroite = []; // Positions des maisons à droite
+let spdMaisons = 100; // Vitesse des maisons (modifiable)
+
+// Initialisation des positions des maisons
+for (let i = 0; i < nbMaisons; i++) {
+    maisonsGauche.push({ x: 0, y: -i * 200 }); // Position initiale des maisons à gauche
+    maisonsDroite.push({ x: largeur - 50, y: -i * 200 }); // Position initiale des maisons à droite
+}
 
 // Initialisation des différents sons jouées dans le jeux
 // let sonCollision = new Audio("../audio/jeu2/Collision.mp3"); // Son de collision
@@ -311,6 +345,9 @@ function Afficher() {
         RedefineTime += 1; // Met à jour la variable pour ne pas redéfinir le temps à chaque frame
         console.log("ça marche");
         RedefineVar += 1; // Met à jour la variable pour ne pas redéfinir le temps à chaque frame
+        if (phaseActuelle == 0) { // Si on est en phase 1
+            spdMaisons = 310 * Dtemp; // Met à jour la vitesse des maisons
+        }
     }
 
     perso.clearRect(0, 0, largeur, hauteur);
@@ -319,30 +356,25 @@ function Afficher() {
     maisons.clearRect(0, 0, largeur, hauteur);
 
     // joueur
-    perso.fillStyle = "black";
-    perso.fillRect(persoY - (tailleY / 2), persoX - (tailleX / 2), tailleY, tailleX);
+    perso.drawImage(persoSprite, persoY - tailleY / 2, persoX - tailleX / 2, tailleY, tailleX);
 
     // obstacle 1
     if (obstacleExist == true) {
-        obstacles.fillStyle = "red";
-        obstacles.fillRect(obstacleX - (tailleX / 2), obstacleY, tailleY, tailleX);
+        obstacles.drawImage(obstacleSprite, obstacleX - tailleX / 2, obstacleY, tailleY, tailleX);
     }
     // obstacle 2
     if (obstacle2Exist == true) {
-        obstacles.fillStyle = "orange";
-        obstacles.fillRect(obstacle2X - (tailleX / 2), obstacle2Y, tailleY, tailleX);
+        obstacles.drawImage(obstacle2Sprite, obstacle2X - tailleX / 2, obstacle2Y, tailleY, tailleX);
     }
 
     // Affichage de l'obstacle central (uniquement en phase 3)
     if (obstacleCentralExist) {
-        obstacles.fillStyle = "blue";
-        obstacles.fillRect(obstacleCentralX - (tailleX / 2), obstacleCentralY, tailleY, tailleX);
+        obstacles.drawImage(obstacleCentralSprite, obstacleCentralX - tailleX / 2, obstacleCentralY, tailleY, tailleX);
     }
 
     // ennemi
     if (ennemiExist == true) {
-        obstacles.fillStyle = "green";
-        obstacles.fillRect(ennemiX - (tailleX / 2), ennemiY, tailleY, tailleX);
+        obstacles.drawImage(ennemiSprite, ennemiX - tailleX / 2, ennemiY, tailleY, tailleX);
     }
 
     // déplacement des éléments
@@ -365,6 +397,31 @@ function Afficher() {
     else {
         if (obstacleCentralY > hauteur + tailleY) { // Si l'obstacle central sort de l'écran
             conditionObstCentral = true; // On remet la condition à true
+        }
+    }
+
+    maisons.clearRect(0, 0, largeur, hauteur);
+
+    // Dessin des maisons
+    for (let i = 0; i < nbMaisons; i++) {
+        // Maisons à gauche
+        maisons.drawImage(maisonSprite, maisonsGauche[i].x, maisonsGauche[i].y, 50, 50);
+
+        // Maisons à droite
+        maisons.drawImage(maisonSprite, maisonsDroite[i].x, maisonsDroite[i].y, 50, 50);
+    }
+
+    // Déplacement des maisons
+    for (let i = 0; i < nbMaisons; i++) {
+        maisonsGauche[i].y += spdMaisons; // Déplacement des maisons à gauche
+        maisonsDroite[i].y += spdMaisons; // Déplacement des maisons à droite
+
+        // Réinitialisation des maisons lorsqu'elles sortent de l'écran
+        if (maisonsGauche[i].y > hauteur) {
+            maisonsGauche[i].y = -200; // Réinitialise la position en haut
+        }
+        if (maisonsDroite[i].y > hauteur) {
+            maisonsDroite[i].y = -200; // Réinitialise la position en haut
         }
     }
 
@@ -471,12 +528,21 @@ function Afficher() {
     drawScore(); // Affiche le score
 
 
-    // affichage de la route
+    // Affichage de la route
     route.clearRect(0, 0, largeur, hauteur);
+
+    // Dessin de l'image de la route
+    route.drawImage(routeImage, 0, 0, largeur, hauteur);
+
+    // Ajuster l'opacité des rectangles
+    route.globalAlpha = 0.5; // Définit l'opacité des rectangles (0.5 = 50% d'opacité)
     route.fillStyle = "gray";
     route.fillRect(roadL, 0, epaisseurRoute, hauteur);
     route.fillRect(roadM, 0, epaisseurRoute, hauteur);
     route.fillRect(roadR, 0, epaisseurRoute, hauteur);
+
+    // Réinitialiser l'opacité pour les autres dessins
+    route.globalAlpha = 1.0;
 
     if (viePlayer <= 0) { // Si le joueur n'a plus de vies
         window.cancelAnimationFrame(Afficher); // Arrête l'animation si le joueur n'a plus de vies
