@@ -535,7 +535,7 @@ function Afficher() {
     route.drawImage(routeImage, 0, 0, largeur, hauteur);
 
     // Ajuster l'opacité des rectangles
-    route.globalAlpha = 0.5; // Définit l'opacité des rectangles (0.5 = 50% d'opacité)
+    route.globalAlpha = 0.3; // Définit l'opacité des rectangles (0.5 = 50% d'opacité)
     route.fillStyle = "gray";
     route.fillRect(roadL, 0, epaisseurRoute, hauteur);
     route.fillRect(roadM, 0, epaisseurRoute, hauteur);
