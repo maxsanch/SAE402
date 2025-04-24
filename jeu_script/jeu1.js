@@ -22,12 +22,13 @@ const pannerObstacle = audioContext.createStereoPanner();
 const pannerNote = audioContext.createStereoPanner();
 let Jeu_en_cours = false;
 let partition_ecriture = {};
-var note_verte = document.querySelector(".note_verte")
-var homme = document.querySelector(".homme")
-var chaise = document.querySelector(".chaise")
-var guitariste = document.querySelector(".guitariste")
-let cheat = document.querySelector(".cheatcode").value
+var note_verte = document.querySelector(".note_verte");
+var homme = document.querySelector(".homme");
+var chaise = document.querySelector(".chaise");
+var guitariste = document.querySelector(".guitariste");
+let cheat = document.querySelector(".cheatcode").value;
 let gagner = false;
+let tuto_video = document.querySelector(".tuto_video");
 let chronotop = 0;
 let chronobot = 0;
 
@@ -389,6 +390,8 @@ document.querySelector(".rejouer").addEventListener("click", rejouer)
 document.querySelector(".suite").addEventListener("click", suite_du_jeu)
 document.querySelector(".sombre").addEventListener("click", retour)
 document.querySelector(".valider").addEventListener("click", lancer_cheat)
+document.querySelector(".tuto").addEventListener("click", tuto)
+tuto_video.addEventListener('ended', retour);
 document.querySelectorAll('.cheatcode').forEach(e => {
     e.addEventListener("click", cheatcode)
 })
@@ -421,9 +424,18 @@ function cheatcode() {
     document.querySelector(".sombre").classList.add("apparition")
 }
 
+function tuto() {
+    document.querySelector(".tutoriel").classList.add("apparition")
+    document.querySelector(".sombre").classList.add("apparition")
+    tuto_video.play()
+}
+
 function retour() {
     document.querySelector(".cheat").classList.remove("apparition")
     document.querySelector(".sombre").classList.remove("apparition")
+    document.querySelector(".tutoriel").classList.remove("apparition")
+    tuto_video.pause()
+    tuto_video.currentTime = 0;
     document.querySelector(".mauvais_cheat").classList.remove("apparition")
 }
 

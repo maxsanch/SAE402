@@ -212,12 +212,13 @@ input {
 
 video{
     width: 80%;
+    border-radius: 8px;
 }
 
 .tutoriel{
     padding-top: 16px;
     padding-bottom: 16px;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     position: fixed;
@@ -225,5 +226,7 @@ video{
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80%;
-    background-color: red;
+    background-image: linear-gradient(rgb(236, 236, 66), rgb(206, 146, 18));
+    z-index: 3;
+    border-radius: 8px;
 }
