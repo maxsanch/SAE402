@@ -73,7 +73,11 @@ if (navigator.geolocation) {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
 
-        map.setView([latitude, longitude], 18);
+        let distance = map.distance(map.getCenter(), L.latLng(latitude, longitude));
+
+        if (distance > 50) { // 50 mètres de tolérance pour bouger la map (palier au probleme qu'on ne eut pas zoomer, car c'était chiantos)
+            map.setView([latitude, longitude], 18);
+        }
 
         // Mise à jour du premier waypoint
         const placeActuelle = routingControl.getWaypoints();
@@ -84,12 +88,15 @@ if (navigator.geolocation) {
         switch (progress) {
             // vérifier la progression du joueur
             case "Jeu1":
+            case "preRun":
+            case "run":
                 polygon.setLatLngs([
                     [latitude, longitude],
                     [47.7476668973079, 7.333935237261866]
                 ]);
                 break;
             case "Jeu2":
+            case "barrel":
                 polygon.setLatLngs([
                     [latitude, longitude],
                     [47.74677388962272, 7.33549761035268]
@@ -324,7 +331,7 @@ document.querySelector('.bouton-main-page').addEventListener('click', commencer)
 
 function commencer() {
     localStorage.setItem("started", "oui");
-    localStorage.setItem('progress', 'Jeu2');
+    localStorage.setItem('progress', 'intro');
 
     document.querySelector('.startpart').classList.add('removeStart');
 

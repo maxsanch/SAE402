@@ -690,7 +690,7 @@ function stopGame() {
 
 function boucle() {
     if (finJeu) {
-        if (contenu >= 50 && minutes < 2) {
+        if (contenu >= 70 && minutes <= 1 && secondes <= 45) {
             victoire = true;
         }
         else {
@@ -728,62 +728,38 @@ function startGame() {
     chro = -1
     start = Date.now();
 
-    if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
-        if(bloquerEcr){
-            H = window.innerHeight
-            W = window.innerWidth
-    
-            const audio = document.getElementById("audio");
-    
-            document.querySelector('.victoire').classList.remove('openEndGame')
-            document.querySelector('.defaite').classList.remove('openEndGame')
-    
-            // Date.now ou performance.now
-            audio.play();
-            audio.volume = 0.4;
-            initialisation();
-            chronoT();
-    
-            if (this.className == "startGame") {
-                oscillator.start();
-            }
+    // if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
+    BloquerPleinEcran();
 
-            boucle();
-            document.querySelector('.first').classList.add('none')
-        }
-        else{
-            BloquerPleinEcran();
+    window.addEventListener('resize', function () {
+        H = window.innerHeight
+        W = window.innerWidth
 
-            window.addEventListener('resize', ()=>{
-                H = window.innerHeight
-                W = window.innerWidth
-        
-                const audio = document.getElementById("audio");
-        
-                document.querySelector('.victoire').classList.remove('openEndGame')
-                document.querySelector('.defaite').classList.remove('openEndGame')
-        
-                // Date.now ou performance.now
-                audio.play();
-                audio.volume = 0.4;
-                initialisation();
-                chronoT();
-        
-                if (this.className == "startGame") {
-                    oscillator.start();
-                }
-    
-                boucle();
-                document.querySelector('.first').classList.add('none')
-            })
-        }
+        initialisation();
+    })
+
+    const audio = document.getElementById("audio");
+    document.querySelector('.victoire').classList.remove('openEndGame')
+    document.querySelector('.defaite').classList.remove('openEndGame')
+    // Date.now ou performance.now
+    audio.play();
+    audio.volume = 0.4;
+    chronoT();
+
+    if (this.className == "startGame") {
+        oscillator.start();
     }
-    else {
-        document.querySelector('.errorWindow').classList.remove('closerror');
-        document.querySelector('.errorWindow').classList.add('ouvrirerror')
-        document.querySelector('.cache_Error').classList.add('ouvrirCache');
-    }
+    boucle();
+    document.querySelector('.first').classList.add('none')
+    // }
+    // else {
+    //     document.querySelector('.errorWindow').classList.remove('closerror');
+    //     document.querySelector('.errorWindow').classList.add('ouvrirerror')
+    //     document.querySelector('.cache_Error').classList.add('ouvrirCache');
+    // }
 }
+
+
 
 // fermer la pop up
 function close() {

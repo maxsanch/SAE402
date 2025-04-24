@@ -130,7 +130,7 @@ function calcul() {
             }
 
             // console.log(charactéristique.toucher)
-            if (charactéristique.Y >= 0 && charactéristique.Y <= H - 60) {
+            if (charactéristique.Y >= 0 && charactéristique.Y <= H - 150) {
                 if (charactéristique.etat === "obstacle" && audioElementObstacle.paused) {
                     setAudioPan(charactéristique.position_partition, pannerObstacle);
                     audioElementObstacle.play();
@@ -141,6 +141,16 @@ function calcul() {
                 }
                 audioElementObstacle.volume = (charactéristique.Y / H);
                 audioElementNote.volume = (charactéristique.Y / H);
+            }
+            if (charactéristique.Y >= H - 150) {
+                if (charactéristique.etat === "obstacle" && audioElementObstacle.play) {
+                    audioElementObstacle.pause();
+                    audioElementObstacle.currentTime = 0;
+                }
+                if (charactéristique.etat === "note" && audioElementNote.paused) {
+                    audioElementNote.pause();
+                    audioElementNote.currentTime = 0;
+                }
             }
 
 
@@ -264,6 +274,7 @@ document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu
 function lancement_du_jeu() {
     document.querySelector(".fond_jeu").classList.add("apparition");
     audioMusique.play()
+    audioMusique.volume = 0.5
     chargement_des_notes();
     lockOrientation();
     document.querySelector(".score").classList.add("score_present");
@@ -417,16 +428,16 @@ function lancer_cheat() {
 
 function chargement_des_notes() {
     partition.push(
-        {
-            timeur: 5,
-            etat: "note",
-            numero: 1,
-            vY: 0,
-            Y: -150,
-            X: 0,
-            toucher: false,
-            position_partition: 0
-        },
+        // {
+        //     timeur: 5,
+        //     etat: "note",
+        //     numero: 1,
+        //     vY: 0,
+        //     Y: -150,
+        //     X: 0,
+        //     toucher: false,
+        //     position_partition: 0
+        // },
         {
             timeur: 5,
             etat: "obstacle",
@@ -440,7 +451,7 @@ function chargement_des_notes() {
         },
         {
             timeur: 1500,
-            etat: "obstacle",
+            etat: "note",
             numero: 1,
             vY: 0,
             Y: -150,
@@ -462,7 +473,7 @@ function chargement_des_notes() {
         },
         {
             timeur: 2000,
-            etat: "obstacle",
+            etat: "note",
             numero: 2,
             vY: 0,
             Y: -150,
