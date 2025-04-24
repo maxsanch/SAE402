@@ -160,6 +160,7 @@ function calcul() {
 
             if (charactéristique.Y >= H - 180 && charactéristique.Y <= H - 80 && xBille == charactéristique.X && charactéristique.toucher == false) {
                 // console.log("toucher")
+                console.log(chrono)
                 if (charactéristique.etat == "note") {
                     charactéristique.toucher = true;
                     document.querySelector(".ecran_rouge").classList.add("vert");
@@ -205,7 +206,7 @@ function calcul() {
             // }
 
             //    console.log((chronobot - chronotop)) 
-            
+
         })
         // console.log(score)
         temps_avant = temps;
@@ -360,6 +361,8 @@ function lockOrientation() {
 }
 
 function Arreter_jeu() {
+    console.log(chrono)
+    document.querySelector(".score_fin").innerHTML = "Your score : " + (score * 100);
     document.querySelector(".fond_jeu").classList.remove("apparition");
     partition = []
     document.querySelector(".score").classList.remove("score_present");
@@ -367,7 +370,13 @@ function Arreter_jeu() {
         document.querySelector(".suite").classList.add("apparition");
     }
     else {
-        document.querySelector(".fin>.cheatcode").classList.add("apparition");
+        document.querySelector(".fin_1>.cheatcode").classList.add("apparition");
+    }
+    if (score >= 0) {
+        document.querySelector(".winorlose").innerHTML = "You win !"
+    }
+    else {
+        document.querySelector(".winorlose").innerHTML = "You lose"
     }
     Jeu_en_cours = false;
     ctx_notes.clearRect(0, 0, W, H);
@@ -389,7 +398,7 @@ function rejouer() {
     score = 0;
     chrono = 0;
     document.querySelector(".fin").classList.remove("apparition");
-    document.querySelector(".fin>.cheatcode").classList.remove("apparition")
+    document.querySelector(".fin_1>.cheatcode").classList.remove("apparition")
     chargement_des_notes();
     W = window.innerWidth;
     H = window.innerHeight;
@@ -457,7 +466,7 @@ function chargement_des_notes() {
         //     position_partition: 0
         // },
         {
-            timeur: 5,
+            timeur: 1,
             etat: "obstacle",
             numero: 1,
             vY: 0,
