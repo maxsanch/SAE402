@@ -75,7 +75,18 @@ self.addEventListener("install", function (event) {
 					'img/iconeApp/icon-512x512.png',
 					'audio/jeu3/Donkey Kong Country Music SNES - DK Island Swing.mp3',
 					'audio/jeu3/tremblement.mp3',
-					'audio/main_theme.mp3'
+					'audio/main_theme.mp3',
+					'audio/jeu1/musique.mp3',
+					'audio/jeu1/note3.mp3',
+					'audio/jeu1/obstacle.mp3',
+					'img/jeu1/bar_debut.jpg',
+					'img/jeu1/bar.jpg',
+					'img/jeu1/chaise.png',
+					'img/jeu1/gambri.jpg',
+					'img/jeu1/guitariste.png',
+					'img/jeu1/homme.png',
+					'img/jeu1/note_verte.png',
+					'videos/tutoriel-jeu-1.mp4'
 				]);
 			})
 	);

@@ -31,6 +31,7 @@ let gagner = false;
 let tuto_video = document.querySelector(".tuto_video");
 let chronotop = 0;
 let chronobot = 0;
+let paused = false;
 
 // Connexion des nodes audio
 sourceObstacle.connect(pannerObstacle);
@@ -390,6 +391,7 @@ document.querySelector(".rejouer").addEventListener("click", rejouer)
 document.querySelector(".suite").addEventListener("click", suite_du_jeu)
 document.querySelector(".sombre").addEventListener("click", retour)
 document.querySelector(".valider").addEventListener("click", lancer_cheat)
+document.querySelector(".tuto_video").addEventListener("click", pause)
 document.querySelector(".tuto").addEventListener("click", tuto)
 tuto_video.addEventListener('ended', retour);
 document.querySelectorAll('.cheatcode').forEach(e => {
@@ -413,6 +415,16 @@ function rejouer() {
     chrono_incrementage();
 }
 
+function pause() {
+    if (paused == true){
+        paused = false;
+        tuto_video.pause();
+    }
+    else {
+        paused = true;
+        tuto_video.play();
+    }
+}
 
 function suite_du_jeu() {
     localStorage.setItem('progress', 'Jeu1');
