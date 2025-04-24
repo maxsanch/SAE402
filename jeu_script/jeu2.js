@@ -122,12 +122,12 @@ for (let i = 0; i < nbMaisons; i++) {
 }
 
 // Initialisation des différents sons jouées dans le jeux
-// let sonCollision = new Audio("../audio/jeu2/Collision.mp3"); // Son de collision
-// let sonParade = new Audio("../audio/jeu2/Parade.mp3"); // Son de parade
-// let sonMusiqueJeux = new Audio("../audio/jeu2/Jeux.mp3"); // Son du jeu
-// let sonCheval = new Audio("../audio/jeu2/Cheval.mp3"); // Son du cheval
-// let sonChèvre = new Audio("../audio/jeu2/Chèvre.mp3"); // Son de la chèvre
-// let sonMeme = new Audio("../audio/jeu2/Meme.mp3"); // Son d'un meme
+// let sonCollision = new Audio("../audio/jeu2/Crash.mp3"); // Son de collision
+let sonParade = new Audio("../audio/jeu2/Parée.mp3"); // Son de parade
+// let sonMusiqueJeux = new Audio("../audio/jeu2/.mp3"); // Son du jeu
+let sonCheval = new Audio("../audio/jeu2/Cri_cheval.mp3"); // Son du cheval
+// let sonChèvre = new Audio("../audio/jeu2/Cri_chèvre.mp3"); // Son de la chèvre
+// let sonJumpscare = new Audio("../audio/jeu2/jumpscare.mp3"); // Une petite surprise si le joueur n'a pas de chance en se faisant toucher
 
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
@@ -135,20 +135,30 @@ for (let i = 0; i < nbMaisons; i++) {
 
 // Fonction pour controler le personnage
 function moveCharacter(direction) {
-    if (direction === "left" && CurrentRoad > 0) {
-        CurrentRoad--; // Déplace vers la voie de gauche
-        // console.log(CurrentRoad);
-    } else if (direction === "right" && CurrentRoad < 2) {
-        CurrentRoad++; // Déplace vers la voie de droite
-        // console.log(CurrentRoad);
-    }
-    persoY = road[CurrentRoad]; // Met à jour la position horizontale du personnage
+    let targetRoad = CurrentRoad; // La voie cible par défaut est la voie actuelle
 
-    // Vérifie si un obstacle ou un ennemi est présent
-    if (obstacleExist || obstacle2Exist || ennemiExist) {
-        moveSound.currentTime = 0; // Réinitialise le son pour qu'il puisse être rejoué
-        moveSound.play(); // Joue le son
+    // Détermine la voie cible en fonction de la direction
+    if (direction === "left" && CurrentRoad > 0) {
+        targetRoad = CurrentRoad - 1; // Déplace vers la voie de gauche
+    } else if (direction === "right" && CurrentRoad < 2) {
+        targetRoad = CurrentRoad + 1; // Déplace vers la voie de droite
     }
+
+    // Vérifie si un obstacle ou un ennemi est présent sur la voie cible
+    if (
+        (obstacleExist && obstacleX === road[targetRoad]) || // Obstacle 1 sur la voie cible
+        (obstacle2Exist && obstacle2X === road[targetRoad]) || // Obstacle 2 sur la voie cible
+        (ennemiExist && ennemiX === road[targetRoad]) || // Ennemi sur la voie cible
+        (obstacleCentralExist && obstacleCentralX === road[targetRoad]) // Obstacle central sur la voie cible
+    ) {
+        sonCheval.currentTime = 0; // Réinitialise le son pour qu'il puisse être rejoué
+        sonCheval.play(); // Joue le son
+        console.log("son");
+    }
+
+    // Met à jour la position du personnage
+    CurrentRoad = targetRoad;
+    persoY = road[CurrentRoad]; // Met à jour la position horizontale du personnage
 }
 
 // Gestion des événements du clavier (pour la correction ou le teste sur pc vu que controler avec le senseur c'est pas évident)
@@ -231,6 +241,7 @@ function detectCollisionEnnemi() {
             ) {
                 parade = true; // Le joueur a paré l'ennemi
                 console.log("Parade réussie !");
+                sonParade.play(); // Joue le son
             }
 
             // Supprime l'écouteur après le clic
@@ -268,8 +279,13 @@ function drawScore() {
     perso.fillText("Phase actuelle: " + phaseMontrer, 10, 60);
     if (parade == true) { // Si le joueur a paré l'ennemi
         perso.font = "30px pixel"; // Définit la police et la taille du texte
-        perso.fillStyle = "red"; // Définit la couleur du texte
+        perso.fillStyle = "#38a172"; // Définit la couleur du texte
         perso.fillText("Parry", (ecrW / 2) - 80, ecrH / 2);
+    }
+    if (collision == true) { // Si le joueur a touché un obstacle
+        perso.font = "30px pixel"; // Définit la police et la taille du texte
+        perso.fillStyle = "red"; // Définit la couleur du texte
+        perso.fillText("Crash", (ecrW / 2) - 80, ecrH / 2);
     }
 }
 
@@ -445,6 +461,7 @@ function Afficher() {
         }
         collisionEnnemi = false; // Réinitialise la variable de collision avec l'ennemi
         parade = false; // Réinitialise la variable de parade
+        sonParade.currentTime = 0; // Réinitialise le son pour qu'il puisse être rejoué
         if (collision == true) { // Si le joueur a touché un obstacle
             viePlayer--; // Diminue le nombre de vies
             // console.log("Score actuelle", score, "vie restante", viePlayer);
@@ -563,7 +580,17 @@ function Afficher() {
         else {
             // console.log("Vous avez perdu, Votre score est de " + score + " ! Vous devez faire un score supérieur à 30 pour gagner."); // Affiche le message de défaite dans la console
             document.getElementsByClassName("écran_lose")[0].style.display = "block"; // Affiche l'écran de défaite
-            document.getElementsByClassName("écran_lose")[0].innerHTML = "<h1>Vous avez perdu !</h1><p>Votre score est de " + score + "</p><div onclick=\"location.reload()\">Rejouer</div>"; // Affiche le message de défaite
+            document.getElementsByClassName("écran_win")[0].style.display = "none"; // Affiche l'écran de défaite
+            document.getElementsByClassName("écran_lose")[0].innerHTML = `
+        <h1>Vous avez perdu !</h1>
+        <p>Votre score est de ${score}</p>
+        <div>
+            <button onclick="location.reload()">Rejouer</button>
+            <div id="cheatCodeContainer"">
+            <input id="cheatCodeInput" type="text" placeholder="Enter a cheatCode.">
+        </div>
+        </div>
+    `; // Affiche le message de défaite
         }
     }
     else {
