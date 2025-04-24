@@ -28,6 +28,8 @@ var chaise = document.querySelector(".chaise")
 var guitariste = document.querySelector(".guitariste")
 let cheat = document.querySelector(".cheatcode").value
 let gagner = false;
+let chronotop = 0;
+let chronobot = 0;
 
 // Connexion des nodes audio
 sourceObstacle.connect(pannerObstacle);
@@ -142,7 +144,7 @@ function calcul() {
                 audioElementObstacle.volume = (charactéristique.Y / H);
                 audioElementNote.volume = (charactéristique.Y / H);
             }
-            if (charactéristique.Y >= H - 150) {
+            if (charactéristique.Y >= H - 80) {
                 if (charactéristique.etat === "obstacle" && audioElementObstacle.play) {
                     audioElementObstacle.pause();
                     audioElementObstacle.currentTime = 0;
@@ -191,6 +193,19 @@ function calcul() {
                     // console.log("trerteter")
                 }
             }
+
+
+            // if (charactéristique.Y = 0) {
+            //     chronotop = chrono;
+            // }
+
+
+            // if (charactéristique.Y = H) {
+            //     chronobot = chrono;
+            // }
+
+            //    console.log((chronobot - chronotop)) 
+            
         })
         // console.log(score)
         temps_avant = temps;
@@ -260,7 +275,9 @@ function chrono_incrementage() {
         }
     })
 
-    if (chrono == 5000) {
+    // if (chrono == 5000) {
+    if (audioMusique.paused) {
+        audioMusique.currentTime = 0;
         if (score >= 0) {
             gagner = true;
         }
@@ -379,6 +396,7 @@ function rejouer() {
     document.querySelector(".score").classList.add("score_present");
     document.querySelector(".lancement").style = "display: none;";
     Jeu_en_cours = true;
+    audioMusique.play()
     boucle();
     chrono_incrementage();
 }
@@ -404,7 +422,7 @@ function lancer_cheat() {
     if (document.querySelector(".cheatcode_mdp").value.toLowerCase() === "mmi") {
         suite_du_jeu();
     }
-    else{
+    else {
         document.querySelector(".mauvais_cheat").classList.add("apparition")
     }
 }
