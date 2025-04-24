@@ -141,7 +141,7 @@ function calcul() {
                     setAudioPan(charactéristique.position_partition, pannerNote);
                     audioElementNote.play();
                 }
-                audioElementObstacle.volume = (charactéristique.Y / H);
+                audioElementObstacle.volume = ((charactéristique.Y / H) / 2);
                 audioElementNote.volume = (charactéristique.Y / H);
             }
             if (charactéristique.Y >= H - 80) {
@@ -292,7 +292,7 @@ document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu
 function lancement_du_jeu() {
     document.querySelector(".fond_jeu").classList.add("apparition");
     audioMusique.play()
-    audioMusique.volume = 0.5
+    audioMusique.volume = 0.3
     chargement_des_notes();
     lockOrientation();
     document.querySelector(".score").classList.add("score_present");
