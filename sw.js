@@ -86,7 +86,22 @@ self.addEventListener("install", function (event) {
 					'img/jeu1/guitariste.png',
 					'img/jeu1/homme.png',
 					'img/jeu1/note_verte.png',
-					'videos/tutoriel-jeu-1.mp4'
+					'videos/tutoriel-jeu-1.mp4',
+					'audio/jeu2/Crash.mp3',
+					'audio/jeu2/Cri_cheval.mp3',
+					'audio/jeu2/Cri_chèvre.mp3',
+					'audio/jeu2/jumpscare.mp3',
+					'audio/jeu2/Parée.mp3',
+					'img/jeu2/Background_défaite.jpg',
+					'img/jeu2/Background_lancement.jpg',
+					'img/jeu2/Background_victoire.jpg',
+					'img/jeu2/Ennemy.png',
+					'img/jeu2/Maison.png',
+					'img/jeu2/Obstacle1.png',
+					'img/jeu2/Obstacle2.png',
+					'img/jeu2/ObstacleCentral.png',
+					'img/jeu2/Player.png',
+					'img/jeu2/Route.png'
 				]);
 			})
 	);
