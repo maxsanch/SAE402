@@ -116,7 +116,7 @@ function calcul() {
 
             // document.querySelector(".position").innerHTML = "position : " + charactéristique.Y;
 
-            if (charactéristique.Y <= -50 || charactéristique.Y >= H) {
+            if (charactéristique.Y <= -100 || charactéristique.Y >= H) {
                 charactéristique.position_partition = position.pop();
             }
 
