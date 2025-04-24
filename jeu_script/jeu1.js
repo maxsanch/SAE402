@@ -168,7 +168,7 @@ function calcul() {
                     score++;
                     if ('vibrate' in navigator) {
                         // Déclencher la vibration pendant 2 secondes
-                        navigator.vibrate(2000);
+                        navigator.vibrate(200);
                     }
                     else {
                         audioElementNote.pause();
@@ -184,7 +184,7 @@ function calcul() {
                     score = score - 0.5;
                     if ('vibrate' in navigator) {
                         // Déclencher la vibration pendant 1 secondes
-                        navigator.vibrate(1000);
+                        navigator.vibrate(200);
                     }
                     else {
                         audioElementNote.pause();
