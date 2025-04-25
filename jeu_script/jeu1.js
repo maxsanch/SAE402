@@ -1,3 +1,7 @@
+// //////////////////////////////////////////////////////////////////// //
+// Toutes les variables que j'initialise qui seront utilisées plus tard //
+// //////////////////////////////////////////////////////////////////// //
+
 var canvas_personnage = document.querySelector("#canvas_personnage");
 var ctx_personnage = canvas_personnage.getContext("2d");
 var canvas_notes = document.querySelector("#canvas_notes");
@@ -32,19 +36,22 @@ let tuto_video = document.querySelector(".tuto_video");
 let chronotop = 0;
 let chronobot = 0;
 let paused = false;
+let partition_ecran = [];
+let partition = [];
+var gravite = 100;
 
-// Connexion des nodes audio
+// ///////////////////////// //
+// Connexion des nodes audio //
+// ///////////////////////// //
 sourceObstacle.connect(pannerObstacle);
 pannerObstacle.connect(audioContext.destination);
 
 sourceNote.connect(pannerNote);
 pannerNote.connect(audioContext.destination);
 
-let partition_ecran = [];
-let partition = [];
-
-var gravite = 100;
-
+// ////////////////////////////////////// //
+// Initialisation de la taille des canvas //
+// ////////////////////////////////////// //
 canvas_personnage.height = window.innerHeight;
 canvas_personnage.width = window.innerWidth;
 canvas_notes.height = window.innerHeight;
@@ -54,14 +61,14 @@ canvas_obstacles.width = window.innerWidth;
 let W = window.innerWidth;
 let H = window.innerHeight;
 
-var yNotes = -150;
-var yObstacles = -150;
 var xBille = W / 2;
 
+
+// //////////////////////////////////////////////////////////// //
+// On affiche au bon endroit les différents éléments de la page //
+// //////////////////////////////////////////////////////////// //
 function afficher() {
     document.querySelector(".score").innerHTML = "Score : " + (score * 100) + "";
-    // ctx_personnage.fillStyle = "pink";
-    // ctx_personnage.fillRect(0, 0, W, H);
 
     ctx_personnage.clearRect(0, 0, W, H)
     ctx_personnage.fillStyle = "purple";
@@ -71,7 +78,6 @@ function afficher() {
 
     ctx_personnage.fillStyle = "black";
     ctx_personnage.drawImage(guitariste, xBille, H - 130, 100, 100);
-    // ctx_personnage.fillRect(xBille, H - 130, 100, 100)
 
     ctx_notes.clearRect(0, 0, W, H)
 
@@ -98,6 +104,9 @@ function afficher() {
     })
 }
 
+// ////////////////////////////////////////////////////// //
+// On calcul la position de tout les éléments de la pages //
+// ////////////////////////////////////////////////////// //
 function calcul() {
     if (Jeu_en_cours == true) {
         temps = performance.now();
@@ -106,22 +115,19 @@ function calcul() {
         let position = [1, 2, 3];
         shuffle(position);
 
-
         Object.entries(partition_ecran).forEach(([numero_entité, charactéristique]) => {
             charactéristique.vY += gravite * temps_difference;
             charactéristique.Y += charactéristique.vY * temps_difference;
 
+            // On supprime les éléments du tableau si l'élément sort de la page
             if (charactéristique.Y >= H + 50) {
                 partition_ecran.splice(0, 1);
             }
 
-
-            // document.querySelector(".position").innerHTML = "position : " + charactéristique.Y;
-
+            // On donne un chiffre aléatoire pour détérminer sur quel colonne l'élément sera
             if (charactéristique.Y <= -100 || charactéristique.Y >= H) {
                 charactéristique.position_partition = position.pop();
             }
-
 
             if (charactéristique.position_partition == 1) {
                 charactéristique.X = (W * 0.25) - 60;
@@ -133,7 +139,7 @@ function calcul() {
                 charactéristique.X = W * 0.75 - 40;
             }
 
-            // console.log(charactéristique.toucher)
+            // On joue une musique en fonction de l'élément qui arrive
             if (charactéristique.Y >= 0 && charactéristique.Y <= H - 150) {
                 if (charactéristique.etat === "obstacle" && audioElementObstacle.paused) {
                     setAudioPan(charactéristique.position_partition, pannerObstacle);
@@ -146,6 +152,8 @@ function calcul() {
                 audioElementObstacle.volume = ((charactéristique.Y / H) / 2);
                 audioElementNote.volume = (charactéristique.Y / H);
             }
+
+            // On coupe le son si l'élément est trop basse
             if (charactéristique.Y >= H - 80) {
                 if (charactéristique.etat === "obstacle" && audioElementObstacle.play) {
                     audioElementObstacle.pause();
@@ -157,19 +165,14 @@ function calcul() {
                 }
             }
 
-
-            // console.log(charactéristique.Y + "        " + (H - 50))
-
+            // Collision avec les notes et obstacles de la page
             if (charactéristique.Y >= H - 180 && charactéristique.Y <= H - 80 && xBille == charactéristique.X && charactéristique.toucher == false) {
-                // console.log("toucher")
-                console.log(chrono)
                 if (charactéristique.etat == "note") {
                     charactéristique.toucher = true;
                     document.querySelector(".ecran_rouge").classList.add("vert");
                     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("vert") }, 150);
                     score++;
                     if ('vibrate' in navigator) {
-                        // Déclencher la vibration pendant 2 secondes
                         navigator.vibrate(200);
                     }
                     else {
@@ -177,7 +180,6 @@ function calcul() {
                         audioElementObstacle.pause();
                         audioVibration.play();
                     }
-                    console.log("gfdgdfgdf")
                 }
                 if (charactéristique.etat == "obstacle") {
                     charactéristique.toucher = true;
@@ -185,7 +187,6 @@ function calcul() {
                     setTimeout(() => { document.querySelector(".ecran_rouge").classList.remove("rouge") }, 150);
                     score = score - 0.5;
                     if ('vibrate' in navigator) {
-                        // Déclencher la vibration pendant 1 secondes
                         navigator.vibrate(200);
                     }
                     else {
@@ -193,28 +194,14 @@ function calcul() {
                         audioElementObstacle.pause();
                         audioVibration.play();
                     }
-                    // console.log("trerteter")
                 }
             }
-
-
-            // if (charactéristique.Y = 0) {
-            //     chronotop = chrono;
-            // }
-
-
-            // if (charactéristique.Y = H) {
-            //     chronobot = chrono;
-            // }
-
-            //    console.log((chronobot - chronotop)) 
-
         })
-        // console.log(score)
         temps_avant = temps;
     }
 }
 
+// Boucle d'affichage de ce qu'il y a sur la page
 function boucle() {
     if (Jeu_en_cours == true) {
         calcul();
@@ -226,6 +213,7 @@ function boucle() {
     }
 }
 
+// On récupère l'inclinaison du téléphone pour bouger le personnage
 window.addEventListener("deviceorientation", Inclinaison_Du_Telephone, true);
 
 function Inclinaison_Du_Telephone(event) {
@@ -241,36 +229,26 @@ function Inclinaison_Du_Telephone(event) {
     }
 }
 
+// Randomisation de l'ordre des éléments du tableau pour que les éléments arrivent sur une colonnes aléatoires
 function shuffle(array) {
     let currentIndex = array.length;
 
-    // While there remain elements to shuffle...
     while (currentIndex != 0) {
 
-        // Pick a remaining element...
         let randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex--;
 
-        // And swap it with the current element.
         [array[currentIndex], array[randomIndex]] = [
             array[randomIndex], array[currentIndex]];
     }
 }
 
-// if (Jeu_en_cours == true) {
-//     boucle();
-//     chrono_incrementage();
-// }
-
-
+// On augmente le chrono interne et on envoie un éléments dans le tableau de ce qu'il y a a l'écran
 function chrono_incrementage() {
     chrono++;
     if (Jeu_en_cours == true) {
         window.setTimeout(chrono_incrementage, 1);
     }
-
-    // document.querySelector(".temps").innerHTML = "chrono : " + chrono;
-
 
     Object.entries(partition).forEach(([numero_entité, charactéristique]) => {
         if (chrono == charactéristique.timeur) {
@@ -278,17 +256,17 @@ function chrono_incrementage() {
         }
     })
 
-    // if (chrono == 5000) {
+    // On arrete le jeu si la musique s'arrête
     if (audioMusique.paused) {
         audioMusique.currentTime = 0;
-        if (score >= 16) {
+        if (score >= 15) {
             gagner = true;
         }
         Arreter_jeu();
     }
-
 }
 
+// On démarre le jeu
 document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu)
 
 function lancement_du_jeu() {
@@ -304,6 +282,7 @@ function lancement_du_jeu() {
     chrono_incrementage();
 }
 
+// On recalcule la taille de la page et des canvas lors de changement de taille de la page
 window.addEventListener("resize", RedimentionPage);
 
 function RedimentionPage() {
@@ -330,10 +309,10 @@ function setAudioPan(position_partition, panner) {
     }
 }
 
+// Le changement d'orientation de la page met en pause le jeu
 screen.orientation.addEventListener("change", (event) => {
     const type = event.target.type;
     const angle = event.target.angle;
-    // document.querySelector(".orientation").innerHTML = "type : " + type + " et angle : " + angle;
     console.log(`ScreenOrientation change: ${type}, ${angle} degrees.`);
     if (type.includes("portrait")) {
         Jeu_en_cours = true;
@@ -345,11 +324,11 @@ screen.orientation.addEventListener("change", (event) => {
     }
 });
 
-
+// On bloque le site en version portable 
 function lockOrientation() {
     W = window.innerWidth;
     H = window.innerHeight;
-    const elem = document.documentElement; // tu peux aussi cibler un élément précis
+    const elem = document.documentElement;
 
     if (elem.requestFullscreen) {
         elem.requestFullscreen().then(() => {
@@ -362,6 +341,7 @@ function lockOrientation() {
     }
 }
 
+// On fini le jeu
 function Arreter_jeu() {
     console.log(chrono)
     document.querySelector(".score_fin").innerHTML = "Your score : " + (score * 100);
@@ -374,7 +354,7 @@ function Arreter_jeu() {
     else {
         document.querySelector(".fin_1>.cheatcode").classList.add("apparition");
     }
-    if (score >= 16) {
+    if (score >= 15) {
         document.querySelector(".winorlose").innerHTML = "You win !"
     }
     else {
@@ -387,6 +367,7 @@ function Arreter_jeu() {
     document.querySelector(".fin").classList.add("apparition");
 }
 
+// Plein de fonction avec des clics
 document.querySelector(".rejouer").addEventListener("click", rejouer)
 document.querySelector(".suite").addEventListener("click", suite_du_jeu)
 document.querySelector(".sombre").addEventListener("click", retour)
@@ -398,6 +379,7 @@ document.querySelectorAll('.cheatcode').forEach(e => {
     e.addEventListener("click", cheatcode)
 })
 
+// On relance le jeu de 0
 function rejouer() {
     document.querySelector(".fond_jeu").classList.add("apparition");
     score = 0;
@@ -415,8 +397,9 @@ function rejouer() {
     chrono_incrementage();
 }
 
+// On met la vidéo en pause si on clic dessus
 function pause() {
-    if (paused == true){
+    if (paused == true) {
         paused = false;
         tuto_video.pause();
     }
@@ -426,22 +409,26 @@ function pause() {
     }
 }
 
+// On a gagné le jeu et on accede a la suite de l'escape game
 function suite_du_jeu() {
     localStorage.setItem('progress', 'Jeu1');
     window.location.href = "../index.html"
 }
 
+// Ouverture de la pop up de cheat code
 function cheatcode() {
     document.querySelector(".cheat").classList.add("apparition")
     document.querySelector(".sombre").classList.add("apparition")
 }
 
+// Ouverture de la pop up du tuto et lecture de la video
 function tuto() {
     document.querySelector(".tutoriel").classList.add("apparition")
     document.querySelector(".sombre").classList.add("apparition")
     tuto_video.play()
 }
 
+// On ferme la pop up du cheat code et du tuto
 function retour() {
     document.querySelector(".cheat").classList.remove("apparition")
     document.querySelector(".sombre").classList.remove("apparition")
@@ -451,6 +438,7 @@ function retour() {
     document.querySelector(".mauvais_cheat").classList.remove("apparition")
 }
 
+// On vérifie si le cheat code est bon et si c'est le cas on fait gagner directement le jeu et on passe a la suite
 function lancer_cheat() {
     if (document.querySelector(".cheatcode_mdp").value.toLowerCase() === "mmi") {
         suite_du_jeu();
@@ -459,24 +447,8 @@ function lancer_cheat() {
         document.querySelector(".mauvais_cheat").classList.add("apparition")
     }
 }
-//   // Lock button: Lock the screen to the other orientation (rotated by 90 degrees)
-// const rotate_btn = document.querySelector("#lock_button");
-// rotate_btn.addEventListener("click", () => {
-//   log.textContent += `Lock pressed \n`;
 
-//   const oppositeOrientation = screen.orientation.type.startsWith("portrait")
-//     ? "landscape"
-//     : "portrait";
-//   screen.orientation
-//     .lock(oppositeOrientation)
-//     .then(() => {
-//       log.textContent = `Locked to ${oppositeOrientation}\n`;
-//     })
-//     .catch((error) => {
-//       log.textContent += `${error}\n`;
-//     });
-// });
-
+// Le tableau avec toutes les notes et obstacles qui arrive avec le timeurs auxquels ils arrivent
 function chargement_des_notes() {
     partition.push(
         {
