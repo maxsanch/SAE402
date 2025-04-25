@@ -37,6 +37,7 @@ let paused = false;
 let partition_ecran = [];
 let partition = [];
 var gravite = 100;
+let pause_en_cours = false;
 
 // ///////////////////////// //
 // Connexion des nodes audio //
@@ -253,7 +254,7 @@ function chrono_incrementage() {
     })
 
     // On arrete le jeu si la musique s'arrête
-    if (audioMusique.paused && document.querySelector(".pause").classList != "apparition") {
+    if (audioMusique.paused && pause_en_cours == false) {
         audioMusique.currentTime = 0;
         if (score >= 15) {
             gagner = true;
@@ -266,6 +267,7 @@ function chrono_incrementage() {
 document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu)
 
 function lancement_du_jeu() {
+    document.querySelector(".retour").classList.remove("apparition")
     document.querySelector(".pause").classList.add("apparition")
     document.querySelector(".fond_jeu").classList.add("apparition");
     audioMusique.play()
@@ -306,21 +308,6 @@ function setAudioPan(position_partition, panner) {
     }
 }
 
-// Le changement d'orientation de la page met en pause le jeu
-screen.orientation.addEventListener("change", (event) => {
-    const type = event.target.type;
-    const angle = event.target.angle;
-    console.log(`ScreenOrientation change: ${type}, ${angle} degrees.`);
-    if (type.includes("portrait")) {
-        Jeu_en_cours = true;
-        boucle();
-        chrono_incrementage();
-    }
-    else {
-        Arreter_jeu();
-    }
-});
-
 // On bloque le site en version portable 
 function lockOrientation() {
     W = window.innerWidth;
@@ -340,7 +327,7 @@ function lockOrientation() {
 
 // On fini le jeu
 function Arreter_jeu() {
-    document.querySelector(".pause").classList.add("apparition")
+    document.querySelector(".pause").classList.remove("apparition")
     document.querySelector(".score_fin").innerHTML = "Your score : " + (score * 100);
     document.querySelector(".fond_jeu").classList.remove("apparition");
     partition = []
@@ -374,6 +361,7 @@ document.querySelector(".pause").addEventListener("click", pause_jeu)
 document.querySelector(".continuer").addEventListener("click", pause_continuer)
 document.querySelector(".restart").addEventListener("click", recommencer)
 document.querySelector(".retour_menu").addEventListener("click", retour_au_menu)
+document.querySelector(".retour").addEventListener("click", retour_au_menu)
 tuto_video.addEventListener('ended', retour);
 document.querySelectorAll('.cheatcode').forEach(e => {
     e.addEventListener("click", cheatcode)
@@ -399,6 +387,7 @@ function rejouer() {
 
 // mettre pause au jeu pour se balader
 function pause_jeu() {
+    pause_en_cours = true;
     Jeu_en_cours = false;
     document.querySelector(".sombre_pause").classList.add("apparition");
     document.querySelector(".pause_en_cours").classList.add("apparition");
@@ -407,6 +396,7 @@ function pause_jeu() {
 
 // Relancer le jeu après la pause
 function pause_continuer() {
+    pause_en_cours = false;
     audioMusique.play();
     Jeu_en_cours = true;
     document.querySelector(".sombre_pause").classList.remove("apparition");
@@ -486,7 +476,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 455,
@@ -496,7 +486,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 900,
@@ -506,7 +496,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 1400,
@@ -516,7 +506,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "homme"
         },
         {
@@ -527,7 +517,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 1600,
@@ -537,7 +527,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 2,
             type: "chaise"
         },
         {
@@ -548,7 +538,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "homme"
         },
         {
@@ -559,7 +549,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 2300,
@@ -569,7 +559,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "chaise"
         },
         {
@@ -580,7 +570,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 2900,
@@ -590,7 +580,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "homme"
         },
         {
@@ -601,7 +591,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 3600,
@@ -611,7 +601,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 3600,
@@ -621,7 +611,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 3,
             type: "chaise"
         },
         {
@@ -632,7 +622,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "chaise"
         },
         {
@@ -643,7 +633,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 4200,
@@ -653,7 +643,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 4350,
@@ -663,7 +653,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "homme"
         },
         {
@@ -674,7 +664,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "chaise"
         },
         {
@@ -685,7 +675,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "homme"
         },
         {
@@ -696,7 +686,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 2
         },
         {
             timeur: 5900,
@@ -706,7 +696,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 6100,
@@ -716,7 +706,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "chaise"
         },
         {
@@ -727,7 +717,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "chaise"
         },
         {
@@ -738,7 +728,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 2
         },
         {
             timeur: 6500,
@@ -748,7 +738,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "chaise"
         },
         {
@@ -759,7 +749,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 7000,
@@ -769,7 +759,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "homme"
         },
         {
@@ -780,18 +770,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
-        },
-        {
-            timeur: 7200,
-            etat: "obstacle",
-            numero: 3,
-            vY: 0,
-            Y: -150,
-            X: 0,
-            toucher: false,
-            position_partition: 0,
-            type: "chaise"
+            position_partition: 1
         },
         {
             timeur: 7500,
@@ -801,7 +780,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "chaise"
         },
         {
@@ -812,7 +791,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "homme"
         },
         {
@@ -823,7 +802,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 7750,
@@ -833,7 +812,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "chaise"
         },
         {
@@ -844,7 +823,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "homme"
         },
         {
@@ -855,7 +834,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "chaise"
         },
         {
@@ -866,7 +845,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 8700,
@@ -876,7 +855,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 9000,
@@ -886,7 +865,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "homme"
         },
         {
@@ -897,7 +876,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 9300,
@@ -907,7 +886,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 3,
             type: "chaise"
         },
         {
@@ -918,7 +897,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "chaise"
         },
         {
@@ -929,7 +908,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 10050,
@@ -939,7 +918,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 10200,
@@ -949,7 +928,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "homme"
         },
         {
@@ -960,7 +939,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "chaise"
         },
         {
@@ -971,7 +950,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "chaise"
         },
         {
@@ -982,7 +961,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 2
         },
         {
             timeur: 11000,
@@ -992,7 +971,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         },
         {
             timeur: 11500,
@@ -1002,7 +981,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "homme"
         },
         {
@@ -1013,7 +992,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 3
         },
         {
             timeur: 11700,
@@ -1023,7 +1002,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "chaise"
         },
         {
@@ -1034,7 +1013,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0,
+            position_partition: 1,
             type: "homme"
         },
         {
@@ -1045,7 +1024,7 @@ function chargement_des_notes() {
             Y: -150,
             X: 0,
             toucher: false,
-            position_partition: 0
+            position_partition: 1
         }
     )
 }
