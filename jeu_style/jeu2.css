@@ -125,6 +125,15 @@ button:active {
     color: red;
 }
 
+.écran_win h1, .écran_lose h1 {
+    margin-top: 25%;
+    margin-bottom: 20%;
+}
+
+.écran_win button, .écran_lose button {
+    margin-top: 20%;
+}
+
 /* Style pour la vidéo */
 #videoContainer {
     position: fixed;
