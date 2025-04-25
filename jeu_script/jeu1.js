@@ -374,7 +374,7 @@ function Arreter_jeu() {
     else {
         document.querySelector(".fin_1>.cheatcode").classList.add("apparition");
     }
-    if (score >= 1600) {
+    if (score >= 16) {
         document.querySelector(".winorlose").innerHTML = "You win !"
     }
     else {
