@@ -290,7 +290,7 @@ img {
 .croix-video{
     background-color: #F6EFDB;
     position: absolute;
-    bottom: 3px;
+    top: 3px;
     z-index: 10000;
     left: 3px;
 }
