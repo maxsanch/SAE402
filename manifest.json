@@ -6,7 +6,7 @@
   "description": "Ceci est une PWA",
   "display": "standalone",
   "Scope": "/",
-  "start_url": "/index.html",
+  "start_url": "/SAE402",
   "icons": [
     {
       "src": "img/iconeApp/icon-72x72.png",
