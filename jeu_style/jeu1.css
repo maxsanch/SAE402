@@ -230,3 +230,48 @@ video{
     z-index: 3;
     border-radius: 8px;
 }
+
+.pause{
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 64px;
+    z-index: 6000;
+    display: none;
+}
+
+img{
+    width: 100%;
+}
+
+.pause_en_cours{
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 86px;
+    z-index: 7000;
+}
+
+.pause_en_cours>div {
+    background-image: linear-gradient(rgb(238, 238, 76), rgb(233, 173, 42));
+    font-family: pixel;
+    width: 40%;
+    text-align: center;
+    padding: 16px 8px;
+    border-radius: 8px;
+}
+
+.sombre_pause {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.500);
+    display: none;
+    z-index: 6500;
+}
