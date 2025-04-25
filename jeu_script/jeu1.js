@@ -281,7 +281,7 @@ function chrono_incrementage() {
     // if (chrono == 5000) {
     if (audioMusique.paused) {
         audioMusique.currentTime = 0;
-        if (score >= 1600) {
+        if (score >= 16) {
             gagner = true;
         }
         Arreter_jeu();
@@ -374,7 +374,7 @@ function Arreter_jeu() {
     else {
         document.querySelector(".fin_1>.cheatcode").classList.add("apparition");
     }
-    if (score >= 0) {
+    if (score >= 16) {
         document.querySelector(".winorlose").innerHTML = "You win !"
     }
     else {
@@ -1047,17 +1047,6 @@ function chargement_des_notes() {
             X: 0,
             toucher: false,
             position_partition: 0
-        },
-        {
-            timeur: 12500,
-            etat: "note",
-            numero: 3,
-            vY: 0,
-            Y: -150,
-            X: 0,
-            toucher: false,
-            position_partition: 0
-        },
-    
+        }
     )
 }
