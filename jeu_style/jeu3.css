@@ -388,3 +388,10 @@ img {
     -webkit-text-stroke: 1px #FFF1B8;
     text-align: center;
 }
+
+.pauseButton{
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+}

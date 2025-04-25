@@ -14,7 +14,7 @@ document.querySelector('.victoire>.button-victory').addEventListener('click', pa
 document.querySelector('.Reprendre').addEventListener('click', pauseJeu)
 document.querySelector('.AccueilPause').addEventListener('click', retournerMap)
 document.querySelector('.recommencerleJeu').addEventListener('click', restart)
-document.querySelector('.pauseButton')
+document.querySelector('.pauseButton').addEventListener('click', pauseJeu)
 
 document.querySelectorAll('.mapagain').forEach(e => {
     e.addEventListener('click', retournerMap)
@@ -701,9 +701,10 @@ function stopGame() {
 function boucle() {
     if(pauseJeuTrue){
         document.querySelector('.cachePause').classList.add('show');
+        clearInterval(chro)
+        chro = -1;
     }
     else{
-        
         if (finJeu) {
             if (contenu >= 75 && timing <= 90000) {
                 victoire = true;
@@ -882,6 +883,9 @@ function pauseJeu(){
         document.querySelector('.cachePause').classList.remove('show');
         pauseJeuTrue = false;
         boucle();
+        start = start + timing;
+        console.log(timing)
+        chronoT();
     }
     else{
         pauseJeuTrue = true;
