@@ -6,7 +6,7 @@
   "description": "Ceci est une PWA",
   "display": "standalone",
   "Scope": "/",
-  "start_url": "/?utm_source=launcher",
+  "start_url": "/index.html",
   "icons": [
     {
       "src": "img/iconeApp/icon-72x72.png",
