@@ -274,9 +274,9 @@ function drawScore() {
     perso.fillStyle = "gold"; // Définit la couleur du texte
     perso.fillText("Score: " + score, 10, 20);
     perso.fillStyle = "red"; // Définit la couleur du texte
-    perso.fillText("Vie: " + viePlayer, 10, 40);
+    perso.fillText("Life: " + viePlayer, 10, 40);
     perso.fillStyle = "green"; // Définit la couleur du texte
-    perso.fillText("Phase actuelle: " + phaseMontrer, 10, 60);
+    perso.fillText("Current phase: " + phaseMontrer, 10, 60);
     if (parade == true) { // Si le joueur a paré l'ennemi
         perso.font = "30px pixel"; // Définit la police et la taille du texte
         perso.fillStyle = "#38a172"; // Définit la couleur du texte
@@ -570,11 +570,11 @@ function Afficher() {
             document.getElementsByClassName("écran_win")[0].style.display = "block"; // Affiche l'écran de victoire
             pauseMenu.classList.add("hidden"); // Cache le menu pause
             document.getElementsByClassName("écran_win")[0].innerHTML = `
-        <h1>Vous avez gagne !</h1>
-        <p>Votre score est de ${score}</p>
+        <h1>You've won !</h1>
+        <p>Your score is : ${score}</p>
         <div>
-            <button onclick="location.reload()">Rejouer</button>
-            <button onclick="window.location.href='../index.html'">Retour à l'index</button>
+            <button onclick="location.reload()">restart</button>
+            <button onclick="window.location.href='../index.html'">Continue</button>
         </div>
     `; // Affiche le message de victoire
         }
@@ -584,13 +584,10 @@ function Afficher() {
             pauseMenu.classList.add("hidden"); // Cache le menu pause
             document.getElementsByClassName("écran_win")[0].style.display = "none"; // Cache l'écran de victoire
             document.getElementsByClassName("écran_lose")[0].innerHTML = `
-        <h1>Vous avez perdu !</h1>
-        <p>Votre score est de ${score}</p>
+        <h1>You've lost !</h1>
+        <p>Your score is : ${score}</p>
         <div>
-            <button onclick="location.reload()">Rejouer</button>
-            <div id="cheatCodeContainer"">
-            <input id="cheatCodeInput" type="text" placeholder="Enter a cheatCode.">
-        </div>
+            <button onclick="location.reload()">restart</button>
         </div>
     `; // Affiche le message de défaite
         }
@@ -689,11 +686,11 @@ function Cheater() {
     document.getElementsByClassName("écran_win")[0].style.display = "block"; // Affiche l'écran de victoire
     pauseMenu.classList.add("hidden"); // Cache le menu pause
     document.getElementsByClassName("écran_win")[0].innerHTML = `
-        <h1>Vous avez gagne !</h1>
-        <p>Cheat code active</p>
+        <h1>You have cheated</h1>
+        <p>Cheat code activated</p>
         <div>
-            <button onclick="location.reload()">Rejouer</button>
-            <button onclick="window.location.href='../index.html'">Retour à l'index</button>
+            <button onclick="location.reload()">Try the game</button>
+            <button onclick="window.location.href='../index.html'">Continue</button>
         </div>
     `;
 }

@@ -102,7 +102,9 @@ self.addEventListener("install", function (event) {
 					'img/jeu2/ObstacleCentral.png',
 					'img/jeu2/Player.png',
 					'img/jeu2/Route.png',
-					'videos/tutoriel-jeu-2.mp4'
+					'videos/tutoriel-jeu-2.mp4',
+					'img/jeu1/pause.png',
+					'img/jeu1/croix.png'
 				]);
 			})
 	);
