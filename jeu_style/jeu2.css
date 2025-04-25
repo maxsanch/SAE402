@@ -5,7 +5,7 @@
 
 /* Style général pour le corps */
 body {
-    background-color: #FFD700; /* Jaune doré */
+    background-color: #FFD700; 
     margin: 0;
     overflow: hidden;
     font-family: pixel, sans-serif;
@@ -41,7 +41,7 @@ h1{
 
 /* Style pour le bouton de démarrage */
 button {
-    background-color: #FFB800; /* Jaune doré plus foncé */
+    background-color: #FFB800; 
     color: white;
     font-size: 18px;
     font-weight: bold;
@@ -54,12 +54,16 @@ button {
 }
 
 button:hover {
-    background-color: #FFC700; /* Jaune doré plus clair */
+    background-color: #FFC700; 
     transform: scale(1.05);
 }
 
 button:active {
     transform: scale(0.95);
+}
+
+#Tutorial{
+    margin-top: 20px;
 }
 
 /* Style pour le conteneur de l'input */
@@ -74,7 +78,7 @@ button:active {
     max-width: 300px;
     padding: 10px;
     font-size: 16px;
-    border: 2px solid #FFB800; /* Jaune doré */
+    border: 2px solid #FFB800; 
     border-radius: 5px;
     outline: none;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
@@ -82,7 +86,7 @@ button:active {
 }
 
 #cheatCodeInput:focus {
-    border-color: #FFC700; /* Jaune doré plus clair */
+    border-color: #FFC700; 
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -97,7 +101,7 @@ button:active {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
+    background-color: rgba(0, 0, 0, 0.7); 
     z-index: 10;
 }
 
@@ -119,4 +123,63 @@ button:active {
 
 .écran_lose {
     color: red;
+}
+
+/* Style pour la vidéo */
+#videoContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fond semi-transparent */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#video {
+    width: 80%; /* La vidéo occupe 80% de la largeur de l'écran */
+    max-height: 80%; /* La hauteur maximale est de 80% de l'écran */
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Conteneur de la vidéo */
+.tutoriel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    display: none;
+}
+
+.tutoriel video {
+    width: 80%; /* Ajustez la taille de la vidéo */
+    max-height: 80%; /* Limite la hauteur de la vidéo */
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Fond sombre */
+.sombre {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fond semi-transparent */
+    z-index: 99;
+    display: none;
+}
+
+/* Affiche les éléments */
+.apparition {
+    display: block !important;
 }
