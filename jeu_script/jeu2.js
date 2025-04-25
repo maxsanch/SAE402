@@ -106,7 +106,7 @@ let tempsPhase = 0; // Temps écoulé dans la phase actuelle
 
 // Initialisation de variables pour que le déplacement avec le senseur soit agréable
 let lastMoveTime = 0; // Dernier temps de mouvement
-let moveDelay = 200; // Délai entre les mouvements (en millisecondes)
+let moveDelay = 500; // Délai entre les mouvements (en millisecondes)
 let currentMoveTime = 0; // Temps actuel
 
 // Initialisation des variables pour les maisons
@@ -604,6 +604,28 @@ function Afficher() {
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
+
+// Sélection des éléments
+const videoContainer = document.getElementById("videoContainer");
+const video = document.getElementById("video");
+const tutorialButton = document.getElementById("Tutorial");
+
+// Fonction pour afficher la vidéo
+function showTutorial() {
+    videoContainer.classList.remove("hidden"); // Affiche le conteneur de la vidéo
+    video.play(); // Joue la vidéo
+}
+
+// Fonction pour fermer la vidéo
+function closeTutorial() {
+    video.pause(); // Met la vidéo en pause
+    video.currentTime = 0; // Réinitialise la vidéo
+    videoContainer.classList.add("hidden"); // Cache le conteneur de la vidéo
+}
+
+// Événements
+tutorialButton.addEventListener("click", showTutorial); // Affiche la vidéo au clic sur le bouton
+videoContainer.addEventListener("click", closeTutorial); // Ferme la vidéo au clic sur le conteneur
 
 // Cheat code pour gagner directement
 const cheatCode = "MMI"; // Définissez le cheat code ici (EN MAJUSCULES)
