@@ -106,7 +106,7 @@ let tempsPhase = 0; // Temps écoulé dans la phase actuelle
 
 // Initialisation de variables pour que le déplacement avec le senseur soit agréable
 let lastMoveTime = 0; // Dernier temps de mouvement
-let moveDelay = 200; // Délai entre les mouvements (en millisecondes)
+let moveDelay = 500; // Délai entre les mouvements (en millisecondes)
 let currentMoveTime = 0; // Temps actuel
 
 // Initialisation des variables pour les maisons
@@ -568,6 +568,7 @@ function Afficher() {
             // console.log("Vous avez gagné, Votre score est de " + score + " !"); // Affiche le message de victoire dans la console
             localStorage.setItem('progress', 'Jeu2');
             document.getElementsByClassName("écran_win")[0].style.display = "block"; // Affiche l'écran de victoire
+            pauseMenu.classList.add("hidden"); // Cache le menu pause
             document.getElementsByClassName("écran_win")[0].innerHTML = `
         <h1>Vous avez gagne !</h1>
         <p>Votre score est de ${score}</p>
@@ -580,7 +581,8 @@ function Afficher() {
         else {
             // console.log("Vous avez perdu, Votre score est de " + score + " ! Vous devez faire un score supérieur à 30 pour gagner."); // Affiche le message de défaite dans la console
             document.getElementsByClassName("écran_lose")[0].style.display = "block"; // Affiche l'écran de défaite
-            document.getElementsByClassName("écran_win")[0].style.display = "none"; // Affiche l'écran de défaite
+            pauseMenu.classList.add("hidden"); // Cache le menu pause
+            document.getElementsByClassName("écran_win")[0].style.display = "none"; // Cache l'écran de victoire
             document.getElementsByClassName("écran_lose")[0].innerHTML = `
         <h1>Vous avez perdu !</h1>
         <p>Votre score est de ${score}</p>
@@ -594,7 +596,12 @@ function Afficher() {
         }
     }
     else {
-        window.requestAnimationFrame(Afficher); // Continue l'animation si le joueur a encore des vies
+        if (isPaused == false) { // Si le jeu n'est pas en pause}
+            window.requestAnimationFrame(Afficher); // Continue l'animation si le joueur a encore des vies
+        }
+        else {
+            window.cancelAnimationFrame(Afficher); // Arrête l'animation si le jeu est en pause
+        }
     }
 }
 
@@ -604,6 +611,60 @@ function Afficher() {
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
+
+// Sélection des éléments
+let videoContainer = document.getElementById("videoContainer");
+let video = document.getElementById("video");
+let tutorialButton = document.getElementById("Tutorial");
+
+// Fonction pour afficher la vidéo
+function showTutorial() {
+    videoContainer.classList.remove("hidden"); // Affiche le conteneur de la vidéo
+    video.play(); // Joue la vidéo
+}
+
+// Fonction pour fermer la vidéo
+function closeTutorial() {
+    video.pause(); // Met la vidéo en pause
+    video.currentTime = 0; // Réinitialise la vidéo
+    videoContainer.classList.add("hidden"); // Cache le conteneur de la vidéo
+}
+
+// Événements
+tutorialButton.addEventListener("click", showTutorial); // Affiche la vidéo au clic sur le bouton
+videoContainer.addEventListener("click", closeTutorial); // Ferme la vidéo au clic sur le conteneur
+
+// Sélection des éléments du menu pause
+let pauseButton = document.getElementById("pauseButton");
+let pauseMenu = document.getElementById("pauseMenu");
+let resumeButton = document.getElementById("resumeGame");
+let restartButton = document.getElementById("restartGame");
+
+let isPaused = false; // Variable pour suivre l'état de pause
+
+// Fonction pour mettre le jeu en pause
+function pauseGame() {
+    isPaused = true;
+    // window.cancelAnimationFrame(Afficher); // Arrête l'animation
+    pauseMenu.classList.remove("hidden"); // Affiche le menu pause
+}
+
+// Fonction pour continuer le jeu
+function resumeGame() {
+    isPaused = false;
+    pauseMenu.classList.add("hidden"); // Cache le menu pause
+    Afficher(); // Relance l'animation
+}
+
+// Fonction pour recommencer le jeu
+function restartGame() {
+    location.reload(); // Recharge la page pour recommencer le jeu
+}
+
+// Événements pour les boutons
+pauseButton.addEventListener("click", pauseGame); // Ouvre le menu pause
+resumeButton.addEventListener("click", resumeGame); // Continue le jeu
+restartButton.addEventListener("click", restartGame); // Recommence le jeu
 
 // Cheat code pour gagner directement
 const cheatCode = "MMI"; // Définissez le cheat code ici (EN MAJUSCULES)
@@ -626,6 +687,7 @@ function Cheater() {
     clearScreen(); // Cache les canvas
     localStorage.setItem('progress', 'Jeu2'); // Sauvegarde la progression
     document.getElementsByClassName("écran_win")[0].style.display = "block"; // Affiche l'écran de victoire
+    pauseMenu.classList.add("hidden"); // Cache le menu pause
     document.getElementsByClassName("écran_win")[0].innerHTML = `
         <h1>Vous avez gagne !</h1>
         <p>Cheat code active</p>
@@ -642,5 +704,6 @@ let startScreen = document.getElementById("start-Screen"); // Écran de lancemen
 let startButton = document.getElementById("startGame"); // Bouton de démarrage
 startGame.addEventListener("click", function () {
     startScreen.style.display = "none"; // Cache l'écran de lancement
+    document.getElementById("pauseButtonContainer").classList.remove("hidden"); // Affiche le bouton pause
     Afficher(); // Démarre le jeu
 });

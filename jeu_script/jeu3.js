@@ -11,11 +11,15 @@ document.querySelector('.sendingButton').addEventListener('click', cheater)
 document.querySelector('.cache_Error').addEventListener('click', closeAll)
 document.querySelector('.victoire>.button-victory').addEventListener('click', passerJeu)
 
+document.querySelector('.Reprendre').addEventListener('click', pauseJeu)
+document.querySelector('.AccueilPause').addEventListener('click', retournerMap)
+document.querySelector('.recommencerleJeu').addEventListener('click', restart)
+
 document.querySelectorAll('.mapagain').forEach(e => {
     e.addEventListener('click', retournerMap)
 })
 
-document.querySelector('.button-single-game').addEventListener('click', close)
+document.querySelector('.button-single-game').addEventListener('click', close);
 
 /////////////////
 ////// son //////
@@ -170,6 +174,10 @@ let marker = L.marker([41.303921, -81.901693]).addTo(map);
 // Marqueur fixe
 
 let marker2 = L.marker([47.747022602578845, 7.336040920713743]).addTo(map);
+
+// mettre en pause le jeu
+
+let pauseJeuTrue = false;
 
 // Polygon mobile (au départ avec des coordonnées de base)
 
@@ -690,21 +698,26 @@ function stopGame() {
 // bouce d'affichage
 
 function boucle() {
-    if (finJeu) {
-        console.log(timing);
-        if (contenu >= 75 && timing <= 90000) {
-            victoire = true;
+    if(pauseJeuTrue){
+        document.querySelector('.cachePause').classList.add('show');
+    }
+    else{
+        
+        if (finJeu) {
+            if (contenu >= 75 && timing <= 90000) {
+                victoire = true;
+            }
+            else {
+                victoire = false;
+            }
+    
+            stopGame();
         }
         else {
-            victoire = false;
+            calculer()
+            afficher()
+            window.requestAnimationFrame(boucle)
         }
-
-        stopGame();
-    }
-    else {
-        calculer()
-        afficher()
-        window.requestAnimationFrame(boucle)
     }
 }
 
@@ -731,7 +744,9 @@ function startGame() {
 
     start = Date.now();
 
-    if (latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) {
+    let valCode = document.querySelector('.CheatCode').value;
+
+    if ((latVictoire >= 47.74657 && latVictoire <= 47.74697 && longVictoire >= 7.33529 && longVictoire <= 7.33569) || valCode.toLowerCase() == "mmi") {
         H = window.innerHeight
         W = window.innerWidth
     
@@ -858,4 +873,21 @@ function BloquerPleinEcran() {
     }
 
     bloquerEcr = true;
+}
+
+// mettre en pause le jeu
+
+function pauseJeu(){
+    if(pauseJeuTrue){
+        document.querySelector('.cachePause').classList.remove('show');
+        pauseJeuTrue = false;
+        boucle();
+    }
+    else{
+        pauseJeuTrue = true;
+    }
+}
+
+function restart(){
+    window.location.href = "../jeu/jeu3.html";
 }
