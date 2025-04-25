@@ -14,6 +14,7 @@ document.querySelector('.victoire>.button-victory').addEventListener('click', pa
 document.querySelector('.Reprendre').addEventListener('click', pauseJeu)
 document.querySelector('.AccueilPause').addEventListener('click', retournerMap)
 document.querySelector('.recommencerleJeu').addEventListener('click', restart)
+document.querySelector('.pauseButton')
 
 document.querySelectorAll('.mapagain').forEach(e => {
     e.addEventListener('click', retournerMap)
@@ -876,7 +877,6 @@ function BloquerPleinEcran() {
 }
 
 // mettre en pause le jeu
-
 function pauseJeu(){
     if(pauseJeuTrue){
         document.querySelector('.cachePause').classList.remove('show');
