@@ -6,8 +6,6 @@ var canvas_personnage = document.querySelector("#canvas_personnage");
 var ctx_personnage = canvas_personnage.getContext("2d");
 var canvas_notes = document.querySelector("#canvas_notes");
 var ctx_notes = canvas_notes.getContext("2d");
-var canvas_obstacles = document.querySelector("#canvas_obstacles");
-var ctx_obstacles = canvas_obstacles.getContext("2d");
 let score = 0;
 let position_note = 0;
 let position_obstacle = 0;
@@ -56,8 +54,6 @@ canvas_personnage.height = window.innerHeight;
 canvas_personnage.width = window.innerWidth;
 canvas_notes.height = window.innerHeight;
 canvas_notes.width = window.innerWidth;
-canvas_obstacles.height = window.innerHeight;
-canvas_obstacles.width = window.innerWidth;
 let W = window.innerWidth;
 let H = window.innerHeight;
 
@@ -257,7 +253,7 @@ function chrono_incrementage() {
     })
 
     // On arrete le jeu si la musique s'arrête
-    if (audioMusique.paused) {
+    if (audioMusique.paused && document.querySelector(".pause").classList != "apparition") {
         audioMusique.currentTime = 0;
         if (score >= 15) {
             gagner = true;
@@ -270,6 +266,7 @@ function chrono_incrementage() {
 document.querySelector(".lancer_jeu").addEventListener("click", lancement_du_jeu)
 
 function lancement_du_jeu() {
+    document.querySelector(".pause").classList.add("apparition")
     document.querySelector(".fond_jeu").classList.add("apparition");
     audioMusique.play()
     audioMusique.volume = 0.3
@@ -343,7 +340,7 @@ function lockOrientation() {
 
 // On fini le jeu
 function Arreter_jeu() {
-    console.log(chrono)
+    document.querySelector(".pause").classList.add("apparition")
     document.querySelector(".score_fin").innerHTML = "Your score : " + (score * 100);
     document.querySelector(".fond_jeu").classList.remove("apparition");
     partition = []
@@ -362,7 +359,6 @@ function Arreter_jeu() {
     }
     Jeu_en_cours = false;
     ctx_notes.clearRect(0, 0, W, H);
-    ctx_obstacles.clearRect(0, 0, W, H);
     ctx_personnage.clearRect(0, 0, W, H);
     document.querySelector(".fin").classList.add("apparition");
 }
@@ -374,6 +370,10 @@ document.querySelector(".sombre").addEventListener("click", retour)
 document.querySelector(".valider").addEventListener("click", lancer_cheat)
 document.querySelector(".tuto_video").addEventListener("click", pause)
 document.querySelector(".tuto").addEventListener("click", tuto)
+document.querySelector(".pause").addEventListener("click", pause_jeu)
+document.querySelector(".continuer").addEventListener("click", pause_continuer)
+document.querySelector(".restart").addEventListener("click", recommencer)
+document.querySelector(".retour_menu").addEventListener("click", retour_au_menu)
 tuto_video.addEventListener('ended', retour);
 document.querySelectorAll('.cheatcode').forEach(e => {
     e.addEventListener("click", cheatcode)
@@ -395,6 +395,33 @@ function rejouer() {
     audioMusique.play()
     boucle();
     chrono_incrementage();
+}
+
+// mettre pause au jeu pour se balader
+function pause_jeu() {
+    Jeu_en_cours = false;
+    document.querySelector(".sombre_pause").classList.add("apparition");
+    document.querySelector(".pause_en_cours").classList.add("apparition");
+    audioMusique.pause();
+}
+
+// Relancer le jeu après la pause
+function pause_continuer() {
+    audioMusique.play();
+    Jeu_en_cours = true;
+    document.querySelector(".sombre_pause").classList.remove("apparition");
+    document.querySelector(".pause_en_cours").classList.remove("apparition");
+    temps_avant = performance.now();
+    boucle();
+    chrono_incrementage();
+}
+
+function recommencer() {
+    window.location.href = "../jeu/jeu1.html"
+}
+
+function retour_au_menu() {
+    window.location.href = "../index.html"
 }
 
 // On met la vidéo en pause si on clic dessus
