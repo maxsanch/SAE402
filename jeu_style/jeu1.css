@@ -275,3 +275,12 @@ img{
     display: none;
     z-index: 6500;
 }
+
+.retour{
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 64px;
+    z-index: 6000;
+    display: none;
+}
