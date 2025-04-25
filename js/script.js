@@ -516,12 +516,18 @@ function gérerHistoire() {
                     document.querySelector('.personnage2').style = "display: none;"
                     document.querySelector('.mapo').classList.add('ouvert')
                     document.querySelector('.categories').classList.remove('ouvert')
-                    document.querySelector('.cache-black').classList.toggle('ouvert')
+                    document.querySelector('.cache-black').classList.add('ouvert')
                     map.invalidateSize();
                     map.setView([latitude, longitude], 18);
                     break;
                 case 'bar':
                     if (number == 0) {
+                        document.querySelector('.story-resume').classList.remove('ouvert')
+                        document.querySelector('.mapo').classList.remove('ouvert')
+                        document.querySelector('.jeux').classList.remove('ouvert')
+                        document.querySelector('.cache-black').classList.remove('ouvert')
+                        document.querySelector('.categories').classList.remove('ouvert')
+
                         document.querySelector('.cacheAppearDesapear').style = 'display: block;';
                         document.querySelector('.cacheAppearDesapear').classList.add('AnimationCache')
                         setTimeout(function () {
@@ -591,12 +597,18 @@ function gérerHistoire() {
                     document.querySelector('.personnage2').style = "display: none;"
                     document.querySelector('.mapo').classList.add('ouvert')
                     document.querySelector('.categories').classList.remove('ouvert')
-                    document.querySelector('.cache-black').classList.toggle('ouvert')
+                    document.querySelector('.cache-black').classList.add('ouvert')
                     map.invalidateSize();
                     map.setView([latitude, longitude], 18);
                     break;
                 case 'run':
                     if (number == 0) {
+                        document.querySelector('.story-resume').classList.remove('ouvert')
+                        document.querySelector('.mapo').classList.remove('ouvert')
+                        document.querySelector('.jeux').classList.remove('ouvert')
+                        document.querySelector('.cache-black').classList.remove('ouvert')
+                        document.querySelector('.categories').classList.remove('ouvert')
+
                         document.querySelector('.cacheAppearDesapear').style = 'display: block;';
                         document.querySelector('.cacheAppearDesapear').classList.add('AnimationCache')
                         setTimeout(function () {
@@ -642,6 +654,12 @@ function gérerHistoire() {
                     break;
                 case 'barrel':
                     if (number == 0) {
+                        document.querySelector('.story-resume').classList.remove('ouvert')
+                        document.querySelector('.mapo').classList.remove('ouvert')
+                        document.querySelector('.jeux').classList.remove('ouvert')
+                        document.querySelector('.cache-black').classList.remove('ouvert')
+                        document.querySelector('.categories').classList.remove('ouvert')
+
                         document.querySelector('.cacheAppearDesapear').style = 'display: block;';
                         document.querySelector('.cacheAppearDesapear').classList.add('AnimationCache');
 
