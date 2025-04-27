@@ -34,6 +34,9 @@ obstacle2Sprite.src = "../img/jeu2/Obstacle2.png"; // Remplacez par le chemin de
 let ennemiSprite = new Image();
 ennemiSprite.src = "../img/jeu2/Ennemy.png"; // Remplacez par le chemin de votre sprite pour l'ennemi
 
+let ennemiZoneSprite = new Image();
+ennemiZoneSprite.src = "../img/jeu2/EnnemyZone.png"; // Remplacez par le chemin de votre sprite pour l'ennemi
+
 let obstacleCentralSprite = new Image();
 obstacleCentralSprite.src = "../img/jeu2/ObstacleCentral.png"; // Remplacez par le chemin de votre sprite pour l'obstacle central
 
@@ -96,9 +99,12 @@ let RedefineTime = 0; // Variable pour redéfinir le temps vu que ça marche pas
 // Initialisation des phases de jeux
 let tempsPhaseMax = 0; // Durée de la phase actuelle
 let phasesJeux = [
-    { gravité: 5, spdObstc: 250, spdEnmy: 0, spdMaisons: 260, obstacleExist: true, obstacle2Exist: true, ennemiExist: false, tempsPhaseMax: 7 - 1 }, // Phase 1 (le -1 c'est parce que le jeux fait que la première phase est plus longue de 1 et j'ai la flemme de chercher à le résoudre autrement)
+    { gravité: 5, spdObstc: 250, spdEnmy: 0, spdMaisons: 260, obstacleExist: true, obstacle2Exist: true, ennemiExist: false, tempsPhaseMax: 7 - 1 }, // Phase 1 
     { gravité: 10, spdObstc: 250, spdEnmy: 250, spdMaisons: 260, obstacleExist: false, obstacle2Exist: false, ennemiExist: true, tempsPhaseMax: 3 }, // Phase 2
     { gravité: 5, spdObstc: 250, spdEnmy: 300, spdMaisons: 310, obstacleExist: true, obstacle2Exist: true, ennemiExist: true, tempsPhaseMax: Infinity } // Phase 3
+];
+let phasesJeuxAccessible = [
+    { gravité: 5, spdObstc: 250, spdEnmy: 0, spdMaisons: 260, obstacleExist: true, obstacle2Exist: true, ennemiExist: false, tempsPhaseMax: Infinity } // Phase
 ];
 let phaseActuelle = 0; // Phase actuelle du jeu
 let phaseMontrer = 1; // Phase actuelle du jeu affichée à l'écran
@@ -153,7 +159,7 @@ function moveCharacter(direction) {
     ) {
         sonCheval.currentTime = 0; // Réinitialise le son pour qu'il puisse être rejoué
         sonCheval.play(); // Joue le son
-        console.log("son");
+        // console.log("son");
     }
 
     // Met à jour la position du personnage
@@ -268,6 +274,8 @@ function clearScreen() {
     canvas_perso.style.display = "none";
 }
 
+let chPhase = false; // Variable pour vérifier si la phase a changé
+
 // écrit le score et la vie du joueur en canvas
 function drawScore() {
     perso.font = "12px pixel"; // Définit la police et la taille du texte
@@ -287,10 +295,16 @@ function drawScore() {
         perso.fillStyle = "red"; // Définit la couleur du texte
         perso.fillText("Crash", (ecrW / 2) - 80, ecrH / 2);
     }
+    if (chPhase == true) { // Si la phase a changé
+        perso.font = "30px pixel"; // Définit la police et la taille du texte
+        perso.fillStyle = "#38a172"; // Définit la couleur du texte
+        perso.fillText("Phase " + phaseMontrer, (ecrW / 2) - 95, ecrH / 3);
+    }
 }
 
 function updatePhase() {
     tempsPhase += 1; // Incrémente le temps de la phase actuelle
+    chPhase = false; // On remet la variable de changement de phase à false
     if (tempsPhase > phasesJeux[phaseActuelle].tempsPhaseMax) { // Si le temps de la phase actuelle est écoulé
         score--; // Diminue le score à chaque phase vu qu'il augmente de 2 à chaque changement et je comprend pas pourquoi
         tempsPhase = 0; // Réinitialise le temps de la phase actuelle
@@ -364,6 +378,9 @@ function Afficher() {
         if (phaseActuelle == 0) { // Si on est en phase 1
             spdMaisons = 310 * Dtemp; // Met à jour la vitesse des maisons
         }
+        if (RedefineVar == 20) { // Si on a redéfini les variables 20 fois
+            chPhase = true; // Met à jour la variable pour vérifier si la phase a changé        }
+        }
     }
 
     perso.clearRect(0, 0, largeur, hauteur);
@@ -391,6 +408,7 @@ function Afficher() {
     // ennemi
     if (ennemiExist == true) {
         obstacles.drawImage(ennemiSprite, ennemiX - tailleX / 2, ennemiY, tailleY, tailleX);
+        obstacles.drawImage(ennemiZoneSprite, road[1] - tailleX / 2, ennemiY, tailleY, tailleX);
     }
 
     // déplacement des éléments
@@ -443,7 +461,7 @@ function Afficher() {
 
     if (conditionObstCentral == true && obstacleY > hauteur + tailleY || conditionObstCentral == true && obstacle2Y > hauteur + tailleY) { // Si l'obstacle sort de l'écran
         // console.log("Dtemp", Dtemp, "| Tnow", Tnow, "| Tstart", Tstart);
-        conditionObstCentral = false; // On remet la condition à false
+        chPhase = false; // On remet la variable de changement de phase à false
         updatePhase(); // Met à jour la phase de jeu
         obstacleY = 0; // Réinitialise la position de l'obstacle
         obstacle2Y = 0; // Réinitialise la position de l'obstacle
@@ -699,7 +717,14 @@ function Cheater() {
 
 let startScreen = document.getElementById("start-Screen"); // Écran de lancement
 let startButton = document.getElementById("startGame"); // Bouton de démarrage
+let accessibilityButton = document.getElementById("startGameAccessible"); // Bouton d'accessibilité
 startGame.addEventListener("click", function () {
+    startScreen.style.display = "none"; // Cache l'écran de lancement
+    document.getElementById("pauseButtonContainer").classList.remove("hidden"); // Affiche le bouton pause
+    Afficher(); // Démarre le jeu
+});
+accessibilityButton.addEventListener("click", function () {
+    phasesJeux = phasesJeuxAccessible; // Change les phases pour le mode accessible
     startScreen.style.display = "none"; // Cache l'écran de lancement
     document.getElementById("pauseButtonContainer").classList.remove("hidden"); // Affiche le bouton pause
     Afficher(); // Démarre le jeu

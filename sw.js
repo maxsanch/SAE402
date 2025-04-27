@@ -96,6 +96,7 @@ self.addEventListener("install", function (event) {
 					'img/jeu2/Background_lancement.jpg',
 					'img/jeu2/Background_victoire.jpg',
 					'img/jeu2/Ennemy.png',
+					'img/jeu2/EnnemyZone.png',
 					'img/jeu2/Maison.png',
 					'img/jeu2/Obstacle1.png',
 					'img/jeu2/Obstacle2.png',

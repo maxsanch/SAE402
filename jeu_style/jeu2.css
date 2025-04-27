@@ -62,6 +62,10 @@ button:active {
     transform: scale(0.95);
 }
 
+.buttonAccessibility{
+    margin-top: 20px;
+}
+
 #Tutorial{
     margin-top: 20px;
 }
