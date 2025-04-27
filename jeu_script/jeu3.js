@@ -883,7 +883,7 @@ function pauseJeu(){
         document.querySelector('.cachePause').classList.remove('show');
         pauseJeuTrue = false;
         boucle();
-        start = start + timing;
+        start = Date.now() - timing;
         console.log(timing)
         chronoT();
     }
